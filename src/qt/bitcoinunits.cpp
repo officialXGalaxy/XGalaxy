@@ -1,7 +1,7 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
 // Copyright (c) 2017-2018 The Proton Core developers
-// Copyright (c) 2018 The Reden Core developers
+// Copyright (c) 2018 The Tank Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,9 +21,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(REDN);
-    unitlist.append(mREDN);
-    unitlist.append(uREDN);
+    unitlist.append(TANK);
+    unitlist.append(mTANK);
+    unitlist.append(uTANK);
     unitlist.append(duffs);
     return unitlist;
 }
@@ -32,9 +32,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case REDN:
-    case mREDN:
-    case uREDN:
+    case TANK:
+    case mTANK:
+    case uTANK:
     case duffs:
         return true;
     default:
@@ -48,9 +48,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case REDN: return QString("REDEN");
-            case mREDN: return QString("mREDEN");
-            case uREDN: return QString::fromUtf8("μREDEN");
+            case TANK: return QString("TANK");
+            case mTANK: return QString("mTANK");
+            case uTANK: return QString::fromUtf8("μTANK");
             case duffs: return QString("duffs");
             default: return QString("???");
         }
@@ -59,9 +59,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case REDN: return QString("tREDEN");
-            case mREDN: return QString("mtREDEN");
-            case uREDN: return QString::fromUtf8("μtREDEN");
+            case TANK: return QString("tTANK");
+            case mTANK: return QString("mtTANK");
+            case uTANK: return QString::fromUtf8("μtTANK");
             case duffs: return QString("tduffs");
             default: return QString("???");
         }
@@ -74,10 +74,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case REDN: return QString("Reden");
-            case mREDN: return QString("Milli-Reden (1 / 1" THIN_SP_UTF8 "000)");
-            case uREDN: return QString("Micro-Reden (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-Reden (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case TANK: return QString("Tank");
+            case mTANK: return QString("Milli-Tank (1 / 1" THIN_SP_UTF8 "000)");
+            case uTANK: return QString("Micro-Tank (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case duffs: return QString("Ten Nano-Tank (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -85,10 +85,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case REDN: return QString("TestRedens");
-            case mREDN: return QString("Milli-TestReden (1 / 1" THIN_SP_UTF8 "000)");
-            case uREDN: return QString("Micro-TestReden (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-TestReden (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case TANK: return QString("TestTanks");
+            case mTANK: return QString("Milli-TestTank (1 / 1" THIN_SP_UTF8 "000)");
+            case uTANK: return QString("Micro-TestTank (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case duffs: return QString("Ten Nano-TestTank (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -98,9 +98,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case REDN:  return 100000000;
-    case mREDN: return 100000;
-    case uREDN: return 100;
+    case TANK:  return 100000000;
+    case mTANK: return 100000;
+    case uTANK: return 100;
     case duffs: return 1;
     default:   return 100000000;
     }
@@ -110,9 +110,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case REDN: return 8;
-    case mREDN: return 5;
-    case uREDN: return 2;
+    case TANK: return 8;
+    case mTANK: return 5;
+    case uTANK: return 2;
     case duffs: return 0;
     default: return 0;
     }

@@ -9,7 +9,7 @@
 #include <utility>
 #include <vector>
 
-#include "test/test_reden.h"
+#include "test/test_tank.h"
 
 #include <boost/foreach.hpp>
 #include <boost/test/unit_test.hpp>
@@ -291,8 +291,8 @@ BOOST_AUTO_TEST_CASE(coin_selection_tests)
 
             // picking 50 from 100 coins doesn't depend on the shuffle,
             // but does depend on randomness in the stochastic approximation code
-            BOOST_CHECK(wallet.SelectCoinsMinConf(50 * COIN, 1, 6, vCoins, setCoinsRet , nValueRet));
-            BOOST_CHECK(wallet.SelectCoinsMinConf(50 * COIN, 1, 6, vCoins, setCoinsRet2, nValueRet));
+            BOOST_CHECK(wallet.SelectCoinsMinConf(1000 * COIN, 1, 6, vCoins, setCoinsRet, nValueRet));
+            BOOST_CHECK(wallet.SelectCoinsMinConf(1000 * COIN, 1, 6, vCoins, setCoinsRet2, nValueRet));
             BOOST_CHECK(!equal_sets(setCoinsRet, setCoinsRet2));
 
             int fails = 0;

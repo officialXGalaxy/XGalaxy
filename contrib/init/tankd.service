@@ -1,15 +1,15 @@
 [Unit]
-Description=Reden's distributed currency daemon
+Description=Tank's distributed currency daemon
 After=network.target
 
 [Service]
-User=redencore
-Group=redencore
+User=tankcore
+Group=tankcore
 
 Type=forking
-PIDFile=/var/lib/redend/redend.pid
-ExecStart=/usr/bin/redend -daemon -pid=/var/lib/redend/redend.pid \
--conf=/etc/redencore/reden.conf -datadir=/var/lib/redend -disablewallet
+PIDFile=/var/lib/tankd/tankd.pid
+ExecStart=/usr/bin/tankd -daemon -pid=/var/lib/tankd/tankd.pid \
+-conf=/etc/tankcore/tank.conf -datadir=/var/lib/tankd -disablewallet
 
 Restart=always
 PrivateTmp=true

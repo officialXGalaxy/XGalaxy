@@ -1,11 +1,11 @@
-Reden Core 1.0.0
+Tank Core 1.0.0
 =====================
 
-This is the official reference wallet for Reden digital currency and comprises the backbone of the Reden peer-to-peer network. You can [download Reden Core](https://redencoin.io) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for Tank digital currency and comprises the backbone of the Tank peer-to-peer network. You can [download Tank Core](https://tankcoin.io) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
-The following are some helpful notes on how to run Reden on your native platform.
+The following are some helpful notes on how to run Tank on your native platform.
 
 ### Unix
 
@@ -16,22 +16,22 @@ Unpack the files into a directory and run:
 
 ### Windows
 
-Unpack the files into a directory, and then run reden-qt.exe.
+Unpack the files into a directory, and then run tank-qt.exe.
 
 ### OS X
 
-Drag Reden-Qt to your applications folder, and then run Reden-Qt.
+Drag Tank-Qt to your applications folder, and then run Tank-Qt.
 
 ### Need Help?
 
-* See the [Reden documentation](https://redencoin.atlassian.net/wiki/display/DOC)
+* See the [Tank documentation](https://tankcoin.atlassian.net/wiki/display/DOC)
 for help and more information.
-* Ask for help on [#redencoin](http://webchat.freenode.net?channels=redencoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=redencoin).
-* Ask for help on the [RedenTalk](https://redentalk.org/) forums.
+* Ask for help on [#tankcoin](http://webchat.freenode.net?channels=tankcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=tankcoin).
+* Ask for help on the [TankTalk](https://tanktalk.org/) forums.
 
 Building
 ---------------------
-The following are developer notes on how to build Reden Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build Tank Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
@@ -41,7 +41,7 @@ The following are developer notes on how to build Reden Core on your native plat
 
 Development
 ---------------------
-The Reden Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The Tank Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Multiwallet Qt Development](multiwallet-qt.md)
@@ -57,8 +57,8 @@ The Reden Core repo's [root README](/README.md) contains relevant information on
 - [Dnsseed Policy](dnsseed-policy.md)
 
 ### Resources
-* Discuss on the [RedenTalk](https://redentalk.org/) forums, in the Development & Technical Discussion board.
-* Discuss on [#redencoin](http://webchat.freenode.net/?channels=redencoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=redencoin).
+* Discuss on the [TankTalk](https://tanktalk.org/) forums, in the Development & Technical Discussion board.
+* Discuss on [#tankcoin](http://webchat.freenode.net/?channels=tankcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=tankcoin).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

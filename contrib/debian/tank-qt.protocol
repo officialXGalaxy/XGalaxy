@@ -1,6 +1,6 @@
 [Protocol]
-exec=reden-qt '%u'
-protocol=reden
+exec=tank-qt '%u'
+protocol=tank
 input=none
 output=none
 helper=true

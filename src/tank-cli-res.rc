@@ -16,14 +16,14 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "Reden"
-            VALUE "FileDescription",    "reden-cli (JSON-RPC client for Reden Core)"
+            VALUE "CompanyName",        "Tank"
+            VALUE "FileDescription",    "tank-cli (JSON-RPC client for Tank Core)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "reden-cli"
+            VALUE "InternalName",       "tank-cli"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "reden-cli.exe"
-            VALUE "ProductName",        "reden-cli"
+            VALUE "OriginalFilename",   "tank-cli.exe"
+            VALUE "ProductName",        "tank-cli"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END
     END

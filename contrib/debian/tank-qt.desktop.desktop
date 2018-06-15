@@ -1,11 +1,11 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Reden
-Comment=Reden P2P Cryptocurrency
-Exec=reden-qt %u
+Name=Tank
+Comment=Tank P2P Cryptocurrency
+Exec=tank-qt %u
 Terminal=false
 Type=Application
-Icon=reden128
-MimeType=x-scheme-handler/reden;
+Icon=tank128
+MimeType=x-scheme-handler/tank;
 Categories=Office;Finance;
-Name[en_US]=reden-qt.desktop
+Name[en_US]=tank-qt.desktop

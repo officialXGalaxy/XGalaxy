@@ -1,20 +1,20 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource prefix="/translations">
-        <file alias="bg">locale/reden_bg.qm</file>
-        <file alias="de">locale/reden_de.qm</file>
-        <file alias="en">locale/reden_en.qm</file>
-        <file alias="es">locale/reden_es.qm</file>
-        <file alias="fi">locale/reden_fi.qm</file>
-        <file alias="fr">locale/reden_fr.qm</file>
-        <file alias="it">locale/reden_it.qm</file>
-        <file alias="ja">locale/reden_ja.qm</file>
-        <file alias="pl">locale/reden_pl.qm</file>
-        <file alias="pt">locale/reden_pt.qm</file>
-        <file alias="ru">locale/reden_ru.qm</file>
-        <file alias="sk">locale/reden_sk.qm</file>
-        <file alias="sv">locale/reden_sv.qm</file>
-        <file alias="vi">locale/reden_vi.qm</file>
-        <file alias="zh_CN">locale/reden_zh_CN.qm</file>
-        <file alias="zh_TW">locale/reden_zh_TW.qm</file>
+        <file alias="bg">locale/tank_bg.qm</file>
+        <file alias="de">locale/tank_de.qm</file>
+        <file alias="en">locale/tank_en.qm</file>
+        <file alias="es">locale/tank_es.qm</file>
+        <file alias="fi">locale/tank_fi.qm</file>
+        <file alias="fr">locale/tank_fr.qm</file>
+        <file alias="it">locale/tank_it.qm</file>
+        <file alias="ja">locale/tank_ja.qm</file>
+        <file alias="pl">locale/tank_pl.qm</file>
+        <file alias="pt">locale/tank_pt.qm</file>
+        <file alias="ru">locale/tank_ru.qm</file>
+        <file alias="sk">locale/tank_sk.qm</file>
+        <file alias="sv">locale/tank_sv.qm</file>
+        <file alias="vi">locale/tank_vi.qm</file>
+        <file alias="zh_CN">locale/tank_zh_CN.qm</file>
+        <file alias="zh_TW">locale/tank_zh_TW.qm</file>
     </qresource>
 </RCC>

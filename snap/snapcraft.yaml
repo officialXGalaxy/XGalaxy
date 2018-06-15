@@ -1,38 +1,37 @@
-name: reden
+name: tank
 version: '0.1'
-summary: Reden cryptocurrency wallet
+summary: Tank cryptocurrency wallet
 description: |
-  Reden is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
-icon: snap/gui/reden-qt.png
+  Tank is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
+icon: snap/gui/tank-qt.png
 grade: stable
 confinement: strict
 
 apps:
-  reden-cli:
-    command: bin/reden-cli
+  tank-cli:
+    command: bin/tank-cli
     plugs:
       - network
 
-  redend:
-    command: bin/redend
+  tankd:
+    command: bin/tankd
     plugs:
       - network
       - network-bind
 
-  reden-tx:
-    command: bin/reden-tx
+  tank-tx:
+    command: bin/tank-tx
     plugs:
       - network
 
-  reden-qt:
-    command: desktop-launch $SNAP/bin/reden-qt
-    desktop: reden-qt.desktop
+  tank-qt:
+    command: desktop-launch $SNAP/bin/tank-qt -datadir=$SNAP_USER_COMMON
+    desktop: tank-qt.desktop
     plugs:
       - desktop
-      - home
+      - x11
       - network
       - network-bind
-      - x11
 
 parts:
   ppa:
@@ -42,18 +41,18 @@ parts:
       apt install -y libdb4.8-dev libdb4.8++-dev
     build-packages:
       - software-properties-common
-  reden:
+  tank:
     plugin: autotools
     after:
       - ppa
       - desktop-qt5
-    source: https://github.com/RedenCore/Reden.git
+    source: https://github.com/TankCore/Tank.git
     source-depth: 1
     configflags: [--disable-tests, --disable-bench]
     override-build: |
       snapcraftctl build
-      cp contrib/debian/reden-qt.desktop.desktop $SNAPCRAFT_PART_INSTALL/reden-qt.desktop
-      sed -i -e 's/Icon=reden128/Icon=${SNAP}\/meta\/gui\/reden-qt.png/; s/reden-qt.desktop/Reden Core/' $SNAPCRAFT_PART_INSTALL/reden-qt.desktop
+      cp contrib/debian/tank-qt.desktop.desktop $SNAPCRAFT_PART_INSTALL/tank-qt.desktop
+      sed -i -e 's/Icon=tank128/Icon=${SNAP}\/meta\/gui\/tank-qt.png/; s/tank-qt.desktop/Tank Core/' $SNAPCRAFT_PART_INSTALL/tank-qt.desktop
     build-packages:
       - bsdmainutils
       - libboost-chrono-dev

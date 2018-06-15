@@ -1,25 +1,25 @@
-# /etc/conf.d/redend: config file for /etc/init.d/redend
+# /etc/conf.d/tankd: config file for /etc/init.d/tankd
 
 # Config file location
-#BITCOIND_CONFIGFILE="/etc/redencore/reden.conf"
+#BITCOIND_CONFIGFILE="/etc/tankcore/tank.conf"
 
 # What directory to write pidfile to?  (created and owned by $BITCOIND_USER)
-#BITCOIND_PIDDIR="/var/run/redend"
+#BITCOIND_PIDDIR="/var/run/tankd"
 
 # What filename to give the pidfile
-#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/redend.pid"
+#BITCOIND_PIDFILE="${BITCOIND_PIDDIR}/tankd.pid"
 
-# Where to write redend data (be mindful that the blockchain is large)
-#BITCOIND_DATADIR="/var/lib/redend"
+# Where to write tankd data (be mindful that the blockchain is large)
+#BITCOIND_DATADIR="/var/lib/tankd"
 
-# User and group to own redend process
-#BITCOIND_USER="redencore"
-#BITCOIND_GROUP="redencore"
+# User and group to own tankd process
+#BITCOIND_USER="tankcore"
+#BITCOIND_GROUP="tankcore"
 
-# Path to redend executable
-#BITCOIND_BIN="/usr/bin/redend"
+# Path to tankd executable
+#BITCOIND_BIN="/usr/bin/tankd"
 
-# Nice value to run redend under
+# Nice value to run tankd under
 #BITCOIND_NICE=0
 
 # Additional options (avoid -conf and -datadir, use flags above)

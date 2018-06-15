@@ -16,9 +16,9 @@ enum GovernanceObjectType {
     ValueOverride = 1, 
 
     // -------------------------------
-    // RedenNetwork - is the root node
-    RedenNetwork = 1000,
-    RedenNetworkVariable = 1001,
+    // TankNetwork - is the root node
+    TankNetwork = 1000,
+    TankNetworkVariable = 1001,
     Category = 1002,
 
     // Actors

@@ -7,7 +7,7 @@
 #include "uint256.h"
 #include "util.h"
 
-#include "test/test_reden.h"
+#include "test/test_tank.h"
 
 #include <boost/test/unit_test.hpp>
 

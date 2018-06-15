@@ -32,5 +32,5 @@
 *.app
 
 # Snap
-reden*.snap
-reden_source.tar.bz2
+tank*.snap
+tank_source.tar.bz2

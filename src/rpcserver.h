@@ -123,7 +123,7 @@ public:
 };
 
 /**
- * Reden RPC command dispatcher.
+ * Tank RPC command dispatcher.
  */
 class CRPCTable
 {

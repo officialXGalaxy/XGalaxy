@@ -52,10 +52,10 @@ static int AppInitRawTx(int argc, char* argv[])
     if (argc<2 || mapArgs.count("-?") || mapArgs.count("-h") || mapArgs.count("-help"))
     {
         // First part of help message is specific to this utility
-        std::string strUsage = _("Reden Core reden-tx utility version") + " " + FormatFullVersion() + "\n\n" +
+        std::string strUsage = _("Tank Core tank-tx utility version") + " " + FormatFullVersion() + "\n\n" +
             _("Usage:") + "\n" +
-              "  reden-tx [options] <hex-tx> [commands]  " + _("Update hex-encoded reden transaction") + "\n" +
-              "  reden-tx [options] -create [commands]   " + _("Create hex-encoded reden transaction") + "\n" +
+              "  tank-tx [options] <hex-tx> [commands]  " + _("Update hex-encoded tank transaction") + "\n" +
+              "  tank-tx [options] -create [commands]   " + _("Create hex-encoded tank transaction") + "\n" +
               "\n";
 
         fprintf(stdout, "%s", strUsage.c_str());
@@ -609,7 +609,7 @@ static int CommandLineRawTx(int argc, char* argv[])
             if (argc < 2)
                 throw runtime_error("too few parameters");
 
-            // param: hex-encoded reden transaction
+            // param: hex-encoded tank transaction
             string strHexTx(argv[1]);
             if (strHexTx == "-")                 // "-" implies standard input
                 strHexTx = readStdin();

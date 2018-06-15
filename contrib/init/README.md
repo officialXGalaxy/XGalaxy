@@ -1,11 +1,11 @@
 Sample configuration files for:
 
-SystemD: redend.service
-Upstart: redend.conf
-OpenRC:  redend.openrc
-         redend.openrcconf
-CentOS:  redend.init
-OS X:    org.reden.redend.plist
+SystemD: tankd.service
+Upstart: tankd.conf
+OpenRC:  tankd.openrc
+         tankd.openrcconf
+CentOS:  tankd.init
+OS X:    org.tank.tankd.plist
 
 have been made available to assist packagers in creating node packages here.
 

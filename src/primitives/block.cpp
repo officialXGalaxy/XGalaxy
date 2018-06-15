@@ -1,7 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2017-2018 The Proton Core developers
-// Copyright (c) 2018 The Reden Core developers
+// Copyright (c) 2018 The Tank Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -17,11 +17,11 @@ uint256 CBlockHeader::GetHash() const
 {
         uint256 thash;
         unsigned int profile = 0x0;
-		if(nTime <= 1522584000){ // 2018/04/01 @ 12:00 (UTC)
-        	neoscrypt((unsigned char *) &nVersion, (unsigned char *) &thash, profile);
-        } else {
-			thash = HashX16R(BEGIN(nVersion), END(nNonce), hashPrevBlock);
-		}
+		//if(nTime <= 1522584000){ // 2018/04/01 @ 12:00 (UTC)
+        	//neoscrypt((unsigned char *) &nVersion, (unsigned char *) &thash, profile);
+        //} else {
+			thash = HashX16S(BEGIN(nVersion), END(nNonce), hashPrevBlock);
+		//}
 		return thash;
 }
 
