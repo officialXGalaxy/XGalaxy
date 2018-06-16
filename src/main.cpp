@@ -1748,7 +1748,7 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     if (nPrevHeight == 0) {
         return 3000000 * COIN;
     }
-    if (nPrevHeight < 800) {
+    if (nPrevHeight < 200) {
 	return 0 * COIN;
     }
 
