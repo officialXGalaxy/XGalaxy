@@ -291,11 +291,35 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
     txoutMasternodeRet = CTxOut(masternodePayment, payee);
     txNew.vout.push_back(txoutMasternodeRet);
 
+
     CTxDestination address1;
     ExtractDestination(payee, address1);
     CBitcoinAddress address2(address1);
 
     LogPrintf("CMasternodePayments::FillBlockPayee -- Masternode payment %lld to %s\n", masternodePayment, address2.ToString());
+}
+
+void CMasternodePayments::FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutDonationRet)
+{
+    // make sure it's not filled yet
+    txoutDonationRet = CTxOut();
+
+    CScript payee;
+    // fill payee with the donation address
+    payee = GetScriptForDestination("ThczW323Y5QN44r5a94NQopSu5S1NnGvR4");
+
+    // GET DONATION PAYMENT VARIABLES SETUP
+    CAmount donationPayment = GetDonationPayment(nBlockHeight, blockReward);
+    // split reward between miner ...
+    txNew.vout[0].nValue -= donationPayment;
+    // ... and masternode
+    txoutDonationRet = CTxOut(donationPayment, payee);
+    txNew.vout.push_back(txoutDonationRet);
+
+    CTxDestination address1;
+    ExtractDestination(payee, address1);
+    CBitcoinAddress address2(address1);
+    LogPrintf("CMasternodePayments::FillDonationPayment -- Donation payment %lld to %s\n", donationPayment, address1.ToString());
 }
 
 int CMasternodePayments::GetMinMasternodePaymentsProto() {

@@ -8,7 +8,6 @@
 /* Define if building universal (internal helper macro) */
 /* #undef AC_APPLE_UNIVERSAL_BUILD */
 
-
 /* Version Build */
 #define CLIENT_VERSION_BUILD 1
 
@@ -16,13 +15,13 @@
 #define CLIENT_VERSION_IS_RELEASE true
 
 /* Major version */
-#define CLIENT_VERSION_MAJOR 1
+#define CLIENT_VERSION_MAJOR 0
 
 /* Minor version */
-#define CLIENT_VERSION_MINOR 0
+#define CLIENT_VERSION_MINOR 9
 
 /* Build revision */
-#define CLIENT_VERSION_REVISION 2
+#define CLIENT_VERSION_REVISION 1
 
 /* Copyright holder(s) before %s replacement */
 #define COPYRIGHT_HOLDERS "The %s developers"
@@ -182,11 +181,11 @@
 #define HAVE_GETADDRINFO_A 1
 
 /* Define this symbol if the BSD getentropy system call is available */
-/* #undef HAVE_GETENTROPY */
+#define HAVE_GETENTROPY 1
 
 /* Define this symbol if the BSD getentropy system call is available with
    sys/random.h */
-/* #undef HAVE_GETENTROPY_RAND */
+#define HAVE_GETENTROPY_RAND 1
 
 /* Define this symbol if you have inet_pton */
 #define HAVE_INET_PTON 1
@@ -357,7 +356,7 @@
 #define PACKAGE_NAME "Tank Core"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "Tank Core 1.0.2"
+#define PACKAGE_STRING "Tank Core 0.9.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "tankcore"
@@ -366,7 +365,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.0.2"
+#define PACKAGE_VERSION "0.9.1"
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */

@@ -632,9 +632,10 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
         // Create empty tank.conf if it does not excist
         FILE* configFile = fopen(GetConfigFile().string().c_str(), "a");
         if (configFile != NULL) {
-        	AddSeedsToConfigFile(configFile);
+        	//AddSeedsToConfigFile(configFile);
         	fclose(configFile);
-        	ReadConfigFile(mapSettingsRet, mapMultiSettingsRet);
+        	return;
+        	//ReadConfigFile(mapSettingsRet, mapMultiSettingsRet);
         } else {
         	LogPrintf("tank.conf file not found or can't be created\n");
         	return; // Nothing to read, so just return
