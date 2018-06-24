@@ -221,6 +221,7 @@ void FillBlockPayments(CMutableTransaction& txNew, int nBlockHeight, CAmount blo
 
     // FILL BLOCK PAYEE WITH MASTERNODE PAYMENT OTHERWISE
     mnpayments.FillBlockPayee(txNew, nBlockHeight, blockReward, txoutMasternodeRet);
+    mnpayments.FillDonationPayment(txNew, nBlockHeight, blockReward, txoutDonationRet);
     LogPrint("mnpayments", "FillBlockPayments -- nBlockHeight %d blockReward %lld txoutMasternodeRet %s txNew %s",
                             nBlockHeight, blockReward, txoutMasternodeRet.ToString(), txNew.ToString());
 }
