@@ -12,6 +12,7 @@
 #include "DonationPayment.h"
 //#include "standard.h";
 #include "util.h"
+#include "chainparams.h"
 CAmount DonationPayment::getDonationPaymentAmount(int blockHeight, CAmount blockReward) {
 	 if (blockHeight < 1160){
 		 return 0;
@@ -19,9 +20,9 @@ CAmount DonationPayment::getDonationPaymentAmount(int blockHeight, CAmount block
 	 return blockReward * 0.01;
 }
 
-void DonationPayment::FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward) {
+void DonationPayment::FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutDonationRet) {
     // make sure it's not filled yet
-	//CTxOut txoutDonationRet();
+	txoutDonationRet = CTxOut();
 
     CScript payee;
     // fill payee with the donation address
@@ -32,7 +33,7 @@ void DonationPayment::FillDonationPayment(CMutableTransaction& txNew, int nBlock
     // split reward between miner ...
     txNew.vout[0].nValue -= donationPayment;
     // ... and masternode
-    CTxOut txoutDonationRet(donationPayment, payee);
+    txoutDonationRet = CTxOut(donationPayment, payee);
     txNew.vout.push_back(txoutDonationRet);
     LogPrintf("CMasternodePayments::FillDonationPayment -- Donation payment %lld to %s\n", donationPayment, donationAddress.ToString());
 }

@@ -390,6 +390,8 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
             "  },\n"
             "  \"masternode_payments_started\" :  true|false, (boolean) true, if masternode payments started\n"
             "  \"masternode_payments_enforced\" : true|false, (boolean) true, if masternode payments are enforced\n"
+        	"  \"donation_payments_started\" :  true|false, (boolean) true, if masternode payments started\n"
+        	"  \"donation_payments_enforced\" : true|false, (boolean) true, if masternode payments are enforced\n"
             "  \"superblock\" : [                  (array) required superblock payees that must be included in the next block\n"
             "      {\n"
             "         \"payee\" : \"xxxx\",          (string) payee address\n"
@@ -627,6 +629,19 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
     result.push_back(Pair("masternode", masternodeObj));
     result.push_back(Pair("masternode_payments_started", pindexPrev->nHeight + 1 > Params().GetConsensus().nMasternodePaymentsStartBlock));
     result.push_back(Pair("masternode_payments_enforced", sporkManager.IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)));
+
+    UniValue donationObj(UniValue::VOBJ);
+    if(pblock->txoutDonation!= CTxOut()) {
+        CTxDestination address1;
+        ExtractDestination(pblock->txoutDonation.scriptPubKey, address1);
+        CBitcoinAddress address2(address1);
+        donationObj.push_back(Pair("payee", address2.ToString().c_str()));
+        donationObj.push_back(Pair("script", HexStr(pblock->txoutDonation.scriptPubKey.begin(), pblock->txoutDonation.scriptPubKey.end())));
+        donationObj.push_back(Pair("amount", pblock->txoutDonation.nValue));
+    }
+    result.push_back(Pair("donation", donationObj));
+    result.push_back(Pair("donation_payments_started", pindexPrev->nHeight + 1 > Params().GetConsensus().nDonationPaymentsStartBlock));
+    result.push_back(Pair("donation_payments_enforced", sporkManager.IsSporkActive(SPORK_15_DONATION_PAYMENT_ENFORCEMENT)));
 
     UniValue superblockObjArray(UniValue::VARR);
     if(pblock->voutSuperblock.size()) {
