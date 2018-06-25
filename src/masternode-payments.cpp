@@ -221,7 +221,7 @@ void FillBlockPayments(CMutableTransaction& txNew, int nBlockHeight, CAmount blo
 
     // FILL BLOCK PAYEE WITH MASTERNODE PAYMENT OTHERWISE
     mnpayments.FillBlockPayee(txNew, nBlockHeight, blockReward, txoutMasternodeRet);
-    mnpayments.FillDonationPayment(txNew, nBlockHeight, blockReward, txoutDonationRet);
+   // mnpayments.FillDonationPayment(txNew, nBlockHeight, blockReward, txoutDonationRet);
     LogPrint("mnpayments", "FillBlockPayments -- nBlockHeight %d blockReward %lld txoutMasternodeRet %s txNew %s",
                             nBlockHeight, blockReward, txoutMasternodeRet.ToString(), txNew.ToString());
 }
@@ -300,7 +300,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
     LogPrintf("CMasternodePayments::FillBlockPayee -- Masternode payment %lld to %s\n", masternodePayment, address2.ToString());
 }
 
-void CMasternodePayments::FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutDonationRet)
+/*void CMasternodePayments::FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutDonationRet)
 {
     // make sure it's not filled yet
     txoutDonationRet = CTxOut();
@@ -321,7 +321,7 @@ void CMasternodePayments::FillDonationPayment(CMutableTransaction& txNew, int nB
     ExtractDestination(payee, address1);
     CBitcoinAddress address2(address1);
     LogPrintf("CMasternodePayments::FillDonationPayment -- Donation payment %lld to %s\n", donationPayment, address1.ToString());
-}
+}*/
 
 int CMasternodePayments::GetMinMasternodePaymentsProto() {
     return sporkManager.IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)
