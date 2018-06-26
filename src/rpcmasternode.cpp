@@ -496,6 +496,10 @@ UniValue masternodelist(const UniValue& params, bool fHelp)
         std::vector<CMasternode> vMasternodes = mnodeman.GetFullMasternodeVector();
         BOOST_FOREACH(CMasternode& mn, vMasternodes) {
             std::string strOutpoint = mn.vin.prevout.ToStringShort();
+            CCoins coins;
+            pcoinsTip->GetCoins(mn.vin.prevout.hash, coins);
+            CAmount collateral = coins.vout[mn.vin.prevout.n].nValue/COIN;
+            cout << collateral << "\n";
             if (strMode == "activeseconds") {
                 if (strFilter !="" && strOutpoint.find(strFilter) == std::string::npos) continue;
                 obj.push_back(Pair(strOutpoint, (int64_t)(mn.lastPing.sigTime - mn.sigTime)));

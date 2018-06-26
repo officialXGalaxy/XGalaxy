@@ -625,6 +625,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
         masternodeObj.push_back(Pair("payee", address2.ToString().c_str()));
         masternodeObj.push_back(Pair("script", HexStr(pblock->txoutMasternode.scriptPubKey.begin(), pblock->txoutMasternode.scriptPubKey.end())));
         masternodeObj.push_back(Pair("amount", pblock->txoutMasternode.nValue));
+        LogPrintf("getblocktemplate: push masternode object with address %s\n", address2.ToString().c_str());
     }
     result.push_back(Pair("masternode", masternodeObj));
     result.push_back(Pair("masternode_payments_started", pindexPrev->nHeight + 1 > Params().GetConsensus().nMasternodePaymentsStartBlock));
@@ -638,6 +639,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
         donationObj.push_back(Pair("payee", address2.ToString().c_str()));
         donationObj.push_back(Pair("script", HexStr(pblock->txoutDonation.scriptPubKey.begin(), pblock->txoutDonation.scriptPubKey.end())));
         donationObj.push_back(Pair("amount", pblock->txoutDonation.nValue));
+        LogPrintf("getblocktemplate: push donation object with address %s\n", address2.ToString().c_str());
     }
     result.push_back(Pair("donation", donationObj));
     result.push_back(Pair("donation_payments_started", pindexPrev->nHeight + 1 > Params().GetConsensus().nDonationPaymentsStartBlock));
