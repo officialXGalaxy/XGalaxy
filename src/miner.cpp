@@ -292,8 +292,8 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         donationPayment.FillDonationPayment(txNew, nHeight, blockReward, pblock->txoutDonation);
         nLastBlockTx = nBlockTx;
         nLastBlockSize = nBlockSize;
-        LogPrintf("CreateNewBlock(): total size %u txs: %u fees: %ld sigops %d block hash %s\n", nBlockSize, nBlockTx, nFees, nBlockSigOps, pblock->GetHash());
-        LogPrintf("Block reward transactions hash %s\n", txNew.GetHash());
+        LogPrintf("CreateNewBlock(): total size %u txs: %u fees: %ld sigops %d block hash %s\n", nBlockSize, nBlockTx, nFees, nBlockSigOps, pblock->GetHash().ToString().c_str());
+        LogPrintf("Block reward transactions hash %s\n", txNew.GetHash().ToString().c_str());
         // Update block coinbase
         pblock->vtx[0] = txNew;
         pblocktemplate->vTxFees[0] = -nFees;
