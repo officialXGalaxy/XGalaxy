@@ -3767,11 +3767,31 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     // END TANK
 
     // Check transactions
-    BOOST_FOREACH(const CTransaction& tx, block.vtx)
-        if (!CheckTransaction(tx, state))
+    bool founderTransaction = false;
+    DonationPayment donationPayment;
+    int height = chainActive.Height();
+
+    BOOST_FOREACH(const CTransaction& tx, block.vtx) {
+        if (!CheckTransaction(tx, state)) {
             return error("CheckBlock(): CheckTransaction of %s failed with %s",
                 tx.GetHash().ToString(),
                 FormatStateMessage(state));
+        }
+        if(   sporkManager.IsSporkActive(SPORK_15_DONATION_PAYMENT_ENFORCEMENT)
+           && (height + 1 > Params().GetConsensus().nDonationPaymentsStartBlock)) {
+        	if(donationPayment.IsBlockPayeeValid(tx,block.txoutDonation)) {
+        		founderTransaction = true;
+        		break;
+        	}
+        } else {
+        	founderTransaction = true;
+        }
+    }
+    if(!founderTransaction) {
+    	LogPrintf("CMasternodePayments::IsBlockPayeeValid -- Donation payment of %s is not found\n", block.txoutDonation.ToString().c_str());
+    	return state.DoS(0, error("CheckBlock(TANK): transaction %s does not contains founder transaction",
+    			block.txoutDonation.GetHash().ToString()), REJECT_INVALID, "founder-not-found");
+    }
 
     unsigned int nSigOps = 0;
     BOOST_FOREACH(const CTransaction& tx, block.vtx)

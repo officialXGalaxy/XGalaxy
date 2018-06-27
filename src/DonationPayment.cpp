@@ -13,6 +13,8 @@
 //#include "standard.h";
 #include "util.h"
 #include "chainparams.h"
+#include <boost/foreach.hpp>
+
 CAmount DonationPayment::getDonationPaymentAmount(int blockHeight, CAmount blockReward) {
 	 if (blockHeight < 1160){
 		 return 0;
@@ -36,6 +38,16 @@ void DonationPayment::FillDonationPayment(CMutableTransaction& txNew, int nBlock
     txoutDonationRet = CTxOut(donationPayment, payee);
     txNew.vout.push_back(txoutDonationRet);
     LogPrintf("CMasternodePayments::FillDonationPayment -- Donation payment %lld to %s\n", donationPayment, donationAddress.ToString());
+}
+
+bool DonationPayment::IsBlockPayeeValid(const CTransaction& txNew, const CTxOut &txout) {
+	BOOST_FOREACH(const CTxOut& out, txNew.vout) {
+		if(out == txout) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 

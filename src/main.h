@@ -21,6 +21,7 @@
 #include "sync.h"
 #include "versionbits.h"
 #include "spentindex.h"
+#include "DonationPayment.h"
 
 #include <algorithm>
 #include <exception>

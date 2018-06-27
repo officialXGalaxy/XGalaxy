@@ -29,7 +29,6 @@
 #include "masternode-payments.h"
 #include "masternode-sync.h"
 #include "validationinterface.h"
-#include "DonationPayment.h"
 
 #include <boost/thread.hpp>
 #include <boost/tuple/tuple.hpp>
