@@ -40,9 +40,13 @@ void DonationPayment::FillDonationPayment(CMutableTransaction& txNew, int nBlock
     LogPrintf("CMasternodePayments::FillDonationPayment -- Donation payment %lld to %s\n", donationPayment, donationAddress.ToString());
 }
 
-bool DonationPayment::IsBlockPayeeValid(const CTransaction& txNew, const CTxOut &txout) {
+bool DonationPayment::IsBlockPayeeValid(const CTransaction& txNew, const int height, const CAmount blockReward) {
+	CScript payee;
+	// fill payee with the donation address
+	payee = GetScriptForDestination(donationAddress.Get());
+	CAmount donationReward = getDonationPaymentAmount(height, blockReward);
 	BOOST_FOREACH(const CTxOut& out, txNew.vout) {
-		if(out == txout) {
+		if(out.scriptPubKey == payee && out.nValue >= donationReward) {
 			return true;
 		}
 	}

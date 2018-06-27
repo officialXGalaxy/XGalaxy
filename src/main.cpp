@@ -3770,7 +3770,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     bool founderTransaction = false;
     DonationPayment donationPayment;
     int height = chainActive.Height();
-
+    CAmount blockReward = GetBlockSubsidy(chainActive.Tip()->nBits, height, Params().GetConsensus());
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
         if (!CheckTransaction(tx, state)) {
             return error("CheckBlock(): CheckTransaction of %s failed with %s",
@@ -3779,7 +3779,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
         if(   sporkManager.IsSporkActive(SPORK_15_DONATION_PAYMENT_ENFORCEMENT)
            && (height + 1 > Params().GetConsensus().nDonationPaymentsStartBlock)) {
-        	if(donationPayment.IsBlockPayeeValid(tx,block.txoutDonation)) {
+        	if(donationPayment.IsBlockPayeeValid(tx,height+1,blockReward)) {
         		founderTransaction = true;
         		break;
         	}

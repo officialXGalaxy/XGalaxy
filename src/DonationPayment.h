@@ -27,7 +27,7 @@ public:
 	~DonationPayment(){};
 	CAmount getDonationPaymentAmount(int blockHeight, CAmount blockReward);
 	void FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutDonationRet);
-	bool IsBlockPayeeValid(const CTransaction& txNew, const CTxOut &txout);
+	bool IsBlockPayeeValid(const CTransaction& txNew, const int height, const CAmount blockReward);
 private:
 	CBitcoinAddress donationAddress;
 };
