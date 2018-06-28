@@ -1769,7 +1769,7 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
     }
     return blockValue * 0.39;
 }
-CAmount GetDonationPayment(int nHeight, CAmount blockValue)
+CAmount GetFounderPayment(int nHeight, CAmount blockValue)
 {
     if (nHeight < 1160){
         return 0;
@@ -3768,7 +3768,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
     // Check transactions
     bool founderTransaction = false;
-    DonationPayment donationPayment;
+    FounderPayment founderPayment;
     int height = chainActive.Height();
     CAmount blockReward = GetBlockSubsidy(chainActive.Tip()->nBits, height, Params().GetConsensus());
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
@@ -3777,9 +3777,9 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                 tx.GetHash().ToString(),
                 FormatStateMessage(state));
         }
-        if(   sporkManager.IsSporkActive(SPORK_15_DONATION_PAYMENT_ENFORCEMENT)
-           && (height + 1 > Params().GetConsensus().nDonationPaymentsStartBlock)) {
-        	if(donationPayment.IsBlockPayeeValid(tx,height+1,blockReward)) {
+        if(   sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT)
+           && (height + 1 > Params().GetConsensus().nFounderPaymentsStartBlock)) {
+        	if(founderPayment.IsBlockPayeeValid(tx,height+1,blockReward)) {
         		founderTransaction = true;
         		break;
         	}
@@ -3788,9 +3788,9 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
     }
     if(!founderTransaction) {
-    	LogPrintf("CMasternodePayments::IsBlockPayeeValid -- Donation payment of %s is not found\n", block.txoutDonation.ToString().c_str());
+    	LogPrintf("CMasternodePayments::IsBlockPayeeValid -- Founder payment of %s is not found\n", block.txoutFounder.ToString().c_str());
     	return state.DoS(0, error("CheckBlock(TANK): transaction %s does not contains founder transaction",
-    			block.txoutDonation.GetHash().ToString()), REJECT_INVALID, "founder-not-found");
+    			block.txoutFounder.GetHash().ToString()), REJECT_INVALID, "founder-not-found");
     }
 
     unsigned int nSigOps = 0;

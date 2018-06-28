@@ -309,7 +309,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
     // fill payee with the donation address
     payee = GetScriptForDestination("ThczW323Y5QN44r5a94NQopSu5S1NnGvR4");
 
-    // GET DONATION PAYMENT VARIABLES SETUP
+    // GET FOUNDER PAYMENT VARIABLES SETUP
     CAmount donationPayment = GetDonationPayment(nBlockHeight, blockReward);
     // split reward between miner ...
     txNew.vout[0].nValue -= donationPayment;
