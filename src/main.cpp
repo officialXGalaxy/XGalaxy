@@ -1767,7 +1767,7 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
     if (nHeight < 1160){
     	return 0;
     }
-    return blockValue * 0.39;
+    return blockValue * 0.40;
 }
 CAmount GetFounderPayment(int nHeight, CAmount blockValue)
 {

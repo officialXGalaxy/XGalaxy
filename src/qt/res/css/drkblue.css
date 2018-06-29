@@ -275,7 +275,7 @@ background-color:transparent;
 
 QHeaderView::section { /* Table Header Sections */
 qproperty-alignment:center;
-background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #4f5d49, stop: 1 #56ABD8);
+background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #4f5d49, stop: 1 #6d8165);
 color:#fff;
 min-height:25px;
 font-weight:bold;
@@ -806,7 +806,7 @@ margin-left:16px;
 QWidget .QFrame#frame .QLabel#labelBalanceText { /* Available Balance Label */
 qproperty-alignment: 'AlignVCenter | AlignRight';
 min-width:160px;
-background-color:#56ABD8;
+background-color:#6d8165;
 color:#ffffff;
 margin-right:5px;
 padding-right:5px;
@@ -819,7 +819,7 @@ QWidget .QFrame#frame .QLabel#labelBalance { /* Available Balance */
 qproperty-alignment: 'AlignVCenter | AlignLeft';
 font-size:12px;
 font-weight:bold;
-color:#56ABD8;
+color:#6d8165;
 margin-left:0px;
 }
 
@@ -909,7 +909,7 @@ min-width: 421px;
 QWidget .QFrame#framePrivateSend .QLabel#labelPrivateSendHeader { /* PrivateSend Header */
 qproperty-alignment: 'AlignVCenter | AlignRight';
 min-width:160px;
-background-color:#56ABD8;
+background-color:#6d8165;
 color:#fff;
 margin-right:5px;
 padding-right:5px;
@@ -1274,7 +1274,7 @@ padding-left:10px;
 /* SEND COINS ENTRY */
 
 QStackedWidget#SendCoinsEntry .QFrame#SendCoins > .QLabel { /* Send Coin Entry Labels */
-background-color:#56ABD8;
+background-color:#6d8165;
 min-width:102px;
 font-weight:bold;
 font-size:11px;
@@ -1461,7 +1461,7 @@ QDialog#CoinControlDialog .CoinControlTreeWidget#treeWidget::indicator { /* Coin
 /* RECEIVE COINS */
 
 QWidget#ReceiveCoinsDialog .QFrame#frame2 .QLabel#label_2 { /* Label Label */
-background-color:#56ABD8;
+background-color:#6d8165;
 min-width:102px;
 color:#ffffff;
 font-weight:bold;
@@ -1479,7 +1479,7 @@ padding-right:5px;
 }
 
 QWidget#ReceiveCoinsDialog .QFrame#frame2 .QLabel#label_3 { /* Message Label */
-background-color:#56ABD8;
+background-color:#6d8165;
 min-width:102px;
 color:#ffffff;
 font-weight:bold;

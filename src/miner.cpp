@@ -16,6 +16,7 @@
 #include "consensus/merkle.h"
 #include "consensus/validation.h"
 #include "hash.h"
+#include "hashSelection.h"
 #include "main.h"
 #include "net.h"
 #include "policy/policy.h"
@@ -49,6 +50,10 @@ using namespace std;
 
 uint64_t nLastBlockTx = 0;
 uint64_t nLastBlockSize = 0;
+uint64_t nMiningTimeStart = 0;
+uint64_t nHashesPerSec = 0;
+uint64_t nHashesDone = 0;
+string hashSelections;
 
 class ScoreCompare
 {
@@ -280,7 +285,6 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
 
         // NOTE: unlike in bitcoin, we need to pass PREVIOUS block height here
         CAmount blockReward = nFees + GetBlockSubsidy(pindexPrev->nBits, pindexPrev->nHeight, Params().GetConsensus());
-
         FounderPayment founderPayment;
         // Compute regular coinbase transaction.
         txNew.vout[0].nValue = blockReward;
@@ -445,6 +449,7 @@ void static BitcoinMiner(const CChainParams& chainparams)
                 return;
             }
             CBlock *pblock = &pblocktemplate->block;
+            hashSelections = getHashSelectionsString(pblock->hashPrevBlock);
             IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
             LogPrintf("TankMiner -- Running miner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
@@ -458,7 +463,6 @@ void static BitcoinMiner(const CChainParams& chainparams)
             while (true)
             {
                 unsigned int nHashesDone = 0;
-
                 uint256 hash;
                 while (true)
                 {
@@ -481,6 +485,9 @@ void static BitcoinMiner(const CChainParams& chainparams)
                     }
                     pblock->nNonce += 1;
                     nHashesDone += 1;
+                    if (nHashesDone % 500000 == 0) {   //Calculate hashing speed
+						nHashesPerSec = nHashesDone / (((GetTimeMicros() - nMiningTimeStart) / 1000000) + 1);
+					}
                     if ((pblock->nNonce & 0xFF) == 0)
                         break;
                 }
@@ -539,6 +546,10 @@ void GenerateBitcoins(bool fGenerate, int nThreads, const CChainParams& chainpar
         return;
 
     minerThreads = new boost::thread_group();
+
+    nMiningTimeStart = GetTimeMicros();
+	nHashesDone = 0;
+	nHashesPerSec = 0;
     for (int i = 0; i < nThreads; i++)
         minerThreads->create_thread(boost::bind(&BitcoinMiner, boost::cref(chainparams)));
 }
