@@ -50,15 +50,15 @@ uint256 scrambleHash(uint256 blockHash) {
 	}
 
 	for(int j=0; j<16; j++){
-	  int offset = list.find(sixteen2[j]); // find offset of 16 char
+		int offset = list.find(sixteen2[j]); // find offset of 16 char
 
-	  order2.insert(0, 1, order[offset]); // insert the nth character at the beginning
-	  order2.erase(offset+1, 1);  // erase the n+1 character (was nth)
+		order2.insert(0, 1, order2[offset]); // insert the nth character at the beginning
+		order2.erase(offset+1, 1);  // erase the n+1 character (was nth)
 	}
 	int offset = list.find(last2[0]); // find offset of 16 char
-	order2.insert(0, 1, order[offset]);
+	order2.insert(0, 1, order2[offset]);
 	offset = list.find(last2[1]); // find offset of 16 char
-	order2.insert(0, 1, order[offset]);
+	order2.insert(0, 1, order2[offset]);
 	uint256 scrambleHash = uint256S(hashFront + order2 + order); // uint256 with length of hash and shuffled last seventeen
 	return scrambleHash;
 }

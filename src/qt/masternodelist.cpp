@@ -31,6 +31,7 @@ MasternodeList::MasternodeList(const PlatformStyle *platformStyle, QWidget *pare
     int columnStatusWidth = 80;
     int columnActiveWidth = 130;
     int columnLastSeenWidth = 130;
+    int columnLevelWidth = 60;
 
     ui->tableWidgetMyMasternodes->setColumnWidth(0, columnAliasWidth);
     ui->tableWidgetMyMasternodes->setColumnWidth(1, columnAddressWidth);
@@ -38,12 +39,14 @@ MasternodeList::MasternodeList(const PlatformStyle *platformStyle, QWidget *pare
     ui->tableWidgetMyMasternodes->setColumnWidth(3, columnStatusWidth);
     ui->tableWidgetMyMasternodes->setColumnWidth(4, columnActiveWidth);
     ui->tableWidgetMyMasternodes->setColumnWidth(5, columnLastSeenWidth);
+    ui->tableWidgetMyMasternodes->setColumnWidth(6, columnLevelWidth);
 
     ui->tableWidgetMasternodes->setColumnWidth(0, columnAddressWidth);
     ui->tableWidgetMasternodes->setColumnWidth(1, columnProtocolWidth);
     ui->tableWidgetMasternodes->setColumnWidth(2, columnStatusWidth);
     ui->tableWidgetMasternodes->setColumnWidth(3, columnActiveWidth);
     ui->tableWidgetMasternodes->setColumnWidth(4, columnLastSeenWidth);
+    ui->tableWidgetMasternodes->setColumnWidth(5, columnLevelWidth);
 
     ui->tableWidgetMyMasternodes->setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -183,7 +186,12 @@ void MasternodeList::updateMyMasternodeInfo(QString strAlias, QString strAddr, m
         nNewRow = ui->tableWidgetMyMasternodes->rowCount();
         ui->tableWidgetMyMasternodes->insertRow(nNewRow);
     }
-
+    CCoins coins;
+	pcoinsTip->GetCoins(infoMn.vin.prevout.hash, coins);
+	int height = chainActive.Height();
+	CAmount collateral = coins.vout[infoMn.vin.prevout.n].nValue;
+	Level mnLevel = getMasternodeLevel(collateral);
+	string mnLevelStr = MN_LEVEL_STRS[mnLevel];
     QTableWidgetItem *aliasItem = new QTableWidgetItem(strAlias);
     QTableWidgetItem *addrItem = new QTableWidgetItem(infoMn.fInfoValid ? QString::fromStdString(infoMn.addr.ToString()) : strAddr);
     QTableWidgetItem *protocolItem = new QTableWidgetItem(QString::number(infoMn.fInfoValid ? infoMn.nProtocolVersion : -1));
@@ -191,6 +199,7 @@ void MasternodeList::updateMyMasternodeInfo(QString strAlias, QString strAddr, m
     QTableWidgetItem *activeSecondsItem = new QTableWidgetItem(QString::fromStdString(DurationToDHMS(infoMn.fInfoValid ? (infoMn.nTimeLastPing - infoMn.sigTime) : 0)));
     QTableWidgetItem *lastSeenItem = new QTableWidgetItem(QString::fromStdString(DateTimeStrFormat("%Y-%m-%d %H:%M",
                                                                                                    infoMn.fInfoValid ? infoMn.nTimeLastPing + QDateTime::currentDateTime().offsetFromUtc() : 0)));
+    QTableWidgetItem *levelItem = new QTableWidgetItem(QString::fromStdString(infoMn.fInfoValid ? mnLevelStr : ""));
     QTableWidgetItem *pubkeyItem = new QTableWidgetItem(QString::fromStdString(infoMn.fInfoValid ? CBitcoinAddress(infoMn.pubKeyCollateralAddress.GetID()).ToString() : ""));
 
     ui->tableWidgetMyMasternodes->setItem(nNewRow, 0, aliasItem);
@@ -199,7 +208,8 @@ void MasternodeList::updateMyMasternodeInfo(QString strAlias, QString strAddr, m
     ui->tableWidgetMyMasternodes->setItem(nNewRow, 3, statusItem);
     ui->tableWidgetMyMasternodes->setItem(nNewRow, 4, activeSecondsItem);
     ui->tableWidgetMyMasternodes->setItem(nNewRow, 5, lastSeenItem);
-    ui->tableWidgetMyMasternodes->setItem(nNewRow, 6, pubkeyItem);
+    ui->tableWidgetMyMasternodes->setItem(nNewRow, 6, levelItem);
+    ui->tableWidgetMyMasternodes->setItem(nNewRow, 7, pubkeyItem);
 }
 
 void MasternodeList::updateMyNodeList(bool fForce)
@@ -267,6 +277,12 @@ void MasternodeList::updateNodeList()
 
     BOOST_FOREACH(CMasternode& mn, vMasternodes)
     {
+    	CCoins coins;
+		pcoinsTip->GetCoins(mn.vin.prevout.hash, coins);
+		int height = chainActive.Height();
+		CAmount collateral = coins.vout[mn.vin.prevout.n].nValue;
+		Level mnLevel = getMasternodeLevel(collateral);
+		string mnLevelStr = MN_LEVEL_STRS[mnLevel];
         // populate list
         // Address, Protocol, Status, Active Seconds, Last Seen, Pub Key
         QTableWidgetItem *addressItem = new QTableWidgetItem(QString::fromStdString(mn.addr.ToString()));
@@ -275,7 +291,7 @@ void MasternodeList::updateNodeList()
         QTableWidgetItem *activeSecondsItem = new QTableWidgetItem(QString::fromStdString(DurationToDHMS(mn.lastPing.sigTime - mn.sigTime)));
         QTableWidgetItem *lastSeenItem = new QTableWidgetItem(QString::fromStdString(DateTimeStrFormat("%Y-%m-%d %H:%M", mn.lastPing.sigTime + QDateTime::currentDateTime().offsetFromUtc())));
         QTableWidgetItem *pubkeyItem = new QTableWidgetItem(QString::fromStdString(CBitcoinAddress(mn.pubKeyCollateralAddress.GetID()).ToString()));
-
+        QTableWidgetItem *levelItem = new QTableWidgetItem(QString::fromStdString(mnLevelStr));
         if (strCurrentFilter != "")
         {
             strToFilter =   addressItem->text() + " " +
@@ -293,7 +309,8 @@ void MasternodeList::updateNodeList()
         ui->tableWidgetMasternodes->setItem(0, 2, statusItem);
         ui->tableWidgetMasternodes->setItem(0, 3, activeSecondsItem);
         ui->tableWidgetMasternodes->setItem(0, 4, lastSeenItem);
-        ui->tableWidgetMasternodes->setItem(0, 5, pubkeyItem);
+        ui->tableWidgetMasternodes->setItem(0, 5, levelItem);
+        ui->tableWidgetMasternodes->setItem(0, 6, pubkeyItem);
     }
 
     ui->countLabel->setText(QString::number(ui->tableWidgetMasternodes->rowCount()));

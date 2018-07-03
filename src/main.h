@@ -22,6 +22,7 @@
 #include "versionbits.h"
 #include "spentindex.h"
 #include "FounderPayment.h"
+#include "masternode-level.h"
 
 #include <algorithm>
 #include <exception>
@@ -260,7 +261,9 @@ bool ActivateBestChain(CValidationState& state, const CChainParams& chainparams,
 
 double ConvertBitsToDouble(unsigned int nBits);
 CAmount GetBlockSubsidy(int nBits, int nHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly = false);
-CAmount GetMasternodePayment(int nHeight, CAmount blockValue);
+CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel);
+vector<CAmount> GetMasternodePayments(int nHeight, CAmount blockValue);
+bool containsPayment(vector<CAmount> payments, CAmount payment);
 
 /**
  * Prune block and undo files (blk???.dat and undo???.dat) so that the disk space used is less than a user-defined target.

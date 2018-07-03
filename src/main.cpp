@@ -1746,7 +1746,7 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
     if (nPrevHeight == 0) {
-        return 3000000 * COIN;
+        return 5000000 * COIN;
     }
     if (nPrevHeight < 200) {
 	return 0 * COIN;
@@ -1762,12 +1762,38 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     return fSuperblockPartOnly ? 0 : nSubsidy;
 }
 
-CAmount GetMasternodePayment(int nHeight, CAmount blockValue)
+bool containsPayment(vector<CAmount> payments, CAmount payment) {
+	for(int i=0; i < payments.size(); i++) {
+		if((payments[i]) == payment) {
+			return true;
+		}
+	}
+	return false;
+}
+
+vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
+	CAmount nMasternodePayment1 = GetMasternodePayment(height, blockValue, LEVEL1);
+	CAmount nMasternodePayment2 = GetMasternodePayment(height, blockValue, LEVEL2);
+	CAmount nMasternodePayment3 = GetMasternodePayment(height, blockValue, LEVEL3);
+	return {nMasternodePayment1, nMasternodePayment2, nMasternodePayment3};
+}
+
+CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
     if (nHeight < 1160){
     	return 0;
     }
-    return blockValue * 0.40;
+    switch(mnLevel) {
+    case LEVEL1:
+    	return  blockValue * 0.15;
+    case LEVEL2:
+    	return  blockValue * 0.30;
+    case LEVEL3:
+    	return  blockValue * 0.60;
+    case NULL_LEVEL:
+    	return 0;
+    }
+    return 0;
 }
 CAmount GetFounderPayment(int nHeight, CAmount blockValue)
 {
@@ -2790,7 +2816,6 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     if (!IsBlockValueValid(block, pindex->nHeight, blockReward, strError)) {
         return state.DoS(0, error("ConnectBlock(TANK): %s", strError), REJECT_INVALID, "bad-cb-amount");
     }
-
     if (!IsBlockPayeeValid(block.vtx[0], pindex->nHeight, blockReward)) {
         mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
         return state.DoS(0, error("ConnectBlock(TANK): couldn't find masternode or superblock payments"),
@@ -3788,7 +3813,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
     }
     if(!founderTransaction) {
-    	LogPrintf("CMasternodePayments::IsBlockPayeeValid -- Founder payment of %s is not found\n", block.txoutFounder.ToString().c_str());
+    	LogPrintf("CheckBlock() -- Founder payment of %s is not found\n", block.txoutFounder.ToString().c_str());
     	return state.DoS(0, error("CheckBlock(TANK): transaction %s does not contains founder transaction",
     			block.txoutFounder.GetHash().ToString()), REJECT_INVALID, "founder-not-found");
     }

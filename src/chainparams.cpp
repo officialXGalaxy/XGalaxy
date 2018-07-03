@@ -157,11 +157,11 @@ public:
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1529900884, 1202457, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1530602520, 1488191, 0x1e0ffff0, 1, 1000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         //printGenesisBlock();
 				///////////////////////////////////////////
-        assert(consensus.hashGenesisBlock == uint256S("0x0000035c88b494f2d8f735e89645023881a224a8d3c1b4d64c4b9e7b936852e6"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000c6d6a3eeac5856957b2c0da80f26ac9bd7fbdeca2abc9c1bf333fd7a96c"));
         assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
         vSeeds.push_back(CDNSSeedData("explorer", "198.23.221.116"));
         // Tank addresses start with 'R'
@@ -190,8 +190,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0x0000035c88b494f2d8f735e89645023881a224a8d3c1b4d64c4b9e7b936852e6")),
-			1529900884, // * UNIX timestamp of last checkpoint block
+            ( 0, uint256S("0x0x00000c6d6a3eeac5856957b2c0da80f26ac9bd7fbdeca2abc9c1bf333fd7a96c")),
+			1530602520, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             500	        // * estimated number of transactions per day after checkpoint
@@ -252,11 +252,11 @@ public:
         nMaxTipAge = 0x7fffffff; // allow mining on top of old blocks for testnet
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1529900984, 689433, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1530603520, 408130, 0x1e0ffff0, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
        // printGenesisBlock();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000c5e72e3f86f22fd1c8c822bd52ca1813dd9f5f390d79f85dc7b01a94dac"));
+        assert(consensus.hashGenesisBlock == uint256S("0x000005b7acfe1b5647e689a74af4a246bd94db1ee24678a6614ef2fcb3e9de72"));
         assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
 
 
@@ -291,8 +291,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0x000006e44576fc7cf2187e8ac0fb40860523a10704efaabc770d1fe41b6a72a3")),
-			1529277832, // * UNIX timestamp of last checkpoint block
+            ( 0, uint256S("0x000005b7acfe1b5647e689a74af4a246bd94db1ee24678a6614ef2fcb3e9de72")),
+			1530603520, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             500	        // * estimated number of transactions per day after checkpoint
@@ -351,7 +351,7 @@ public:
         nDefaultPort = 16506;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1529273096, 8, 0x207fffff, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1530602520, 8, 0x207fffff, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
 //        printGenesisBlock();

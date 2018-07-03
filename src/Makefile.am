@@ -119,6 +119,7 @@ BITCOIN_CORE_H = \
   dbwrapper.h \
   limitedmap.h \
   main.h \
+  masternode-leve.h \
   masternode.h \
   masternode-payments.h \
   masternode-sync.h \
@@ -263,6 +264,7 @@ libbitcoin_wallet_a_SOURCES = \
   dsnotificationinterface.cpp \
   darksend-relay.cpp \
   instantx.cpp \
+  masternode-level.cpp \
   masternode.cpp \
   masternode-payments.cpp \
   masternode-sync.cpp \
