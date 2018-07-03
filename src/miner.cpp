@@ -462,7 +462,6 @@ void static BitcoinMiner(const CChainParams& chainparams)
             arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
             while (true)
             {
-                unsigned int nHashesDone = 0;
                 uint256 hash;
                 while (true)
                 {
