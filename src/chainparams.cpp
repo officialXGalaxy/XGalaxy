@@ -124,7 +124,7 @@ public:
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 60 * 60; // Tank: 1 hour
-        consensus.nPowTargetSpacing = 1 * 90; // Tank: 1.5 minutes
+        consensus.nPowTargetSpacing = 1 * 30; // Tank: 1.5 minutes // rememeber to change
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -157,11 +157,11 @@ public:
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1530602520, 1488191, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1530948906, 1010587, 0x1e0ffff0, 1, 1000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         //printGenesisBlock();
 				///////////////////////////////////////////
-        assert(consensus.hashGenesisBlock == uint256S("0x00000c6d6a3eeac5856957b2c0da80f26ac9bd7fbdeca2abc9c1bf333fd7a96c"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000b8362df836d84e233db254c7b3b784db07a271e744c218a5975f062577a"));
         assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
         vSeeds.push_back(CDNSSeedData("explorer", "198.23.221.116"));
         // Tank addresses start with 'R'
@@ -190,8 +190,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0x0x00000c6d6a3eeac5856957b2c0da80f26ac9bd7fbdeca2abc9c1bf333fd7a96c")),
-			1530602520, // * UNIX timestamp of last checkpoint block
+            ( 0, uint256S("0x00000b8362df836d84e233db254c7b3b784db07a271e744c218a5975f062577a")),
+			1530948906, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             500	        // * estimated number of transactions per day after checkpoint
@@ -252,11 +252,11 @@ public:
         nMaxTipAge = 0x7fffffff; // allow mining on top of old blocks for testnet
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1530603520, 408130, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1530948806, 170633, 0x1e0ffff0, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
        // printGenesisBlock();
-        assert(consensus.hashGenesisBlock == uint256S("0x000005b7acfe1b5647e689a74af4a246bd94db1ee24678a6614ef2fcb3e9de72"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000b7096d08364f04cabece493467b1d92dca46dfc1cdf04240e2cfb0aa5c4"));
         assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
 
 
@@ -351,12 +351,12 @@ public:
         nDefaultPort = 16506;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1530602520, 8, 0x207fffff, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1530948706, 1, 0x207fffff, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
-//        printGenesisBlock();
-        //assert(consensus.hashGenesisBlock == uint256S("0x5a2bd287d108e8ae36227683cc9f47c4ed4b93a19b29684dec3b1a7189248eb4"));
-        //assert(genesis.hashMerkleRoot == uint256S("0x33a98e8f8089165dc24358b01d52dd740011bdbffad052d51d3ac3588af2f487"));
+        //printGenesisBlock();
+        assert(consensus.hashGenesisBlock == uint256S("0x042c3aeb41221384ca0ec79d5f0b5667d80a95aa3663ed7ed77c8173b7528b6c"));
+        assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();  //! Regtest mode doesn't have any DNS seeds.

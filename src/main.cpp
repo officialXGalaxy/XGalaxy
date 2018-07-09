@@ -1762,13 +1762,11 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     return fSuperblockPartOnly ? 0 : nSubsidy;
 }
 
-bool containsPayment(vector<CAmount> payments, CAmount payment) {
-	for(int i=0; i < payments.size(); i++) {
-		if((payments[i]) == payment) {
-			return true;
-		}
-	}
-	return false;
+bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nHeight) {
+	Level mnLevel = getMasternodeLevelByPayee(payee);
+	CAmount masternodePayment = GetMasternodePayment(nHeight, payout, mnLevel);
+	LogPrintf("hasMasternodePayment(): masternode payment %lld, payment %lld found\n", masternodePayment, payment);
+	return masternodePayment == payment;
 }
 
 vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
@@ -1780,7 +1778,7 @@ vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
 
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
-    if (nHeight < 1160){
+    if (nHeight < 300){
     	return 0;
     }
     switch(mnLevel) {

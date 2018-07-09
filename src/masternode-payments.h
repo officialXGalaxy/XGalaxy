@@ -40,13 +40,14 @@ bool IsBlockPayeeValid(const CTransaction& txNew, int nBlockHeight, CAmount bloc
 void FillBlockPayments(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutMasternodeRet, std::vector<CTxOut>& voutSuperblockRet);
 //void FillDonationPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutDonationRet);
 std::string GetRequiredPaymentsString(int nBlockHeight);
+Level getMasternodeLevelByNode(CMasternode* masternode);
+Level getMasternodeLevelByPayee(CScript& payee);
 
 class CMasternodePayee
 {
 private:
     CScript scriptPubKey;
     std::vector<uint256> vecVoteHashes;
-
 public:
     CMasternodePayee() :
         scriptPubKey(),
@@ -73,6 +74,7 @@ public:
     void AddVoteHash(uint256 hashIn) { vecVoteHashes.push_back(hashIn); }
     std::vector<uint256> GetVoteHashes() { return vecVoteHashes; }
     int GetVoteCount() { return vecVoteHashes.size(); }
+
 };
 
 // Keep track of votes for payees from masternodes
