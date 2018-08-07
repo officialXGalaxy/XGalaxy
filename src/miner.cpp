@@ -16,7 +16,6 @@
 #include "consensus/merkle.h"
 #include "consensus/validation.h"
 #include "hash.h"
-#include "hashSelection.h"
 #include "main.h"
 #include "net.h"
 #include "policy/policy.h"
@@ -53,7 +52,6 @@ uint64_t nLastBlockSize = 0;
 uint64_t nMiningTimeStart = 0;
 uint64_t nHashesPerSec = 0;
 uint64_t nHashesDone = 0;
-string hashSelections;
 
 class ScoreCompare
 {
@@ -449,7 +447,6 @@ void static BitcoinMiner(const CChainParams& chainparams)
                 return;
             }
             CBlock *pblock = &pblocktemplate->block;
-            hashSelections = getHashSelectionsString(pblock->hashPrevBlock);
             IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
             LogPrintf("XGalaxyMiner -- Running miner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),

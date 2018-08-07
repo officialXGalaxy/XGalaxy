@@ -147,7 +147,7 @@ background:#f2f2f2;
 }
 
 QComboBox:editable {
-background: #6d8165;
+background: #3398CC;
 color:#616161;
 border:0px solid transparent;
 }
@@ -283,7 +283,7 @@ background-color:transparent;
 
 QHeaderView::section { /* Table Header Sections */
 qproperty-alignment:center;
-/* background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #4f5d49, stop: 1 #56ABD8); */
+/* background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.25, stop: 0 #4c97bf, stop: 1 #56ABD8); */
 background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: .05 #222222, stop: .3 #FFFFFF, stop: .7 #FFFFFF, stop: 1 #222222);
 color:#000000;
 min-height:25px;
