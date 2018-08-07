@@ -1,32 +1,32 @@
-name: tank
+name: xgalaxy
 version: '0.1'
-summary: Tank cryptocurrency wallet
+summary: XGalaxy cryptocurrency wallet
 description: |
-  Tank is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
-icon: snap/gui/tank-qt.png
+  XGalaxy is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
+icon: snap/gui/xgalaxy-qt.png
 grade: stable
 confinement: strict
 
 apps:
-  tank-cli:
-    command: bin/tank-cli
+  xgalaxy-cli:
+    command: bin/xgalaxy-cli
     plugs:
       - network
 
-  tankd:
-    command: bin/tankd
+  xgalaxyd:
+    command: bin/xgalaxyd
     plugs:
       - network
       - network-bind
 
-  tank-tx:
-    command: bin/tank-tx
+  xgalaxy-tx:
+    command: bin/xgalaxy-tx
     plugs:
       - network
 
-  tank-qt:
-    command: desktop-launch $SNAP/bin/tank-qt -datadir=$SNAP_USER_COMMON
-    desktop: tank-qt.desktop
+  xgalaxy-qt:
+    command: desktop-launch $SNAP/bin/xgalaxy-qt -datadir=$SNAP_USER_COMMON
+    desktop: xgalaxy-qt.desktop
     plugs:
       - desktop
       - x11
@@ -41,18 +41,18 @@ parts:
       apt install -y libdb4.8-dev libdb4.8++-dev
     build-packages:
       - software-properties-common
-  tank:
+  xgalaxy:
     plugin: autotools
     after:
       - ppa
       - desktop-qt5
-    source: https://github.com/TankCore/Tank.git
+    source: https://github.com/XGalaxyCore/XGalaxy.git
     source-depth: 1
     configflags: [--disable-tests, --disable-bench]
     override-build: |
       snapcraftctl build
-      cp contrib/debian/tank-qt.desktop.desktop $SNAPCRAFT_PART_INSTALL/tank-qt.desktop
-      sed -i -e 's/Icon=tank128/Icon=${SNAP}\/meta\/gui\/tank-qt.png/; s/tank-qt.desktop/Tank Core/' $SNAPCRAFT_PART_INSTALL/tank-qt.desktop
+      cp contrib/debian/xgalaxy-qt.desktop.desktop $SNAPCRAFT_PART_INSTALL/xgalaxy-qt.desktop
+      sed -i -e 's/Icon=xgalaxy128/Icon=${SNAP}\/meta\/gui\/xgalaxy-qt.png/; s/xgalaxy-qt.desktop/XGalaxy Core/' $SNAPCRAFT_PART_INSTALL/xgalaxy-qt.desktop
     build-packages:
       - bsdmainutils
       - libboost-chrono-dev

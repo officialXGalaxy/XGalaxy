@@ -13,7 +13,7 @@
 - (NSString *)__bundleIdentifier
 {
     if (self == [NSBundle mainBundle]) {
-        return @"org.tank.Tank-Qt";
+        return @"org.xgalaxy.XGalaxy-Qt";
     } else {
         return [self __bundleIdentifier];
     }

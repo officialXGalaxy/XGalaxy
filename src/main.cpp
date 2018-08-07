@@ -3,7 +3,7 @@
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
 // Copyright (c) 2017-2018 The Proton Core developers
-// Copyright (c) 2018 The Tank Core developers
+// Copyright (c) 2018 The XGalaxy Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -60,7 +60,7 @@
 using namespace std;
 
 #if defined(NDEBUG)
-# error "Tank Core cannot be compiled without assertions."
+# error "XGalaxy Core cannot be compiled without assertions."
 #endif
 
 /**
@@ -120,7 +120,7 @@ static void CheckBlockIndex(const Consensus::Params& consensusParams);
 /** Constant stuff for coinbase transactions we create: */
 CScript COINBASE_FLAGS;
 
-const string strMessageMagic = "TankCoin Signed Message:\n";
+const string strMessageMagic = "XGalaxyCoin Signed Message:\n";
 
 // Internal stuff
 namespace {
@@ -1745,21 +1745,49 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 */
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
-    if (nPrevHeight == 0) {
-        return 5000000 * COIN;
-    }
-    if (nPrevHeight < 200) {
-	return 0 * COIN;
-    }
+	if (nPrevHeight == 0) {
+	        return 2500 * COIN;
+	    }
+	    CAmount nSubsidy;
+	    if(nPrevHeight < 2500) {
+	    	nSubsidy = 0;
+	    } else if(nPrevHeight < 5000) {
+	    	nSubsidy = 1;
+	    } else if(nPrevHeight < 10000) {
+	    	nSubsidy = 3;
+	    } else if(nPrevHeight < 200000) {
+	    	nSubsidy = 5;
+	    } else if(nPrevHeight < 300000) {
+	    	nSubsidy = 10;
+	    } else if(nPrevHeight < 400000) {
+	    	nSubsidy = 20;
+	    } else if(nPrevHeight < 500000) {
+	    	nSubsidy = 40;
+	    } else if(nPrevHeight < 600000) {
+	    	nSubsidy = 80;
+	    } else if(nPrevHeight < 700000) {
+	    	nSubsidy = 60;
+	    } else if(nPrevHeight < 800000) {
+	    	nSubsidy = 40;
+	    } else if(nPrevHeight < 900000) {
+	    	nSubsidy = 20;
+	    } else if(nPrevHeight < 1000000) {
+	    	nSubsidy = 10;
+	    } else if(nPrevHeight < 2000000) {
+	    	nSubsidy = 8;
+	    } else if(nPrevHeight < 3000000) {
+	    	nSubsidy = 5;
+	    } else if(nPrevHeight < 4000000) {
+	    	nSubsidy = 4;
+	    } else if(nPrevHeight < 5000000) {
+	    	nSubsidy = 3;
+	    } else if(nPrevHeight < 5650000) {
+	    	nSubsidy = 2;
+	    } else {
+	    	nSubsidy = 0;
+	    }
 
-    CAmount nSubsidy = 1000 * COIN;
-
-    // yearly decline of production by 25% per 3 months.
-    for (int i = consensusParams.nSubsidyHalvingInterval; i <= nPrevHeight; i += consensusParams.nSubsidyHalvingInterval) {
-        nSubsidy -= nSubsidy * 0.10;
-    }
-
-    return fSuperblockPartOnly ? 0 : nSubsidy;
+	return nSubsidy * COIN;
 }
 
 bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nHeight) {
@@ -1778,20 +1806,10 @@ vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
 
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
-    if (nHeight < 300){
-    	return 0;
-    }
-    switch(mnLevel) {
-    case LEVEL1:
-    	return  blockValue * 0.15;
-    case LEVEL2:
-    	return  blockValue * 0.30;
-    case LEVEL3:
-    	return  blockValue * 0.60;
-    case NULL_LEVEL:
-    	return 0;
-    }
-    return 0;
+	if(nHeight <= 50000) {
+			return 0;
+		}
+	return blockValue * 0.55;
 }
 CAmount GetFounderPayment(int nHeight, CAmount blockValue)
 {
@@ -2404,7 +2422,7 @@ bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, unsigne
 static CCheckQueue<CScriptCheck> scriptcheckqueue(128);
 
 void ThreadScriptCheck() {
-    RenameThread("tank-scriptch");
+    RenameThread("xgalaxy-scriptch");
     scriptcheckqueue.Thread();
 }
 
@@ -2801,7 +2819,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     int64_t nTime3 = GetTimeMicros(); nTimeConnect += nTime3 - nTime2;
     LogPrint("bench", "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs]\n", (unsigned)block.vtx.size(), 0.001 * (nTime3 - nTime2), 0.001 * (nTime3 - nTime2) / block.vtx.size(), nInputs <= 1 ? 0 : 0.001 * (nTime3 - nTime2) / (nInputs-1), nTimeConnect * 0.000001);
 
-    // TANK : MODIFIED TO CHECK MASTERNODE PAYMENTS AND SUPERBLOCKS
+    // XGALAXY : MODIFIED TO CHECK MASTERNODE PAYMENTS AND SUPERBLOCKS
 
     // It's possible that we simply don't have enough data and this could fail
     // (i.e. block itself could be a correct one and we need to store it),
@@ -2812,14 +2830,14 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus());
     std::string strError = "";
     if (!IsBlockValueValid(block, pindex->nHeight, blockReward, strError)) {
-        return state.DoS(0, error("ConnectBlock(TANK): %s", strError), REJECT_INVALID, "bad-cb-amount");
+        return state.DoS(0, error("ConnectBlock(XGALAXY): %s", strError), REJECT_INVALID, "bad-cb-amount");
     }
     if (!IsBlockPayeeValid(block.vtx[0], pindex->nHeight, blockReward)) {
         mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
-        return state.DoS(0, error("ConnectBlock(TANK): couldn't find masternode or superblock payments"),
+        return state.DoS(0, error("ConnectBlock(XGALAXY): couldn't find masternode or superblock payments"),
                                 REJECT_INVALID, "bad-cb-payee");
     }
-    // END TANK
+    // END XGALAXY
 
     if (!control.Wait())
         return state.DoS(100, false);
@@ -3757,7 +3775,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                              REJECT_INVALID, "bad-cb-multiple");
 
 
-    // TANK : CHECK TRANSACTIONS FOR INSTANTSEND
+    // XGALAXY : CHECK TRANSACTIONS FOR INSTANTSEND
 
     if(sporkManager.IsSporkActive(SPORK_3_INSTANTSEND_BLOCK_FILTERING)) {
         // We should never accept block which conflicts with completed transaction lock,
@@ -3777,22 +3795,22 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
                     instantsend.Relay(hashLocked);
                     LOCK(cs_main);
                     mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
-                    return state.DoS(0, error("CheckBlock(TANK): transaction %s conflicts with transaction lock %s",
+                    return state.DoS(0, error("CheckBlock(XGALAXY): transaction %s conflicts with transaction lock %s",
                                                 tx.GetHash().ToString(), hashLocked.ToString()),
                                      REJECT_INVALID, "conflict-tx-lock");
                 }
             }
         }
     } else {
-        LogPrintf("CheckBlock(TANK): spork is off, skipping transaction locking checks\n");
+        LogPrintf("CheckBlock(XGALAXY): spork is off, skipping transaction locking checks\n");
     }
 
-    // END TANK
+    // END XGALAXY
 
     // Check transactions
     bool founderTransaction = false;
     FounderPayment founderPayment;
-    int height = chainActive.Height();
+    const int height = chainActive.Height();
     CAmount blockReward = GetBlockSubsidy(chainActive.Tip()->nBits, height, Params().GetConsensus());
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
         if (!CheckTransaction(tx, state)) {
@@ -3812,7 +3830,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     }
     if(!founderTransaction) {
     	LogPrintf("CheckBlock() -- Founder payment of %s is not found\n", block.txoutFounder.ToString().c_str());
-    	return state.DoS(0, error("CheckBlock(TANK): transaction %s does not contains founder transaction",
+    	return state.DoS(0, error("CheckBlock(XGALAXY): transaction %s does not contains founder transaction",
     			block.txoutFounder.GetHash().ToString()), REJECT_INVALID, "founder-not-found");
     }
 
@@ -5009,7 +5027,7 @@ bool static AlreadyHave(const CInv& inv) EXCLUSIVE_LOCKS_REQUIRED(cs_main)
         return mapBlockIndex.count(inv.hash);
 
     /*
-        Tank Related Inventory Messages
+        XGalaxy Related Inventory Messages
 
         --
 

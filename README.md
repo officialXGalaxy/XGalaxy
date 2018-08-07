@@ -1,32 +1,32 @@
 
-Tank Core 1.0.0
+XGalaxy Core 1.0.0
 ===============================
 
-http://www.tankcoin.ca
+http://www.xgalaxycoin.ca
 
 
-What is Tank?
+What is XGalaxy?
 ----------------
 
-Tank-Coin is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
+XGalaxy-Coin is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
 
 
 For more information, as well as an immediately usable, binary version of
-the Tank Core software, see http://www.tankcoin.ca
+the XGalaxy Core software, see http://www.xgalaxycoin.ca
 
 
 License
 -------
 
-Tank Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+XGalaxy Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
 Development Process
 -------------------
 
 The `master` branch is meant to be stable. Development is normally done in separate bran
-[Tags](https://github.com/Tank/Tank/tags) are created to indicate new official,l.0.0
-stable release versions of Tank Core.
+[Tags](https://github.com/XGalaxy/XGalaxy/tags) are created to indicate new official,l.0.0
+stable release versions of XGalaxy Core.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
 

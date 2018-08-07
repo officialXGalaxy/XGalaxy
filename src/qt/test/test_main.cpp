@@ -1,11 +1,11 @@
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2018 The Proton Core developers
-// Copyright (c) 2018 The Tank Core developers
+// Copyright (c) 2018 The XGalaxy Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/tank-config.h"
+#include "config/xgalaxy-config.h"
 #endif
 
 #include "util.h"
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     // Don't remove this, it's needed to access
     // QCoreApplication:: in the tests
     QCoreApplication app(argc, argv);
-    app.setApplicationName("Tank-Qt-test");
+    app.setApplicationName("XGalaxy-Qt-test");
 
     SSL_library_init();
 

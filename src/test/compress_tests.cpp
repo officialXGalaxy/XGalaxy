@@ -4,7 +4,7 @@
 
 #include "compressor.h"
 #include "util.h"
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 
 #include <stdint.h>
 

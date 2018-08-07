@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 The Tank Core developers
+ * Copyright (c) 2018 The XGalaxy Core developers
  * Distributed under the MIT software license, see the accompanying
  * file COPYING or http://www.opensource.org/licenses/mit-license.php.
  * 
@@ -34,7 +34,6 @@ void FounderPayment::FillFounderPayment(CMutableTransaction& txNew, int nBlockHe
     CAmount founderPayment = getFounderPaymentAmount(nBlockHeight, blockReward);
     // split reward between miner ...
     txNew.vout[0].nValue -= founderPayment;
-    // ... and masternode
     txoutFounderRet = CTxOut(founderPayment, payee);
     txNew.vout.push_back(txoutFounderRet);
     LogPrintf("CMasternodePayments::FillFounderPayment -- Founder payment %lld to %s\n", founderPayment, founderAddress.ToString());

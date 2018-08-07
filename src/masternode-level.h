@@ -20,6 +20,8 @@ enum Level {
 	LEVEL1,
 	LEVEL2,
 	LEVEL3,
+	LEVEL4,
+	LEVEL5,
 	NULL_LEVEL
 };
 
@@ -27,6 +29,8 @@ static const vector<string> MN_LEVEL_STRS = {
 		"1",
 		"2",
 		"3",
+		"4",
+		"5",
 		"N/A"
 };
 
@@ -47,9 +51,11 @@ private:
 	CAmount levelCollateral;
 };
 static const vector<MasternodeLevel> COLLATERALS = {
-		MasternodeLevel(LEVEL1, 300000*COIN),
-		MasternodeLevel(LEVEL2, 550000*COIN),
-		MasternodeLevel(LEVEL3, 850000*COIN)
+		MasternodeLevel(LEVEL1, 1000*COIN),
+		MasternodeLevel(LEVEL2, 3000*COIN),
+		MasternodeLevel(LEVEL3, 5000*COIN),
+		MasternodeLevel(LEVEL4, 10000*COIN),
+		MasternodeLevel(LEVEL5, 20000*COIN)
 };
 
 extern bool isValidMasternode(CAmount value);

@@ -2,7 +2,7 @@
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
 // Copyright (c) 2017-2018 The Proton Core developers
-// Copyright (c) 2018 The Tank Core developers
+// Copyright (c) 2018 The XGalaxy Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -245,11 +245,11 @@ UniValue stop(const UniValue& params, bool fHelp)
     if (fHelp || params.size() > 1)
         throw runtime_error(
             "stop\n"
-            "\nStop Tank Core server.");
+            "\nStop XGalaxy Core server.");
     // Event loop will exit after current HTTP requests have been handled, so
     // this reply will get back to the client.
     StartShutdown();
-    return "Tank Core server stopping";
+    return "XGalaxy Core server stopping";
 }
 
 /**
@@ -344,19 +344,19 @@ static const CRPCCommand vRPCCommands[] =
     { "hidden",             "resendwallettransactions", &resendwallettransactions, true},
 #endif
 
-    /* Tank features */
-    { "tank",               "masternode",             &masternode,             true  },
-    { "tank",               "masternodelist",         &masternodelist,         true  },
-    { "tank",               "masternodebroadcast",    &masternodebroadcast,    true  },
-    { "tank",               "gobject",                &gobject,                true  },
-    { "tank",               "getgovernanceinfo",      &getgovernanceinfo,      true  },
-    { "tank",               "getsuperblockbudget",    &getsuperblockbudget,    true  },
-    { "tank",               "voteraw",                &voteraw,                true  },
-    { "tank",               "mnsync",                 &mnsync,                 true  },
-    { "tank",               "spork",                  &spork,                  true  },
-    { "tank",               "getpoolinfo",            &getpoolinfo,            true  },
+    /* XGalaxy features */
+    { "xgalaxy",               "masternode",             &masternode,             true  },
+    { "xgalaxy",               "masternodelist",         &masternodelist,         true  },
+    { "xgalaxy",               "masternodebroadcast",    &masternodebroadcast,    true  },
+    { "xgalaxy",               "gobject",                &gobject,                true  },
+    { "xgalaxy",               "getgovernanceinfo",      &getgovernanceinfo,      true  },
+    { "xgalaxy",               "getsuperblockbudget",    &getsuperblockbudget,    true  },
+    { "xgalaxy",               "voteraw",                &voteraw,                true  },
+    { "xgalaxy",               "mnsync",                 &mnsync,                 true  },
+    { "xgalaxy",               "spork",                  &spork,                  true  },
+    { "xgalaxy",               "getpoolinfo",            &getpoolinfo,            true  },
 #ifdef ENABLE_WALLET
-    { "tank",               "privatesend",            &privatesend,            false },
+    { "xgalaxy",               "privatesend",            &privatesend,            false },
 
     /* Wallet */
     { "wallet",             "keepass",                &keepass,                true },
@@ -579,7 +579,7 @@ std::vector<std::string> CRPCTable::listCommands() const
 
 std::string HelpExampleCli(const std::string& methodname, const std::string& args)
 {
-    return "> tank-cli " + methodname + " " + args + "\n";
+    return "> xgalaxy-cli " + methodname + " " + args + "\n";
 }
 
 std::string HelpExampleRpc(const std::string& methodname, const std::string& args)

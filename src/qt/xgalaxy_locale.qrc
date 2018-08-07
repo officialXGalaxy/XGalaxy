@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/translations">
+        <file alias="bg">locale/xgalaxy_bg.qm</file>
+        <file alias="de">locale/xgalaxy_de.qm</file>
+        <file alias="en">locale/xgalaxy_en.qm</file>
+        <file alias="es">locale/xgalaxy_es.qm</file>
+        <file alias="fi">locale/xgalaxy_fi.qm</file>
+        <file alias="fr">locale/xgalaxy_fr.qm</file>
+        <file alias="it">locale/xgalaxy_it.qm</file>
+        <file alias="ja">locale/xgalaxy_ja.qm</file>
+        <file alias="pl">locale/xgalaxy_pl.qm</file>
+        <file alias="pt">locale/xgalaxy_pt.qm</file>
+        <file alias="ru">locale/xgalaxy_ru.qm</file>
+        <file alias="sk">locale/xgalaxy_sk.qm</file>
+        <file alias="sv">locale/xgalaxy_sv.qm</file>
+        <file alias="vi">locale/xgalaxy_vi.qm</file>
+        <file alias="zh_CN">locale/xgalaxy_zh_CN.qm</file>
+        <file alias="zh_TW">locale/xgalaxy_zh_TW.qm</file>
+    </qresource>
+</RCC>

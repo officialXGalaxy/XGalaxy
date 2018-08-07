@@ -55,15 +55,15 @@ TESTS =
 BENCHMARKS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += tankd
+  bin_PROGRAMS += xgalaxyd
 endif
 
 if BUILD_BITCOIN_UTILS
-  bin_PROGRAMS += tank-cli tank-tx
+  bin_PROGRAMS += xgalaxy-cli xgalaxy-tx
 endif
 
 .PHONY: FORCE check-symbols check-security
-# tank core #
+# xgalaxy core #
 BITCOIN_CORE_H = \
   activemasternode.h \
   addressindex.h \
@@ -195,7 +195,7 @@ obj/build.h: FORCE
 	  $(abs_top_srcdir)
 libbitcoin_util_a-clientversion.$(OBJEXT): obj/build.h
 
-# server: shared between tankd and tank-qt
+# server: shared between xgalaxyd and xgalaxy-qt
 libbitcoin_server_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(MINIUPNPC_CPPFLAGS) $(EVENT_CFLAGS) $(EVENT_PTHREADS_CFLAGS)
 libbitcoin_server_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_server_a_SOURCES = \
@@ -254,7 +254,7 @@ libbitcoin_zmq_a_SOURCES = \
 endif
 
 
-# wallet: shared between tankd and tank-qt, but only linked
+# wallet: shared between xgalaxyd and xgalaxy-qt, but only linked
 # when wallet enabled
 libbitcoin_wallet_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_wallet_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -346,7 +346,7 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sha512.cpp \
   crypto/sha512.h
 
-# common: shared between tankd, and tank-qt and non-server tools
+# common: shared between xgalaxyd, and xgalaxy-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_common_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_common_a_SOURCES = \
@@ -405,7 +405,7 @@ if GLIBC_BACK_COMPAT
 libbitcoin_util_a_SOURCES += compat/glibc_compat.cpp
 endif
 
-# cli: shared between tank-cli and tank-qt
+# cli: shared between xgalaxy-cli and xgalaxy-qt
 libbitcoin_cli_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_cli_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_cli_a_SOURCES = \
@@ -416,16 +416,16 @@ nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
 # bitcoind binary #
-tankd_SOURCES = tankd.cpp
-tankd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-tankd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-tankd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+xgalaxyd_SOURCES = xgalaxyd.cpp
+xgalaxyd_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+xgalaxyd_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+xgalaxyd_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-tankd_SOURCES += tankd-res.rc
+xgalaxyd_SOURCES += xgalaxyd-res.rc
 endif
 
-tankd_LDADD = \
+xgalaxyd_LDADD = \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_COMMON) \
   $(LIBUNIVALUE) \
@@ -436,50 +436,50 @@ tankd_LDADD = \
   $(LIBSECP256K1)
 
 if ENABLE_ZMQ
-tankd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
+xgalaxyd_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
 
 if ENABLE_WALLET
-tankd_LDADD += libbitcoin_wallet.a
+xgalaxyd_LDADD += libbitcoin_wallet.a
 endif
 
-tankd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
+xgalaxyd_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 
-# tank-cli binary #
-tank_cli_SOURCES = tank-cli.cpp
-tank_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-tank_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-tank_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# xgalaxy-cli binary #
+xgalaxy_cli_SOURCES = xgalaxy-cli.cpp
+xgalaxy_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+xgalaxy_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+xgalaxy_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-tank_cli_SOURCES += tank-cli-res.rc
+xgalaxy_cli_SOURCES += xgalaxy-cli-res.rc
 endif
 
-tank_cli_LDADD = \
+xgalaxy_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_UTIL)
-tank_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
+xgalaxy_cli_LDADD += $(BOOST_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(EVENT_LIBS)
 #
 
-# tank-tx binary #
-tank_tx_SOURCES = tank-tx.cpp
-tank_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-tank_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-tank_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
+# xgalaxy-tx binary #
+xgalaxy_tx_SOURCES = xgalaxy-tx.cpp
+xgalaxy_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+xgalaxy_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+xgalaxy_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-tank_tx_SOURCES += tank-tx-res.rc
+xgalaxy_tx_SOURCES += xgalaxy-tx-res.rc
 endif
 
-tank_tx_LDADD = \
+xgalaxy_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1)
 
-tank_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
+xgalaxy_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)
 #
 
 # bitcoinconsensus library #

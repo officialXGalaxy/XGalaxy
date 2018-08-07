@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 #
-# Use the raw transactions API to spend tanks received on particular addresses,
+# Use the raw transactions API to spend xgalaxys received on particular addresses,
 # and send any change back to that same address.
 #
 # Example usage:
 #  spendfrom.py  # Lists available funds
 #  spendfrom.py --from=ADDRESS --to=ADDRESS --amount=11.00
 #
-# Assumes it will talk to a tankd or Tank-Qt running
+# Assumes it will talk to a xgalaxyd or XGalaxy-Qt running
 # on localhost.
 #
 # Depends on jsonrpc
@@ -33,15 +33,15 @@ def check_json_precision():
         raise RuntimeError("JSON encode/decode loses precision")
 
 def determine_db_dir():
-    """Return the default location of the Tank Core data directory"""
+    """Return the default location of the XGalaxy Core data directory"""
     if platform.system() == "Darwin":
-        return os.path.expanduser("~/Library/Application Support/TankCore/")
+        return os.path.expanduser("~/Library/Application Support/XGalaxyCore/")
     elif platform.system() == "Windows":
-        return os.path.join(os.environ['APPDATA'], "TankCore")
-    return os.path.expanduser("~/.tankcore")
+        return os.path.join(os.environ['APPDATA'], "XGalaxyCore")
+    return os.path.expanduser("~/.xgalaxycore")
 
 def read_bitcoin_config(dbdir):
-    """Read the tank.conf file from dbdir, returns dictionary of settings"""
+    """Read the xgalaxy.conf file from dbdir, returns dictionary of settings"""
     from ConfigParser import SafeConfigParser
 
     class FakeSecHead(object):
@@ -59,11 +59,11 @@ def read_bitcoin_config(dbdir):
                 return s
 
     config_parser = SafeConfigParser()
-    config_parser.readfp(FakeSecHead(open(os.path.join(dbdir, "tank.conf"))))
+    config_parser.readfp(FakeSecHead(open(os.path.join(dbdir, "xgalaxy.conf"))))
     return dict(config_parser.items("all"))
 
 def connect_JSON(config):
-    """Connect to a Tank Core JSON-RPC server"""
+    """Connect to a XGalaxy Core JSON-RPC server"""
     testnet = config.get('testnet', '0')
     testnet = (int(testnet) > 0)  # 0/1 in config file, convert to True/False
     if not 'rpcport' in config:
@@ -72,7 +72,7 @@ def connect_JSON(config):
     try:
         result = ServiceProxy(connect)
         # ServiceProxy is lazy-connect, so send an RPC command mostly to catch connection errors,
-        # but also make sure the tankd we're talking to is/isn't testnet:
+        # but also make sure the xgalaxyd we're talking to is/isn't testnet:
         if result.getmininginfo()['testnet'] != testnet:
             sys.stderr.write("RPC server at "+connect+" testnet setting mismatch\n")
             sys.exit(1)
@@ -81,36 +81,36 @@ def connect_JSON(config):
         sys.stderr.write("Error connecting to RPC server at "+connect+"\n")
         sys.exit(1)
 
-def unlock_wallet(tankd):
-    info = tankd.getinfo()
+def unlock_wallet(xgalaxyd):
+    info = xgalaxyd.getinfo()
     if 'unlocked_until' not in info:
         return True # wallet is not encrypted
     t = int(info['unlocked_until'])
     if t <= time.time():
         try:
             passphrase = getpass.getpass("Wallet is locked; enter passphrase: ")
-            tankd.walletpassphrase(passphrase, 5)
+            xgalaxyd.walletpassphrase(passphrase, 5)
         except:
             sys.stderr.write("Wrong passphrase\n")
 
-    info = tankd.getinfo()
+    info = xgalaxyd.getinfo()
     return int(info['unlocked_until']) > time.time()
 
-def list_available(tankd):
+def list_available(xgalaxyd):
     address_summary = dict()
 
     address_to_account = dict()
-    for info in tankd.listreceivedbyaddress(0):
+    for info in xgalaxyd.listreceivedbyaddress(0):
         address_to_account[info["address"]] = info["account"]
 
-    unspent = tankd.listunspent(0)
+    unspent = xgalaxyd.listunspent(0)
     for output in unspent:
         # listunspent doesn't give addresses, so:
-        rawtx = tankd.getrawtransaction(output['txid'], 1)
+        rawtx = xgalaxyd.getrawtransaction(output['txid'], 1)
         vout = rawtx["vout"][output['vout']]
         pk = vout["scriptPubKey"]
 
-        # This code only deals with ordinary pay-to-tank-address
+        # This code only deals with ordinary pay-to-xgalaxy-address
         # or pay-to-script-hash outputs right now; anything exotic is ignored.
         if pk["type"] != "pubkeyhash" and pk["type"] != "scripthash":
             continue
@@ -139,8 +139,8 @@ def select_coins(needed, inputs):
         n += 1
     return (outputs, have-needed)
 
-def create_tx(tankd, fromaddresses, toaddress, amount, fee):
-    all_coins = list_available(tankd)
+def create_tx(xgalaxyd, fromaddresses, toaddress, amount, fee):
+    all_coins = list_available(xgalaxyd)
 
     total_available = Decimal("0.0")
     needed = amount+fee
@@ -159,7 +159,7 @@ def create_tx(tankd, fromaddresses, toaddress, amount, fee):
     # Note:
     # Python's json/jsonrpc modules have inconsistent support for Decimal numbers.
     # Instead of wrestling with getting json.dumps() (used by jsonrpc) to encode
-    # Decimals, I'm casting amounts to float before sending them to tankd.
+    # Decimals, I'm casting amounts to float before sending them to xgalaxyd.
     #
     outputs = { toaddress : float(amount) }
     (inputs, change_amount) = select_coins(needed, potential_inputs)
@@ -170,8 +170,8 @@ def create_tx(tankd, fromaddresses, toaddress, amount, fee):
         else:
             outputs[change_address] = float(change_amount)
 
-    rawtx = tankd.createrawtransaction(inputs, outputs)
-    signed_rawtx = tankd.signrawtransaction(rawtx)
+    rawtx = xgalaxyd.createrawtransaction(inputs, outputs)
+    signed_rawtx = xgalaxyd.signrawtransaction(rawtx)
     if not signed_rawtx["complete"]:
         sys.stderr.write("signrawtransaction failed\n")
         sys.exit(1)
@@ -179,10 +179,10 @@ def create_tx(tankd, fromaddresses, toaddress, amount, fee):
 
     return txdata
 
-def compute_amount_in(tankd, txinfo):
+def compute_amount_in(xgalaxyd, txinfo):
     result = Decimal("0.0")
     for vin in txinfo['vin']:
-        in_info = tankd.getrawtransaction(vin['txid'], 1)
+        in_info = xgalaxyd.getrawtransaction(vin['txid'], 1)
         vout = in_info['vout'][vin['vout']]
         result = result + vout['value']
     return result
@@ -193,12 +193,12 @@ def compute_amount_out(txinfo):
         result = result + vout['value']
     return result
 
-def sanity_test_fee(tankd, txdata_hex, max_fee):
+def sanity_test_fee(xgalaxyd, txdata_hex, max_fee):
     class FeeError(RuntimeError):
         pass
     try:
-        txinfo = tankd.decoderawtransaction(txdata_hex)
-        total_in = compute_amount_in(tankd, txinfo)
+        txinfo = xgalaxyd.decoderawtransaction(txdata_hex)
+        total_in = compute_amount_in(xgalaxyd, txinfo)
         total_out = compute_amount_out(txinfo)
         if total_in-total_out > max_fee:
             raise FeeError("Rejecting transaction, unreasonable fee of "+str(total_in-total_out))
@@ -221,15 +221,15 @@ def main():
 
     parser = optparse.OptionParser(usage="%prog [options]")
     parser.add_option("--from", dest="fromaddresses", default=None,
-                      help="addresses to get tanks from")
+                      help="addresses to get xgalaxys from")
     parser.add_option("--to", dest="to", default=None,
-                      help="address to get send tanks to")
+                      help="address to get send xgalaxys to")
     parser.add_option("--amount", dest="amount", default=None,
                       help="amount to send")
     parser.add_option("--fee", dest="fee", default="0.0",
                       help="fee to include")
     parser.add_option("--datadir", dest="datadir", default=determine_db_dir(),
-                      help="location of tank.conf file with RPC username/password (default: %default)")
+                      help="location of xgalaxy.conf file with RPC username/password (default: %default)")
     parser.add_option("--testnet", dest="testnet", default=False, action="store_true",
                       help="Use the test network")
     parser.add_option("--dry_run", dest="dry_run", default=False, action="store_true",
@@ -240,10 +240,10 @@ def main():
     check_json_precision()
     config = read_bitcoin_config(options.datadir)
     if options.testnet: config['testnet'] = True
-    tankd = connect_JSON(config)
+    xgalaxyd = connect_JSON(config)
 
     if options.amount is None:
-        address_summary = list_available(tankd)
+        address_summary = list_available(xgalaxyd)
         for address,info in address_summary.iteritems():
             n_transactions = len(info['outputs'])
             if n_transactions > 1:
@@ -253,14 +253,14 @@ def main():
     else:
         fee = Decimal(options.fee)
         amount = Decimal(options.amount)
-        while unlock_wallet(tankd) == False:
+        while unlock_wallet(xgalaxyd) == False:
             pass # Keep asking for passphrase until they get it right
-        txdata = create_tx(tankd, options.fromaddresses.split(","), options.to, amount, fee)
-        sanity_test_fee(tankd, txdata, amount*Decimal("0.01"))
+        txdata = create_tx(xgalaxyd, options.fromaddresses.split(","), options.to, amount, fee)
+        sanity_test_fee(xgalaxyd, txdata, amount*Decimal("0.01"))
         if options.dry_run:
             print(txdata)
         else:
-            txid = tankd.sendrawtransaction(txdata)
+            txid = xgalaxyd.sendrawtransaction(txdata)
             print(txid)
 
 if __name__ == '__main__':

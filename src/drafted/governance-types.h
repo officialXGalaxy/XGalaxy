@@ -16,9 +16,9 @@ enum GovernanceObjectType {
     ValueOverride = 1, 
 
     // -------------------------------
-    // TankNetwork - is the root node
-    TankNetwork = 1000,
-    TankNetworkVariable = 1001,
+    // XGalaxyNetwork - is the root node
+    XGalaxyNetwork = 1000,
+    XGalaxyNetworkVariable = 1001,
     Category = 1002,
 
     // Actors

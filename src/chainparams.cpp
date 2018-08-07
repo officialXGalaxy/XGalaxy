@@ -1,6 +1,6 @@
 // Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin Core developers
-// Copyright (c) 2014-2018 The Tank Core developers
+// Copyright (c) 2014-2018 The XGalaxy Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -46,7 +46,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "6/17/2018 the day TANK was born";
+    const char* pszTimestamp = "8/20/2018 XGALAXY started to be the most advance binary trading option available";;
     const CScript genesisOutputScript = CScript() << ParseHex("040a3ada5ba6280b99f49a92ba47221e6a72af844ec49d0c8bbdae1ec09a4c79b22e42eefe670ae04490556f91780eb57de76493d020c91d0c421c2fa052b28a2b") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
@@ -123,8 +123,8 @@ public:
         consensus.BIP34Height = 227931; // FIX
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 60 * 60; // Tank: 1 hour
-        consensus.nPowTargetSpacing = 1 * 30; // Tank: 1.5 minutes // rememeber to change
+        consensus.nPowTargetTimespan = 60; // XGalaxy: 1 hour
+        consensus.nPowTargetSpacing = 1 * 30; // XGalaxy: 1 minutes // rememeber to change
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -153,28 +153,28 @@ public:
         pchMessageStart[2] = 0x9c;
         pchMessageStart[3] = 0xd5;
         vAlertPubKey = ParseHex("044513449073a8efe161dc42e7c07c61c4a8f59297dc8ebacbc2f77345084d058399022bc6a0db0719739f183d14b04893fb78c3b9bd9a3f88ecf8ea06adae99fe");
-        nDefaultPort = 12967;
+        nDefaultPort = 23058;
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1530948906, 1010587, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1533607815, 1010587, 0x1e0ffff0, 1, 1000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        //printGenesisBlock();
+        printGenesisBlock();
 				///////////////////////////////////////////
-        assert(consensus.hashGenesisBlock == uint256S("0x00000b8362df836d84e233db254c7b3b784db07a271e744c218a5975f062577a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
-        vSeeds.push_back(CDNSSeedData("explorer", "198.23.221.116"));
-        // Tank addresses start with 'R'
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,66);
-        // Tank script addresses start with '7'
+       // assert(consensus.hashGenesisBlock == uint256S("0x00000b8362df836d84e233db254c7b3b784db07a271e744c218a5975f062577a"));
+       // assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
+        vSeeds.push_back(CDNSSeedData("explorer", "194.135.92.248"));
+        // XGalaxy addresses start with 'R'
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
+        // XGalaxy script addresses start with '7'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,16);
-        // Tank private keys start with 'E'
+        // XGalaxy private keys start with 'E'
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,33);
-        // Tank BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
+        // XGalaxy BIP32 pubkeys start with 'xpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xB2)(0x1E).convert_to_container<std::vector<unsigned char> >();
-        // Tank BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
+        // XGalaxy BIP32 prvkeys start with 'xprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x88)(0xAD)(0xE4).convert_to_container<std::vector<unsigned char> >();
-        // Tank BIP44 coin type is '5'
+        // XGalaxy BIP44 coin type is '5'
         base58Prefixes[EXT_COIN_TYPE]  = boost::assign::list_of(0x80)(0x00)(0x00)(0x05).convert_to_container<std::vector<unsigned char> >();
 
         fMiningRequiresPeers = false;
@@ -228,8 +228,8 @@ public:
         consensus.BIP34Height = 21111; // FIX
         consensus.BIP34Hash = uint256S("0x0000000023b3a96d3484e5abb3755c413e7d41500f8e2a5c3f0dd01299cd8ef8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 60 * 60; // Tank: 1 hour
-        consensus.nPowTargetSpacing = 1 * 90; // Tank: 1.5 minutes
+        consensus.nPowTargetTimespan = 60 * 60; // XGalaxy: 1 hour
+        consensus.nPowTargetSpacing = 1 * 90; // XGalaxy: 1.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
@@ -248,32 +248,32 @@ public:
         pchMessageStart[2] = 0x7d;
         pchMessageStart[3] = 0xd6;
         vAlertPubKey = ParseHex("04f9e05c65b8cf20e31464d7f35504b62999f845c9242bc6b1bcd1993c643e3ca40527a13de58afa831dccdeacae82b39c01602daf3a7f4151032f5dacefa36932");
-        nDefaultPort = 16606;
+        nDefaultPort = 23048;
         nMaxTipAge = 0x7fffffff; // allow mining on top of old blocks for testnet
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1530948806, 170633, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1533608815, 170633, 0x1e0ffff0, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
-       // printGenesisBlock();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000b7096d08364f04cabece493467b1d92dca46dfc1cdf04240e2cfb0aa5c4"));
-        assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
+        printGenesisBlock();
+        //assert(consensus.hashGenesisBlock == uint256S("0x00000b7096d08364f04cabece493467b1d92dca46dfc1cdf04240e2cfb0aa5c4"));
+        //assert(genesis.hashMerkleRoot == uint256S("0x1b73dd6cc04a50742407647e6a95ca2fa114d026bb96a2064a5dd0f5abf9ccbd"));
 
 
         vFixedSeeds.clear();
         vSeeds.clear();
 
-        // Testnet Tank addresses start with 'R'
+        // Testnet XGalaxy addresses start with 'R'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,61);
-        // Testnet Tank script addresses start with '5'
+        // Testnet XGalaxy script addresses start with '5'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,10);
         // Testnet private keys start with '5' or 'n' (Bitcoin defaults) (?)
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,33);
-        // Testnet Tank BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
+        // Testnet XGalaxy BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xCF).convert_to_container<std::vector<unsigned char> >();
-        // Testnet Tank BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
+        // Testnet XGalaxy BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x83)(0x94).convert_to_container<std::vector<unsigned char> >();
-        // Testnet Tank BIP44 coin type is '1' (All coin's testnet default)
+        // Testnet XGalaxy BIP44 coin type is '1' (All coin's testnet default)
         base58Prefixes[EXT_COIN_TYPE]  = boost::assign::list_of(0x80)(0x00)(0x00)(0x01).convert_to_container<std::vector<unsigned char> >();
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
@@ -330,8 +330,8 @@ public:
         consensus.BIP34Height = -1; // BIP34 has not necessarily activated on regtest
         consensus.BIP34Hash = uint256();
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 60 * 60; // Tank: 1 hour
-        consensus.nPowTargetSpacing = 1 * 90; // Tank: 1.5 minutes
+        consensus.nPowTargetTimespan = 60 * 60; // XGalaxy: 1 hour
+        consensus.nPowTargetSpacing = 1 * 90; // XGalaxy: 1.5 minutes
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
         consensus.nRuleChangeActivationThreshold = 108; // 75% for testchains
@@ -348,10 +348,10 @@ public:
         pchMessageStart[2] = 0x5e;
         pchMessageStart[3] = 0xd7;
         nMaxTipAge = 6 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
-        nDefaultPort = 16506;
+        nDefaultPort = 23038;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1530948706, 1, 0x207fffff, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1533607815, 1, 0x207fffff, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
         //printGenesisBlock();
@@ -376,17 +376,17 @@ public:
             0,
             0
         };
-        // Regtest Tank addresses start with 'n'
+        // Regtest XGalaxy addresses start with 'n'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,112);
-        // Regtest Tank script addresses start with '5'
+        // Regtest XGalaxy script addresses start with '5'
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,10);
         // Regtest private keys start with '5' or 'c' (Bitcoin defaults) (?)
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,240);
-        // Regtest Tank BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
+        // Regtest XGalaxy BIP32 pubkeys start with 'tpub' (Bitcoin defaults)
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xCF).convert_to_container<std::vector<unsigned char> >();
-        // Regtest Tank BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
+        // Regtest XGalaxy BIP32 prvkeys start with 'tprv' (Bitcoin defaults)
         base58Prefixes[EXT_SECRET_KEY] = boost::assign::list_of(0x04)(0x35)(0x83)(0x94).convert_to_container<std::vector<unsigned char> >();
-        // Regtest Tank BIP44 coin type is '1' (All coin's testnet default)
+        // Regtest XGalaxy BIP44 coin type is '1' (All coin's testnet default)
         base58Prefixes[EXT_COIN_TYPE]  = boost::assign::list_of(0x80)(0x00)(0x00)(0x01).convert_to_container<std::vector<unsigned char> >();
    }
 };

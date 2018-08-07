@@ -1,7 +1,7 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
 // Copyright (c) 2017-2018 The Proton Core developers
-// Copyright (c) 2018 The Tank Core developers
+// Copyright (c) 2018 The XGalaxy Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -118,7 +118,7 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
 #if QT_VERSION >= 0x040700
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
-    widget->setPlaceholderText(QObject::tr("Enter a Tank address (e.g. %1)").arg("XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg"));
+    widget->setPlaceholderText(QObject::tr("Enter a XGalaxy address (e.g. %1)").arg("XwnLY9Tf7Zsef8gMGL2fhWA9ZmMjt4KPwg"));
 #endif
     widget->setValidator(new BitcoinAddressEntryValidator(parent));
     widget->setCheckValidator(new BitcoinAddressCheckValidator(parent));
@@ -135,8 +135,8 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
 
 bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
-    // return if URI is not valid or is no tank: URI
-    if(!uri.isValid() || uri.scheme() != QString("tank"))
+    // return if URI is not valid or is no xgalaxy: URI
+    if(!uri.isValid() || uri.scheme() != QString("xgalaxy"))
         return false;
 
     SendCoinsRecipient rv;
@@ -185,7 +185,7 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
         {
             if(!i->second.isEmpty())
             {
-                if(!BitcoinUnits::parse(BitcoinUnits::TANK, i->second, &rv.amount))
+                if(!BitcoinUnits::parse(BitcoinUnits::XGCS, i->second, &rv.amount))
                 {
                     return false;
                 }
@@ -205,13 +205,13 @@ bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 
 bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 {
-    // Convert tank:// to tank:
+    // Convert xgalaxy:// to xgalaxy:
     //
-    //    Cannot handle this later, because tank:// will cause Qt to see the part after // as host,
+    //    Cannot handle this later, because xgalaxy:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
-    if(uri.startsWith("tank://", Qt::CaseInsensitive))
+    if(uri.startsWith("xgalaxy://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 7, "tank:");
+        uri.replace(0, 7, "xgalaxy:");
     }
     QUrl uriInstance(uri);
     return parseBitcoinURI(uriInstance, out);
@@ -219,12 +219,12 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 
 QString formatBitcoinURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("tank:%1").arg(info.address);
+    QString ret = QString("xgalaxy:%1").arg(info.address);
     int paramCount = 0;
 
     if (info.amount)
     {
-        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::TANK, info.amount, false, BitcoinUnits::separatorNever));
+        ret += QString("?amount=%1").arg(BitcoinUnits::format(BitcoinUnits::XGCS, info.amount, false, BitcoinUnits::separatorNever));
         paramCount++;
     }
 
@@ -431,7 +431,7 @@ void openConfigfile()
 {
     boost::filesystem::path pathConfig = GetConfigFile();
 
-    /* Open tank.conf with the associated application */
+    /* Open xgalaxy.conf with the associated application */
     if (boost::filesystem::exists(pathConfig))
         QDesktopServices::openUrl(QUrl::fromLocalFile(boostPathToQString(pathConfig)));
 }
@@ -640,15 +640,15 @@ boost::filesystem::path static StartupShortcutPath()
 {
     std::string chain = ChainNameFromCommandLine();
     if (chain == CBaseChainParams::MAIN)
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Tank.lnk";
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "XGalaxy.lnk";
     if (chain == CBaseChainParams::TESTNET) // Remove this special case when CBaseChainParams::TESTNET = "testnet4"
-        return GetSpecialFolderPath(CSIDL_STARTUP) / "Tank (testnet).lnk";
-    return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("Tank (%s).lnk", chain);
+        return GetSpecialFolderPath(CSIDL_STARTUP) / "XGalaxy (testnet).lnk";
+    return GetSpecialFolderPath(CSIDL_STARTUP) / strprintf("XGalaxy (%s).lnk", chain);
 }
 
 bool GetStartOnSystemStartup()
 {
-    // check for Tank*.lnk
+    // check for XGalaxy*.lnk
     return boost::filesystem::exists(StartupShortcutPath());
 }
 
@@ -740,8 +740,8 @@ boost::filesystem::path static GetAutostartFilePath()
 {
     std::string chain = ChainNameFromCommandLine();
     if (chain == CBaseChainParams::MAIN)
-        return GetAutostartDir() / "tank.desktop";
-    return GetAutostartDir() / strprintf("tank-%s.lnk", chain);
+        return GetAutostartDir() / "xgalaxy.desktop";
+    return GetAutostartDir() / strprintf("xgalaxy-%s.lnk", chain);
 }
 
 bool GetStartOnSystemStartup()
@@ -780,11 +780,11 @@ bool SetStartOnSystemStartup(bool fAutoStart)
         if (!optionFile.good())
             return false;
         std::string chain = ChainNameFromCommandLine();
-        // Write a tank.desktop file to the autostart directory:
+        // Write a xgalaxy.desktop file to the autostart directory:
         optionFile << "[Desktop Entry]\n";
         optionFile << "Type=Application\n";
         if (chain == CBaseChainParams::MAIN)
-            optionFile << "Name=Tank\n";
+            optionFile << "Name=XGalaxy\n";
         else
             optionFile << strprintf("Name=Bitcoin (%s)\n", chain);
         optionFile << "Exec=" << pszExePath << strprintf(" -min -testnet=%d -regtest=%d\n", GetBoolArg("-testnet", false), GetBoolArg("-regtest", false));
@@ -805,7 +805,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl);
 LSSharedFileListItemRef findStartupItemInList(LSSharedFileListRef list, CFURLRef findUrl)
 {
-    // loop through the list of startup items and try to find the Tank Core app
+    // loop through the list of startup items and try to find the XGalaxy Core app
     CFArrayRef listSnapshot = LSSharedFileListCopySnapshot(list, NULL);
     for(int i = 0; i < CFArrayGetCount(listSnapshot); i++) {
         LSSharedFileListItemRef item = (LSSharedFileListItemRef)CFArrayGetValueAtIndex(listSnapshot, i);
@@ -850,7 +850,7 @@ bool SetStartOnSystemStartup(bool fAutoStart)
     LSSharedFileListItemRef foundItem = findStartupItemInList(loginItems, bitcoinAppUrl);
 
     if(fAutoStart && !foundItem) {
-        // add Tank Core app to startup item list
+        // add XGalaxy Core app to startup item list
         LSSharedFileListInsertItemURL(loginItems, kLSSharedFileListItemBeforeFirst, NULL, NULL, bitcoinAppUrl, NULL, NULL);
     }
     else if(!fAutoStart && foundItem) {

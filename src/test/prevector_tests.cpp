@@ -9,7 +9,7 @@
 #include "serialize.h"
 #include "streams.h"
 
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 
 #include <boost/test/unit_test.hpp>
 

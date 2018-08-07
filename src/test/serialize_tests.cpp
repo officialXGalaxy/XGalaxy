@@ -5,7 +5,7 @@
 #include "serialize.h"
 #include "streams.h"
 #include "hash.h"
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 
 #include <stdint.h>
 

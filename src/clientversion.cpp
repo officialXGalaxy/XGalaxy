@@ -10,10 +10,10 @@
 
 /**
  * Name of client reported in the 'version' message. Report the same name
- * for both tankd and tank-qt, to make it harder for attackers to
+ * for both xgalaxyd and xgalaxy-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string CLIENT_NAME("Tank Core");
+const std::string CLIENT_NAME("XGalaxy Core");
 
 /**
  * Client version number

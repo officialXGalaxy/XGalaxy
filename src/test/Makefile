@@ -1,6 +1,6 @@
 all:
-	$(MAKE) -C .. tank_test
+	$(MAKE) -C .. xgalaxy_test
 clean:
-	$(MAKE) -C .. tank_test_clean
+	$(MAKE) -C .. xgalaxy_test_clean
 check:
-	$(MAKE) -C .. tank_test_check
+	$(MAKE) -C .. xgalaxy_test_check

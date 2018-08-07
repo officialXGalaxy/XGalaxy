@@ -6,13 +6,13 @@ and tests weren't explicitly disabled.
 
 After configuring, they can be run with `make check`.
 
-To run the tankd tests manually, launch `src/test/test_tank`.
+To run the xgalaxyd tests manually, launch `src/test/test_xgalaxy`.
 
-To add more tankd tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
+To add more xgalaxyd tests, add `BOOST_AUTO_TEST_CASE` functions to the existing
 .cpp files in the `test/` directory or add new .cpp files that
 implement new BOOST_AUTO_TEST_SUITE sections.
 
-To run the tank-qt tests manually, launch `src/qt/test/test_tank-qt`
+To run the xgalaxy-qt tests manually, launch `src/qt/test/test_xgalaxy-qt`
 
-To add more tank-qt tests, add them to the `src/qt/test/` directory and
+To add more xgalaxy-qt tests, add them to the `src/qt/test/` directory and
 the `src/qt/test/test_main.cpp` file.

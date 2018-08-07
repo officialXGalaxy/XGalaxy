@@ -1,9 +1,9 @@
 Gitian building
 ================
 
-*Setup instructions for a Gitian build of Tank Core using a Debian VM or physical system.*
+*Setup instructions for a Gitian build of XGalaxy Core using a Debian VM or physical system.*
 
-Gitian is the deterministic build process that is used to build the Tank
+Gitian is the deterministic build process that is used to build the XGalaxy
 Core executables. It provides a way to be reasonably sure that the
 executables are really built from the source on GitHub. It also makes sure that
 the same, tested dependencies are used and statically built into the executable.
@@ -11,7 +11,7 @@ the same, tested dependencies are used and statically built into the executable.
 Multiple developers build the source code by following a specific descriptor
 ("recipe"), cryptographically sign the result, and upload the resulting signature.
 These results are compared and only if they match, the build is accepted and uploaded
-to tankcoin.info.
+to xgalaxycoin.info.
 
 More independent Gitian builders are needed, which is why this guide exists.
 It is preferred you follow these steps yourself instead of using someone else's
@@ -26,7 +26,7 @@ Table of Contents
 - [Installing Gitian](#installing-gitian)
 - [Setting up the Gitian image](#setting-up-the-gitian-image)
 - [Getting and building the inputs](#getting-and-building-the-inputs)
-- [Building Tank Core](#building-tank-core)
+- [Building XGalaxy Core](#building-xgalaxy-core)
 - [Building an alternative repository](#building-an-alternative-repository)
 - [Signing externally](#signing-externally)
 - [Uploading signatures](#uploading-signatures)
@@ -300,11 +300,11 @@ cd ..
 
 **Note**: When sudo asks for a password, enter the password for the user *debian* not for *root*.
 
-Clone the git repositories for Tank Core and Gitian.
+Clone the git repositories for XGalaxy Core and Gitian.
 
 ```bash
 git clone https://github.com/devrandom/gitian-builder.git
-git clone https://github.com/tankcoin/tankcoin
+git clone https://github.com/xgalaxycoin/xgalaxycoin
 ```
 
 Setting up the Gitian image
@@ -339,16 +339,16 @@ Getting and building the inputs
 --------------------------------
 
 Follow the instructions in [doc/release-process.md](release-process.md#fetch-and-build-inputs-first-time-or-when-dependency-versions-change)
-in the Tank Core repository under 'Fetch and build inputs' to install sources which require
+in the XGalaxy Core repository under 'Fetch and build inputs' to install sources which require
 manual intervention. Also optionally follow the next step: 'Seed the Gitian sources cache
 and offline git repositories' which will fetch the remaining files required for building
 offline.
 
-Building Tank Core
+Building XGalaxy Core
 ----------------
 
-To build Tank Core (for Linux, OS X and Windows) just follow the steps under 'perform
-Gitian builds' in [doc/release-process.md](release-process.md#perform-gitian-builds) in the Tank Core repository.
+To build XGalaxy Core (for Linux, OS X and Windows) just follow the steps under 'perform
+Gitian builds' in [doc/release-process.md](release-process.md#perform-gitian-builds) in the XGalaxy Core repository.
 
 This may take some time as it will build all the dependencies needed for each descriptor.
 These dependencies will be cached after a successful build to avoid rebuilding them when possible.
@@ -363,12 +363,12 @@ tail -f var/build.log
 Output from `gbuild` will look something like
 
 ```bash
-    Initialized empty Git repository in /home/debian/gitian-builder/inputs/tank/.git/
+    Initialized empty Git repository in /home/debian/gitian-builder/inputs/xgalaxy/.git/
     remote: Counting objects: 57959, done.
     remote: Total 57959 (delta 0), reused 0 (delta 0), pack-reused 57958
     Receiving objects: 100% (57959/57959), 53.76 MiB | 484.00 KiB/s, done.
     Resolving deltas: 100% (41590/41590), done.
-    From https://github.com/tankcoin/tankcoin
+    From https://github.com/xgalaxycoin/xgalaxycoin
     ... (new tags, new branch etc)
     --- Building for precise amd64 ---
     Stopping target if it is up
@@ -394,18 +394,18 @@ and inputs.
 
 For example:
 ```bash
-URL=https://github.com/crowning-/tank.git
+URL=https://github.com/crowning-/xgalaxy.git
 COMMIT=b616fb8ef0d49a919b72b0388b091aaec5849b96
-./bin/gbuild --commit tank=${COMMIT} --url tank=${URL} ../tank/contrib/gitian-descriptors/gitian-linux.yml
-./bin/gbuild --commit tank=${COMMIT} --url tank=${URL} ../tank/contrib/gitian-descriptors/gitian-win.yml
-./bin/gbuild --commit tank=${COMMIT} --url tank=${URL} ../tank/contrib/gitian-descriptors/gitian-osx.yml
+./bin/gbuild --commit xgalaxy=${COMMIT} --url xgalaxy=${URL} ../xgalaxy/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit xgalaxy=${COMMIT} --url xgalaxy=${URL} ../xgalaxy/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit xgalaxy=${COMMIT} --url xgalaxy=${URL} ../xgalaxy/contrib/gitian-descriptors/gitian-osx.yml
 ```
 
 Building fully offline
 -----------------------
 
 For building fully offline including attaching signatures to unsigned builds, the detached-sigs repository
-and the tank git repository with the desired tag must both be available locally, and then gbuild must be
+and the xgalaxy git repository with the desired tag must both be available locally, and then gbuild must be
 told where to find them. It also requires an apt-cacher-ng which is fully-populated but set to offline mode, or
 manually disabling gitian-builder's use of apt-get to update the VM build environment.
 
@@ -424,7 +424,7 @@ cd /path/to/gitian-builder
 LXC_ARCH=amd64 LXC_SUITE=precise on-target -u root apt-get update
 LXC_ARCH=amd64 LXC_SUITE=precise on-target -u root \
   -e DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends -y install \
-  $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../tank/contrib/gitian-descriptors/*|sort|uniq )
+  $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../xgalaxy/contrib/gitian-descriptors/*|sort|uniq )
 LXC_ARCH=amd64 LXC_SUITE=precise on-target -u root apt-get -q -y purge grub
 LXC_ARCH=amd64 LXC_SUITE=precise on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
 ```
@@ -444,12 +444,12 @@ Then when building, override the remote URLs that gbuild would otherwise pull fr
 ```bash
 
 cd /some/root/path/
-git clone https://github.com/tankcoin/tankcoin-detached-sigs.git
+git clone https://github.com/xgalaxycoin/xgalaxycoin-detached-sigs.git
 
-BTCPATH=/some/root/path/tankcoin.git
-SIGPATH=/some/root/path/tankcoin-detached-sigs.git
+BTCPATH=/some/root/path/xgalaxycoin.git
+SIGPATH=/some/root/path/xgalaxycoin-detached-sigs.git
 
-./bin/gbuild --url tank=${BTCPATH},signature=${SIGPATH} ../tank/contrib/gitian-descriptors/gitian-win-signer.yml
+./bin/gbuild --url xgalaxy=${BTCPATH},signature=${SIGPATH} ../xgalaxy/contrib/gitian-descriptors/gitian-win-signer.yml
 ```
 
 Signing externally
@@ -464,9 +464,9 @@ When you execute `gsign` you will get an error from GPG, which can be ignored. C
 in `gitian.sigs` to your signing machine and do
 
 ```bash
-    gpg --detach-sign ${VERSION}-linux/${SIGNER}/tank-linux-build.assert
-    gpg --detach-sign ${VERSION}-win/${SIGNER}/tank-win-build.assert
-    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/tank-osx-build.assert
+    gpg --detach-sign ${VERSION}-linux/${SIGNER}/xgalaxy-linux-build.assert
+    gpg --detach-sign ${VERSION}-win/${SIGNER}/xgalaxy-win-build.assert
+    gpg --detach-sign ${VERSION}-osx-unsigned/${SIGNER}/xgalaxy-osx-build.assert
 ```
 
 This will create the `.sig` files that can be committed together with the `.assert` files to assert your
@@ -476,6 +476,6 @@ Uploading signatures (not yet implemented)
 ---------------------
 
 In the future it will be possible to push your signatures (both the `.assert` and `.assert.sig` files) to the
-[tank/gitian.sigs](https://github.com/tankcoin/gitian.sigs/) repository, or if that's not possible to create a pull
+[xgalaxy/gitian.sigs](https://github.com/xgalaxycoin/gitian.sigs/) repository, or if that's not possible to create a pull
 request.
 There will be an official announcement when this repository is online.

@@ -1,8 +1,8 @@
-Source: tank
+Source: xgalaxy
 Section: utils
 Priority: optional
-Maintainer: Holger Schinzel <holger@tankcoin.info>
-Uploaders: Holger Schinzel <holger@tankcoin.info>
+Maintainer: Holger Schinzel <holger@xgalaxycoin.info>
+Uploaders: Holger Schinzel <holger@xgalaxycoin.info>
 Build-Depends: debhelper,
  devscripts,
  automake,
@@ -24,45 +24,45 @@ Build-Depends: debhelper,
  libprotobuf-dev, protobuf-compiler,
  python
 Standards-Version: 3.9.2
-Homepage: https://tankcoin.io/
-Vcs-Git: git://github.com/tankcoin/tankcoin.git
-Vcs-Browser: https://github.com/tankcoin/tankcoin
+Homepage: https://xgalaxycoin.io/
+Vcs-Git: git://github.com/xgalaxycoin/xgalaxycoin.git
+Vcs-Browser: https://github.com/xgalaxycoin/xgalaxycoin
 
-Package: tankd
+Package: xgalaxyd
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - daemon
- Tank is an experimental new digital currency that enables anonymous, instant
- payments to anyone, anywhere in the world. Tank uses peer-to-peer
+ XGalaxy is an experimental new digital currency that enables anonymous, instant
+ payments to anyone, anywhere in the world. XGalaxy uses peer-to-peer
  technology to operate with no central authority: managing transactions
- and issuing money are carried out collectively by the network. Tank Core
+ and issuing money are carried out collectively by the network. XGalaxy Core
  is the name of the open source software which enables the use of this currency.
  .
- This package provides the daemon, tankd, and the CLI tool
- tank-cli to interact with the daemon.
+ This package provides the daemon, xgalaxyd, and the CLI tool
+ xgalaxy-cli to interact with the daemon.
 
-Package: tank-qt
+Package: xgalaxy-qt
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer network based digital currency - Qt GUI
- Tank is an experimental new digital currency that enables anonymous, instant
- payments to anyone, anywhere in the world. Tank uses peer-to-peer
+ XGalaxy is an experimental new digital currency that enables anonymous, instant
+ payments to anyone, anywhere in the world. XGalaxy uses peer-to-peer
  technology to operate with no central authority: managing transactions
- and issuing money are carried out collectively by the network. Tank Core
+ and issuing money are carried out collectively by the network. XGalaxy Core
  is the name of the open source software which enables the use of this currency.
  .
- This package provides Tank-Qt, a GUI for Tank based on Qt.
+ This package provides XGalaxy-Qt, a GUI for XGalaxy based on Qt.
 
-Package: tank-tx
+Package: xgalaxy-tx
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: peer-to-peer digital currency - standalone transaction tool
- Tank is an experimental new digital currency that enables anonymous, instant
- payments to anyone, anywhere in the world. Tank uses peer-to-peer
+ XGalaxy is an experimental new digital currency that enables anonymous, instant
+ payments to anyone, anywhere in the world. XGalaxy uses peer-to-peer
  technology to operate with no central authority: managing transactions
- and issuing money are carried out collectively by the network. Tank Core
+ and issuing money are carried out collectively by the network. XGalaxy Core
  is the name of the open source software which enables the use of this currency.
  .
- This package provides tank-tx, a command-line transaction creation
- tool which can be used without a tank daemon.  Some means of
+ This package provides xgalaxy-tx, a command-line transaction creation
+ tool which can be used without a xgalaxy daemon.  Some means of
  exchanging minimal transaction data with peers is still required.

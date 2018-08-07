@@ -1,9 +1,9 @@
 // Copyright (c) 2014-2018 The Proton Core developers
-// Copyright (c) 2018 The Tank Core developers
+// Copyright (c) 2018 The XGalaxy Core developers
 
 #include "cachemap.h"
 
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 
 #include <boost/test/unit_test.hpp>
 

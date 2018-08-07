@@ -1,7 +1,7 @@
 // Copyright (c) 2011-2015 The Bitcoin Core developers
 // Copyright (c) 2014-2017 The Dash Core developers
 // Copyright (c) 2017-2018 The Proton Core developers
-// Copyright (c) 2018 The Tank Core developers
+// Copyright (c) 2018 The XGALAXY Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -21,9 +21,9 @@ BitcoinUnits::BitcoinUnits(QObject *parent):
 QList<BitcoinUnits::Unit> BitcoinUnits::availableUnits()
 {
     QList<BitcoinUnits::Unit> unitlist;
-    unitlist.append(TANK);
-    unitlist.append(mTANK);
-    unitlist.append(uTANK);
+    unitlist.append(XGCS);
+    unitlist.append(mXGCS);
+    unitlist.append(uXGCS);
     unitlist.append(duffs);
     return unitlist;
 }
@@ -32,9 +32,9 @@ bool BitcoinUnits::valid(int unit)
 {
     switch(unit)
     {
-    case TANK:
-    case mTANK:
-    case uTANK:
+    case XGCS:
+    case mXGCS:
+    case uXGCS:
     case duffs:
         return true;
     default:
@@ -48,9 +48,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case TANK: return QString("TANK");
-            case mTANK: return QString("mTANK");
-            case uTANK: return QString::fromUtf8("μTANK");
+            case XGCS: return QString("XGCS");
+            case mXGCS: return QString("mXGCS");
+            case uXGCS: return QString::fromUtf8("μXGCS");
             case duffs: return QString("duffs");
             default: return QString("???");
         }
@@ -59,9 +59,9 @@ QString BitcoinUnits::name(int unit)
     {
         switch(unit)
         {
-            case TANK: return QString("tTANK");
-            case mTANK: return QString("mtTANK");
-            case uTANK: return QString::fromUtf8("μtTANK");
+            case XGCS: return QString("tXGCS");
+            case mXGCS: return QString("mtXGCS");
+            case uXGCS: return QString::fromUtf8("μtXGCS");
             case duffs: return QString("tduffs");
             default: return QString("???");
         }
@@ -74,10 +74,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case TANK: return QString("Tank");
-            case mTANK: return QString("Milli-Tank (1 / 1" THIN_SP_UTF8 "000)");
-            case uTANK: return QString("Micro-Tank (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-Tank (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case XGCS: return QString("XGCS");
+            case mXGCS: return QString("Milli-XGCS (1 / 1" THIN_SP_UTF8 "000)");
+            case uXGCS: return QString("Micro-XGCS (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case duffs: return QString("Ten Nano-XGCS (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -85,10 +85,10 @@ QString BitcoinUnits::description(int unit)
     {
         switch(unit)
         {
-            case TANK: return QString("TestTanks");
-            case mTANK: return QString("Milli-TestTank (1 / 1" THIN_SP_UTF8 "000)");
-            case uTANK: return QString("Micro-TestTank (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
-            case duffs: return QString("Ten Nano-TestTank (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case XGCS: return QString("TestXGCSs");
+            case mXGCS: return QString("Milli-TestXGCS (1 / 1" THIN_SP_UTF8 "000)");
+            case uXGCS: return QString("Micro-TestXGCS (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+            case duffs: return QString("Ten Nano-TestXGCS (1 / 100" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
             default: return QString("???");
         }
     }
@@ -98,9 +98,9 @@ qint64 BitcoinUnits::factor(int unit)
 {
     switch(unit)
     {
-    case TANK:  return 100000000;
-    case mTANK: return 100000;
-    case uTANK: return 100;
+    case XGCS:  return 100000000;
+    case mXGCS: return 100000;
+    case uXGCS: return 100;
     case duffs: return 1;
     default:   return 100000000;
     }
@@ -110,9 +110,9 @@ int BitcoinUnits::decimals(int unit)
 {
     switch(unit)
     {
-    case TANK: return 8;
-    case mTANK: return 5;
-    case uTANK: return 2;
+    case XGCS: return 8;
+    case mXGCS: return 5;
+    case uXGCS: return 2;
     case duffs: return 0;
     default: return 0;
     }

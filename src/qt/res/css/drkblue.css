@@ -740,16 +740,16 @@ QDialog#HelpMessageDialog QScrollBar:vertical, QDialog#HelpMessageDialog QScroll
 border:0;
 }
 
-/* About Tank Dialog */
+/* About XGalaxy Dialog */
 QDialog#AboutDialog {
 background-color:#F8F6F6;
 }
 
-QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About Tank Contents */
+QDialog#AboutDialog QLabel#label, QDialog#AboutDialog QLabel#copyrightLabel, QDialog#AboutDialog QLabel#label_2 { /* About XGalaxy Contents */
 margin-left:10px;
 }
 
-QDialog#AboutDialog QLabel#label_2 { /* Margin for About Tank text */
+QDialog#AboutDialog QLabel#label_2 { /* Margin for About XGalaxy text */
 margin-right:10px;
 }
 
@@ -1103,7 +1103,7 @@ min-width:410px;
 margin-right:20px;
 margin-left:0;
 margin-top:0;
-background-image: url(':/images/drkblue/tank_logo_horizontal');
+background-image: url(':/images/drkblue/xgalaxy_logo_horizontal');
 background-repeat:none;
 }
 

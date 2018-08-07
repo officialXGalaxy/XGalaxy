@@ -1,11 +1,11 @@
-Tank Core 1.0.0
+XGalaxy Core 1.0.0
 =====================
 
-This is the official reference wallet for Tank digital currency and comprises the backbone of the Tank peer-to-peer network. You can [download Tank Core](https://tankcoin.io) or [build it yourself](#building) using the guides below.
+This is the official reference wallet for XGalaxy digital currency and comprises the backbone of the XGalaxy peer-to-peer network. You can [download XGalaxy Core](https://xgalaxycoin.io) or [build it yourself](#building) using the guides below.
 
 Running
 ---------------------
-The following are some helpful notes on how to run Tank on your native platform.
+The following are some helpful notes on how to run XGalaxy on your native platform.
 
 ### Unix
 
@@ -16,22 +16,22 @@ Unpack the files into a directory and run:
 
 ### Windows
 
-Unpack the files into a directory, and then run tank-qt.exe.
+Unpack the files into a directory, and then run xgalaxy-qt.exe.
 
 ### OS X
 
-Drag Tank-Qt to your applications folder, and then run Tank-Qt.
+Drag XGalaxy-Qt to your applications folder, and then run XGalaxy-Qt.
 
 ### Need Help?
 
-* See the [Tank documentation](https://tankcoin.atlassian.net/wiki/display/DOC)
+* See the [XGalaxy documentation](https://xgalaxycoin.atlassian.net/wiki/display/DOC)
 for help and more information.
-* Ask for help on [#tankcoin](http://webchat.freenode.net?channels=tankcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=tankcoin).
-* Ask for help on the [TankTalk](https://tanktalk.org/) forums.
+* Ask for help on [#xgalaxycoin](http://webchat.freenode.net?channels=xgalaxycoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net?channels=xgalaxycoin).
+* Ask for help on the [XGalaxyTalk](https://xgalaxytalk.org/) forums.
 
 Building
 ---------------------
-The following are developer notes on how to build Tank Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
+The following are developer notes on how to build XGalaxy Core on your native platform. They are not complete guides, but include notes on the necessary libraries, compile flags, etc.
 
 - [OS X Build Notes](build-osx.md)
 - [Unix Build Notes](build-unix.md)
@@ -41,7 +41,7 @@ The following are developer notes on how to build Tank Core on your native platf
 
 Development
 ---------------------
-The Tank Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
+The XGalaxy Core repo's [root README](/README.md) contains relevant information on the development process and automated testing.
 
 - [Developer Notes](developer-notes.md)
 - [Multiwallet Qt Development](multiwallet-qt.md)
@@ -57,8 +57,8 @@ The Tank Core repo's [root README](/README.md) contains relevant information on 
 - [Dnsseed Policy](dnsseed-policy.md)
 
 ### Resources
-* Discuss on the [TankTalk](https://tanktalk.org/) forums, in the Development & Technical Discussion board.
-* Discuss on [#tankcoin](http://webchat.freenode.net/?channels=tankcoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=tankcoin).
+* Discuss on the [XGalaxyTalk](https://xgalaxytalk.org/) forums, in the Development & Technical Discussion board.
+* Discuss on [#xgalaxycoin](http://webchat.freenode.net/?channels=xgalaxycoin) on Freenode. If you don't have an IRC client use [webchat here](http://webchat.freenode.net/?channels=xgalaxycoin).
 
 ### Miscellaneous
 - [Assets Attribution](assets-attribution.md)

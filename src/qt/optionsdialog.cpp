@@ -3,7 +3,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #if defined(HAVE_CONFIG_H)
-#include "config/tank-config.h"
+#include "config/xgalaxy-config.h"
 #endif
 
 #include "optionsdialog.h"
@@ -90,10 +90,10 @@ OptionsDialog::OptionsDialog(QWidget *parent, bool enableWallet) :
     }
     
     /* Theme selector */
-    ui->theme->addItem(QString("TANK-light"), QVariant("light"));
-    ui->theme->addItem(QString("TANK-blue"), QVariant("drkblue"));
-    ui->theme->addItem(QString("TANK-Crownium"), QVariant("crownium"));
-    ui->theme->addItem(QString("TANK-traditional"), QVariant("trad"));
+    ui->theme->addItem(QString("XGALAXY-light"), QVariant("light"));
+    ui->theme->addItem(QString("XGALAXY-blue"), QVariant("drkblue"));
+    ui->theme->addItem(QString("XGALAXY-Crownium"), QVariant("crownium"));
+    ui->theme->addItem(QString("XGALAXY-traditional"), QVariant("trad"));
     
     /* Language selector */
     QDir translations(":translations");

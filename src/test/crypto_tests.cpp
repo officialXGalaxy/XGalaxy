@@ -10,7 +10,7 @@
 #include "crypto/hmac_sha512.h"
 #include "random.h"
 #include "utilstrencodings.h"
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 
 #include <vector>
 

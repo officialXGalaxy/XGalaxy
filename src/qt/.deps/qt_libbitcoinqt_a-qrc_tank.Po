@@ -1,0 +1,4 @@
+qt/qt_libbitcoinqt_a-qrc_xgalaxy.o: qt/qrc_xgalaxy.cpp \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:

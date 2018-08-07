@@ -1,9 +1,9 @@
 # Linearize
 Construct a linear, no-fork, best version of the blockchain.
 
-## Step 0: Install tank_hash
+## Step 0: Install xgalaxy_hash
 
-https://github.com/tankcoin/tank_hash
+https://github.com/xgalaxycoin/xgalaxy_hash
 
 ## Step 1: Download hash list
 

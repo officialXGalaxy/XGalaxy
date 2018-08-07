@@ -6,7 +6,7 @@
 #define BITCOIN_QT_PAYMENTSERVER_H
 
 // This class handles payment requests from clicking on
-// tank: URIs
+// xgalaxy: URIs
 //
 // This is somewhat tricky, because we have to deal with
 // the situation where the user clicks on a link during

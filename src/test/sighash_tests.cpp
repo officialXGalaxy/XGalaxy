@@ -11,7 +11,7 @@
 #include "script/script.h"
 #include "serialize.h"
 #include "streams.h"
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 #include "util.h"
 #include "utilstrencodings.h"
 #include "version.h"

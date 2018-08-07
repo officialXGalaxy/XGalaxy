@@ -9,8 +9,8 @@
 #include <vector>
 
 /**
- * CBaseChainParams defines the base parameters (shared between tank-cli and tankd)
- * of a given instance of the Tank system.
+ * CBaseChainParams defines the base parameters (shared between xgalaxy-cli and xgalaxyd)
+ * of a given instance of the XGalaxy system.
  */
 class CBaseChainParams
 {

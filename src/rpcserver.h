@@ -123,7 +123,7 @@ public:
 };
 
 /**
- * Tank RPC command dispatcher.
+ * XGalaxy RPC command dispatcher.
  */
 class CRPCTable
 {

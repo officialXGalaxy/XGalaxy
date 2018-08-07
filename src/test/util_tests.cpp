@@ -10,7 +10,7 @@
 #include "sync.h"
 #include "utilstrencodings.h"
 #include "utilmoneystr.h"
-#include "test/test_tank.h"
+#include "test/test_xgalaxy.h"
 
 #include <stdint.h>
 #include <vector>
