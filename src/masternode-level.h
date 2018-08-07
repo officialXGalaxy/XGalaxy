@@ -48,7 +48,7 @@ public:
 		return this->levelCollateral;
 	}
 	int getStopHeight() {
-		returh this->stopHeight;
+		return this->stopHeight;
 	}
 private:
 	Level level;
