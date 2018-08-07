@@ -56,10 +56,10 @@ private:
 	int stopHeight;
 };
 static const vector<MasternodeLevel> COLLATERALS = {
-		MasternodeLevel(LEVEL1, 1000*COIN, 200000),
-		MasternodeLevel(LEVEL2, 3000*COIN, 300000),
-		MasternodeLevel(LEVEL3, 5000*COIN, 400000),
-		MasternodeLevel(LEVEL4, 10000*COIN, 500000),
+		MasternodeLevel(LEVEL1, 1000*COIN, 2000),
+		MasternodeLevel(LEVEL2, 3000*COIN, 3000),
+		MasternodeLevel(LEVEL3, 5000*COIN, 4000),
+		MasternodeLevel(LEVEL4, 10000*COIN, 5000),
 		MasternodeLevel(LEVEL5, 20000*COIN)
 };
 

@@ -152,7 +152,7 @@ public:
         pchMessageStart[1] = 0xb1;
         pchMessageStart[2] = 0x9c;
         pchMessageStart[3] = 0xd5;
-        vAlertPubKey = ParseHex("044513449073a8efe161dc42e7c07c61c4a8f59297dc8ebacbc2f77345084d058399022bc6a0db0719739f183d14b04893fb78c3b9bd9a3f88ecf8ea06adae99fe");
+        vAlertPubKey = ParseHex("0388deeb469943b7da6dfa640f34fd59f0cb546bd22b4877a7f9dcb53c537430ce");
         nDefaultPort = 23058;
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
@@ -185,7 +185,7 @@ public:
 
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 60*60; // fulfilled requests expire in 1 hour
-        strSporkPubKey = "04d9491a6cf40a2afaf51de3939eadca259a95843b637f82c772a5719bc64051409031803a1c33f1f9b14c24a2d6937fe5b76ffa99a9730aa27726f9934cabf7f4";
+        strSporkPubKey = "0388deeb469943b7da6dfa640f34fd59f0cb546bd22b4877a7f9dcb53c537430ce";
         strMasternodePaymentsPubKey = "041fda8a1eff0a55d4d5c2d10f426e9c204d8faa228e3bbbaccd716a0db59bbfbe15dc17975f41e554ad551316b97586ddf5bec909a9fc3fc36c17a9611294fcf8";
 
         checkpointData = (CCheckpointData) {

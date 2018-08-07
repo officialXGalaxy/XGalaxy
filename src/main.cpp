@@ -1746,34 +1746,34 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
 	if (nPrevHeight == 0) {
-	        return 2500 * COIN;
+	        return 50000 * COIN;
 	    }
 	    CAmount nSubsidy;
-	    if(nPrevHeight < 2500) {
+	    if(nPrevHeight < 250) {
 	    	nSubsidy = 0;
-	    } else if(nPrevHeight < 5000) {
+	    } else if(nPrevHeight < 500) {
 	    	nSubsidy = 1;
-	    } else if(nPrevHeight < 10000) {
+	    } else if(nPrevHeight < 1000) {
 	    	nSubsidy = 3;
-	    } else if(nPrevHeight < 200000) {
+	    } else if(nPrevHeight < 2000) {
 	    	nSubsidy = 5;
-	    } else if(nPrevHeight < 300000) {
+	    } else if(nPrevHeight < 3000) {
 	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 400000) {
+	    } else if(nPrevHeight < 4000) {
 	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 500000) {
+	    } else if(nPrevHeight < 5000) {
 	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 600000) {
+	    } else if(nPrevHeight < 6000) {
 	    	nSubsidy = 80;
-	    } else if(nPrevHeight < 700000) {
+	    } else if(nPrevHeight < 7000) {
 	    	nSubsidy = 60;
-	    } else if(nPrevHeight < 800000) {
+	    } else if(nPrevHeight < 8000) {
 	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 900000) {
+	    } else if(nPrevHeight < 9000) {
 	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 1000000) {
+	    } else if(nPrevHeight < 10000) {
 	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 2000000) {
+	    } else if(nPrevHeight < 20000) {
 	    	nSubsidy = 8;
 	    } else if(nPrevHeight < 3000000) {
 	    	nSubsidy = 5;
@@ -1806,18 +1806,11 @@ vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
 
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
-	if(nHeight <= 50000) {
+	if(nHeight <= 500) {
 		return 0;
 	}
 	int multiplier = getMnRewardMultiplier(mnLevel, nHeight);
 	return blockValue * 0.55 * multiplier;
-}
-CAmount GetFounderPayment(int nHeight, CAmount blockValue)
-{
-    if (nHeight < 1160){
-        return 0;
-    }
-    return blockValue * 0.01;
 }
 
 bool IsInitialBlockDownload()
