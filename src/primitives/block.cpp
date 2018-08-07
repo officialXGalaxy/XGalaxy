@@ -7,7 +7,7 @@
 
 #include "primitives/block.h"
 
-#include "trihash.h"
+#include "hash.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
 #include "crypto/common.h"
@@ -15,8 +15,7 @@
 
 uint256 CBlockHeader::GetHash() const
 {
-		TriHash triHash(hashPrevBlock);
-		return triHash.hash(BEGIN(nVersion), END(nNonce));
+		return HashX16R(BEGIN(nVersion), END(nNonce), hashPrevBlock);
 }
 
 std::string CBlock::ToString() const
