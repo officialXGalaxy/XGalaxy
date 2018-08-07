@@ -104,7 +104,7 @@ public:
         strNetworkID = "main";
         consensus.nSubsidyHalvingInterval = 120000; // every120k blocks
         consensus.nMasternodePaymentsStartBlock = 2; // block after premine
-        consensus.nFounderPaymentsStartBlock = 2200;
+        consensus.nFounderPaymentsStartBlock = 10;
         consensus.nMasternodePaymentsIncreaseBlock = 158000000; // not used
         consensus.nMasternodePaymentsIncreasePeriod = 576*30; // not used
         consensus.nInstantSendKeepLock = 24;

@@ -37,3 +37,17 @@ CAmount getMinimumCollateral(){
 	return level.getCollateral();
 
 }
+
+int getMnRewardMultiplier(Level level, const int height) {
+	if(level >= COLLATERALS.size()) {
+		return 0;
+	}
+	MasternodeLevel mnLevel = COLLATERALS[level];
+	if(mnLevel.getStopHeight() < 0) {
+		return 1;
+	}
+	if(height <= mnLevel.getStopHeight()) {
+		return 1;
+	}
+	return 0;
+}

@@ -1807,9 +1807,10 @@ vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
 	if(nHeight <= 50000) {
-			return 0;
-		}
-	return blockValue * 0.55;
+		return 0;
+	}
+	int multiplier = getMnRewardMultiplier(mnLevel, nHeight);
+	return blockValue * 0.55 * multiplier;
 }
 CAmount GetFounderPayment(int nHeight, CAmount blockValue)
 {

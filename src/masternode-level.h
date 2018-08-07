@@ -36,9 +36,10 @@ static const vector<string> MN_LEVEL_STRS = {
 
 class MasternodeLevel {
 public:
-	MasternodeLevel(Level level, CAmount levelCollateral) {
+	MasternodeLevel(Level level, CAmount levelCollateral, int stopHeight = -1) {
 		this->level = level;
 		this->levelCollateral = levelCollateral;
+		this->stopHeight = stopHeight;
 	}
 	Level getLevel(){
 		return this->level;
@@ -46,21 +47,26 @@ public:
 	CAmount getCollateral() {
 		return this->levelCollateral;
 	}
+	int getStopHeight() {
+		returh this->stopHeight;
+	}
 private:
 	Level level;
 	CAmount levelCollateral;
+	int stopHeight;
 };
 static const vector<MasternodeLevel> COLLATERALS = {
-		MasternodeLevel(LEVEL1, 1000*COIN),
-		MasternodeLevel(LEVEL2, 3000*COIN),
-		MasternodeLevel(LEVEL3, 5000*COIN),
-		MasternodeLevel(LEVEL4, 10000*COIN),
+		MasternodeLevel(LEVEL1, 1000*COIN, 200000),
+		MasternodeLevel(LEVEL2, 3000*COIN, 300000),
+		MasternodeLevel(LEVEL3, 5000*COIN, 400000),
+		MasternodeLevel(LEVEL4, 10000*COIN, 500000),
 		MasternodeLevel(LEVEL5, 20000*COIN)
 };
 
 extern bool isValidMasternode(CAmount value);
 extern Level getMasternodeLevel(CAmount value);
 extern CAmount getMinimumCollateral();
+extern int getMnRewardMultiplier(Level level, const int nHeight);
 
 
 #endif /* SRC_MASTERNODE_LEVEL_H_ */

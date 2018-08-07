@@ -16,7 +16,7 @@
 #include <boost/foreach.hpp>
 
 CAmount FounderPayment::getFounderPaymentAmount(int blockHeight, CAmount blockReward) {
-	 if (blockHeight < 1160){
+	 if (blockHeight <= 50000){
 		 return 0;
 	 }
 	 return blockReward * 0.01;
@@ -43,7 +43,7 @@ bool FounderPayment::IsBlockPayeeValid(const CTransaction& txNew, const int heig
 	CScript payee;
 	// fill payee with the founder address
 	payee = GetScriptForDestination(founderAddress.Get());
-	CAmount founderReward = getFounderPaymentAmount(height, blockReward);
+	const CAmount founderReward = getFounderPaymentAmount(height, blockReward);
 	BOOST_FOREACH(const CTxOut& out, txNew.vout) {
 		if(out.scriptPubKey == payee && out.nValue >= founderReward) {
 			return true;
