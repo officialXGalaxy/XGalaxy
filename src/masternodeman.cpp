@@ -563,6 +563,12 @@ CMasternode* CMasternodeMan::GetNextMasternodeInQueueForPayment(int nBlockHeight
     int nMnCount = CountEnabled();
     BOOST_FOREACH(CMasternode &mn, vMasternodes)
     {
+    	if(mn.level == NULL_LEVEL) {
+    		mn.level = getMasternodeLevelByNode(&mn);
+    	}
+    	//skip this node if it is no longer a valid mn to be paid
+    	if(nBlockHeight >= 4000 && (getMnRewardMultiplier(mn.level, nBlockHeight) == 0)) continue;
+
         if(!mn.IsValidForPayment()) continue;
 
         // //check protocol version

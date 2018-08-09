@@ -25,7 +25,7 @@ static const int MASTERNODE_WATCHDOG_MAX_SECONDS        = 120 * 60;
 static const int MASTERNODE_NEW_START_REQUIRED_SECONDS  = 180 * 60;
 
 static const int MASTERNODE_POSE_BAN_MAX_SCORE          = 5;
-static const CAmount MN_COLLATERAL                      = 300000;
+
 //
 // The Masternode Ping Class : Contains a different serialize method for sending pings from masternodes throughout the network
 //
@@ -177,6 +177,7 @@ public:
     int nPoSeBanHeight;
     bool fAllowMixingTx;
     bool fUnitTest;
+    Level level = NULL_LEVEL;
 
     // KEEP TRACK OF GOVERNANCE ITEMS EACH MASTERNODE HAS VOTE UPON FOR RECALCULATION
     std::map<uint256, int> mapGovernanceObjectsVotedOn;

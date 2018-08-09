@@ -3803,7 +3803,9 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     // Check transactions
     bool founderTransaction = false;
     FounderPayment founderPayment;
-    const int height = chainActive.Height();
+    printf("getting tip \n");
+    const int height = chainActive.Tip() ? chainActive.Tip()->nHeight : chainActive.Height();
+    printf("height %d\n", height);
     CAmount blockReward = GetBlockSubsidy(chainActive.Tip()->nBits, height, Params().GetConsensus());
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
         if (!CheckTransaction(tx, state)) {
@@ -3813,6 +3815,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
         if(   sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT)
            && (height + 1 > Params().GetConsensus().nFounderPaymentsStartBlock)) {
+        	printf("calling IsBlockPayeeValid height %d\n", height);
         	if(founderPayment.IsBlockPayeeValid(tx,height+1,blockReward)) {
         		founderTransaction = true;
         		break;

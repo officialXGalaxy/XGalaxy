@@ -298,7 +298,11 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
         }
         // fill payee with locally calculated winner and hope for the best
         payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
-        mnLevel = getMasternodeLevelByNode(winningNode);
+        if(winningNode->level == NULL_LEVEL) {
+        	mnLevel = getMasternodeLevelByNode(winningNode);
+        } else {
+        	mnLevel = winningNode->level;
+        }
     } else {
     	mnLevel = getMasternodeLevelByPayee(payee);
     }
