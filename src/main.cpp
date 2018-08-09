@@ -3803,9 +3803,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
     // Check transactions
     bool founderTransaction = false;
     FounderPayment founderPayment;
-    printf("getting tip \n");
     const int height = chainActive.Tip() ? chainActive.Tip()->nHeight : chainActive.Height();
-    printf("height %d\n", height);
     CAmount blockReward = GetBlockSubsidy(chainActive.Tip()->nBits, height, Params().GetConsensus());
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
         if (!CheckTransaction(tx, state)) {
