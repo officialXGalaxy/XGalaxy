@@ -3813,7 +3813,6 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         }
         if(   sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT)
            && (height + 1 > Params().GetConsensus().nFounderPaymentsStartBlock)) {
-        	printf("calling IsBlockPayeeValid height %d\n", height);
         	if(founderPayment.IsBlockPayeeValid(tx,height+1,blockReward)) {
         		founderTransaction = true;
         		break;
