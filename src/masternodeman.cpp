@@ -681,6 +681,12 @@ int CMasternodeMan::GetMasternodeRank(const CTxIn& vin, int nBlockHeight, int nM
             if(!mn.IsEnabled()) continue;
         }
         else {
+        	if(mn.level == NULL_LEVEL) {
+				mn.level = getMasternodeLevelByNode(&mn);
+			}
+			if(nBlockHeight >= 8000) {
+				mn.validPaymentNode = getMnRewardMultiplier(mn.level, nBlockHeight) != 0;
+			}
             if(!mn.IsValidForPayment()) continue;
         }
         int64_t nScore = mn.CalculateScore(blockHash).GetCompact(false);
