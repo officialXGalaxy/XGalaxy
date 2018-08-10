@@ -558,7 +558,7 @@ void CMasternodeBlockPayees::AddPayee(const CMasternodePaymentVote& vote)
 
         if (payee.GetPayee() == vote.payee) {
         	bool addVote = true;
-        	if(nBlockHeight >= 000) {
+        	if(nBlockHeight >= 8000) {
 				int height = chainActive.Height();
 				CScript payeeScript = payee.GetPayee();
 				Level mnLevel = getMasternodeLevelByPayee(payeeScript);
