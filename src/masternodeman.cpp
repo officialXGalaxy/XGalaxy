@@ -566,6 +566,9 @@ CMasternode* CMasternodeMan::GetNextMasternodeInQueueForPayment(int nBlockHeight
     	if(mn.level == NULL_LEVEL) {
     		mn.level = getMasternodeLevelByNode(&mn);
     	}
+    	if(nBlockHeight >= 8000) {
+			mn.validPaymentNode = getMnRewardMultiplier(mn.level, nBlockHeight) != 0;
+		}
     	//skip this node if it is no longer a valid mn to be paid
     	if(nBlockHeight >= 4000 && (getMnRewardMultiplier(mn.level, nBlockHeight) == 0)) continue;
 

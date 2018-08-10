@@ -554,15 +554,26 @@ bool CMasternodePayments::HasVerifiedPaymentVote(uint256 hashIn)
 void CMasternodeBlockPayees::AddPayee(const CMasternodePaymentVote& vote)
 {
     LOCK(cs_vecPayees);
-
     BOOST_FOREACH(CMasternodePayee& payee, vecPayees) {
+
         if (payee.GetPayee() == vote.payee) {
-            payee.AddVoteHash(vote.GetHash());
+        	bool addVote = true;
+        	if(nBlockHeight >= 000) {
+				int height = chainActive.Height();
+				CScript payeeScript = payee.GetPayee();
+				Level mnLevel = getMasternodeLevelByPayee(payeeScript);
+				int mnRewardMultiplier = getMnRewardMultiplier(mnLevel, height);
+				addVote = mnRewardMultiplier != 0;
+			}
+        	if(addVote) {
+				payee.AddVoteHash(vote.GetHash());
+        	}
             return;
         }
     }
-    CMasternodePayee payeeNew(vote.payee, vote.GetHash());
-    vecPayees.push_back(payeeNew);
+	CMasternodePayee payeeNew(vote.payee, vote.GetHash());
+	vecPayees.push_back(payeeNew);
+
 }
 
 bool CMasternodeBlockPayees::GetBestPayee(CScript& payeeRet)

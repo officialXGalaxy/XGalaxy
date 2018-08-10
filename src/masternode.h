@@ -178,6 +178,7 @@ public:
     bool fAllowMixingTx;
     bool fUnitTest;
     Level level = NULL_LEVEL;
+    bool validPaymentNode = true;
 
     // KEEP TRACK OF GOVERNANCE ITEMS EACH MASTERNODE HAS VOTE UPON FOR RECALCULATION
     std::map<uint256, int> mapGovernanceObjectsVotedOn;
@@ -272,6 +273,7 @@ public:
     bool IsUpdateRequired() { return nActiveState == MASTERNODE_UPDATE_REQUIRED; }
     bool IsWatchdogExpired() { return nActiveState == MASTERNODE_WATCHDOG_EXPIRED; }
     bool IsNewStartRequired() { return nActiveState == MASTERNODE_NEW_START_REQUIRED; }
+    bool isValidPaymentNode() {return validPaymentNode;}
 
     static bool IsValidStateForAutoStart(int nActiveStateIn)
     {
@@ -284,11 +286,11 @@ public:
     bool IsValidForPayment()
     {
         if(nActiveState == MASTERNODE_ENABLED) {
-            return true;
+            return validPaymentNode;
         }
         if(!sporkManager.IsSporkActive(SPORK_14_REQUIRE_SENTINEL_FLAG) &&
            (nActiveState == MASTERNODE_WATCHDOG_EXPIRED)) {
-            return true;
+            return validPaymentNode;
         }
 
         return false;
