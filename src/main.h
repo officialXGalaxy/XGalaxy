@@ -262,7 +262,6 @@ bool ActivateBestChain(CValidationState& state, const CChainParams& chainparams,
 double ConvertBitsToDouble(unsigned int nBits);
 CAmount GetBlockSubsidy(int nBits, int nHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly = false);
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel);
-vector<CAmount> GetMasternodePayments(int nHeight, CAmount blockValue);
 bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nHeight);
 
 /**

@@ -254,6 +254,13 @@ Level getMasternodeLevelByPayee(CScript& payee) {
 	return getMasternodeLevelByNode(masternode);
 }
 
+void FillInLevelForMasternode(CMasternode* masternode, int nBlockHeight) {
+	if(masternode->level == NULL_LEVEL) {
+		masternode->level = getMasternodeLevelByNode(masternode);
+	}
+	masternode->validPaymentNode = getMnRewardMultiplier(masternode->level, nBlockHeight) != 0;
+}
+
 void CMasternodePayments::Clear()
 {
     LOCK2(cs_mapMasternodeBlocks, cs_mapMasternodePaymentVotes);
@@ -557,14 +564,11 @@ void CMasternodeBlockPayees::AddPayee(const CMasternodePaymentVote& vote)
     BOOST_FOREACH(CMasternodePayee& payee, vecPayees) {
 
         if (payee.GetPayee() == vote.payee) {
-        	bool addVote = true;
-        	if(nBlockHeight >= 8000) {
-				int height = chainActive.Height();
-				CScript payeeScript = payee.GetPayee();
-				Level mnLevel = getMasternodeLevelByPayee(payeeScript);
-				int mnRewardMultiplier = getMnRewardMultiplier(mnLevel, height);
-				addVote = mnRewardMultiplier != 0;
-			}
+			int height = chainActive.Height();
+			CScript payeeScript = payee.GetPayee();
+			CMasternode* masternode = mnodeman.Find(payeeScript);
+			FillInLevelForMasternode(masternode, height);
+			bool addVote = masternode->validPaymentNode;
         	if(addVote) {
 				payee.AddVoteHash(vote.GetHash());
         	}

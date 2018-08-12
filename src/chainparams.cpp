@@ -157,11 +157,11 @@ public:
         nMaxTipAge = 1.5 * 60 * 60; // ~36 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nPruneAfterHeight = 100000;
 
-        genesis = CreateGenesisBlock(1533607815, 207228, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1533967954, 4210919, 0x1e0ffff0, 1, 1000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
         //printGenesisBlock();
 				///////////////////////////////////////////
-        assert(consensus.hashGenesisBlock == uint256S("0x000004aad2fae5a9242a5e8b50079ff4859bcc4797be90f207d4f9783c23f061"));
+        assert(consensus.hashGenesisBlock == uint256S("0x0000078725a46353937ad9a4d26effe2f61b705cc981cd174d52fc229d1cbcb9"));
         assert(genesis.hashMerkleRoot == uint256S("0x160f0570b949bb1f634da7b94b766bad6f87c8a3d62dcd8caa3aec3f97bb5c39"));
         vSeeds.push_back(CDNSSeedData("explorer", "194.135.92.248"));
         // XGalaxy addresses start with 'R'
@@ -190,8 +190,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0x000004aad2fae5a9242a5e8b50079ff4859bcc4797be90f207d4f9783c23f061")),
-			1533607815, // * UNIX timestamp of last checkpoint block
+            ( 0, uint256S("0x0000078725a46353937ad9a4d26effe2f61b705cc981cd174d52fc229d1cbcb9")),
+			1533967954, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             500	        // * estimated number of transactions per day after checkpoint
@@ -252,11 +252,11 @@ public:
         nMaxTipAge = 0x7fffffff; // allow mining on top of old blocks for testnet
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1533608815, 178046, 0x1e0ffff0, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1533968954, 1188564, 0x1e0ffff0, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
         //printGenesisBlock();
-        assert(consensus.hashGenesisBlock == uint256S("0x00000b25e3902e7ed3f0f97de66cdb395e0279277fefbab239bf289889b83c0e"));
+        assert(consensus.hashGenesisBlock == uint256S("0x00000ef89cbc064b4eb858fdefb99de0314a31d5b2afefc34fdd1e729548a020"));
         assert(genesis.hashMerkleRoot == uint256S("0x160f0570b949bb1f634da7b94b766bad6f87c8a3d62dcd8caa3aec3f97bb5c39"));
 
 
@@ -291,8 +291,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0x00000b25e3902e7ed3f0f97de66cdb395e0279277fefbab239bf289889b83c0e")),
-			1533608815, // * UNIX timestamp of last checkpoint block
+            ( 0, uint256S("0x00000ef89cbc064b4eb858fdefb99de0314a31d5b2afefc34fdd1e729548a020")),
+			1533968954, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
             500	        // * estimated number of transactions per day after checkpoint
@@ -351,11 +351,11 @@ public:
         nDefaultPort = 23038;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1533609815, 0, 0x207fffff, 1, 1000 * COIN);
+        genesis = CreateGenesisBlock(1533969954, 0, 0x207fffff, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
         //printGenesisBlock();
-        assert(consensus.hashGenesisBlock == uint256S("0x79d275266f9efd90ef2154a8a3ced865687c4fed1b84b675407793840ba510d0"));
+        assert(consensus.hashGenesisBlock == uint256S("0x1ed02ae6207a741001b2a429dcce3c879fbde420c89264c55efdad74cf71795d"));
         assert(genesis.hashMerkleRoot == uint256S("0x160f0570b949bb1f634da7b94b766bad6f87c8a3d62dcd8caa3aec3f97bb5c39"));
 
         vFixedSeeds.clear(); //! Regtest mode doesn't have any fixed seeds.
@@ -371,8 +371,8 @@ public:
 
         checkpointData = (CCheckpointData){
             boost::assign::map_list_of
-            ( 0, uint256S("0x79d275266f9efd90ef2154a8a3ced865687c4fed1b84b675407793840ba510d0")),
-            0,
+            ( 0, uint256S("0x1ed02ae6207a741001b2a429dcce3c879fbde420c89264c55efdad74cf71795d")),
+			1533969954,
             0,
             0
         };

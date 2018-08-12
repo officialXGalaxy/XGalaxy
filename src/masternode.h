@@ -285,6 +285,7 @@ public:
 
     bool IsValidForPayment()
     {
+
         if(nActiveState == MASTERNODE_ENABLED) {
             return validPaymentNode;
         }

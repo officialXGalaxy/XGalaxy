@@ -1746,11 +1746,11 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
 	if (nPrevHeight == 0) {
-	        return 50000 * COIN;
+	        return 1000000 * COIN;
 	    }
 	    CAmount nSubsidy;
 	    if(nPrevHeight < 250) {
-	    	nSubsidy = 0;
+	    	nSubsidy = 0.1;
 	    } else if(nPrevHeight < 500) {
 	    	nSubsidy = 1;
 	    } else if(nPrevHeight < 1000) {
@@ -1797,19 +1797,15 @@ bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nH
 	return masternodePayment == payment;
 }
 
-vector<CAmount> GetMasternodePayments(int height, CAmount blockValue) {
-	CAmount nMasternodePayment1 = GetMasternodePayment(height, blockValue, LEVEL1);
-	CAmount nMasternodePayment2 = GetMasternodePayment(height, blockValue, LEVEL2);
-	CAmount nMasternodePayment3 = GetMasternodePayment(height, blockValue, LEVEL3);
-	return {nMasternodePayment1, nMasternodePayment2, nMasternodePayment3};
-}
-
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
 	if(nHeight <= 500) {
-		return 0;
+		return blockValue * 0.01;
 	}
 	int multiplier = getMnRewardMultiplier(mnLevel, nHeight);
+	if(multiplier == 0) {
+		multiplier = 0.01;
+	}
 	return blockValue * 0.55 * multiplier;
 }
 

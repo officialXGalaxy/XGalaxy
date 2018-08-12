@@ -563,14 +563,8 @@ CMasternode* CMasternodeMan::GetNextMasternodeInQueueForPayment(int nBlockHeight
     int nMnCount = CountEnabled();
     BOOST_FOREACH(CMasternode &mn, vMasternodes)
     {
-    	if(mn.level == NULL_LEVEL) {
-    		mn.level = getMasternodeLevelByNode(&mn);
-    	}
-    	if(nBlockHeight >= 8000) {
-			mn.validPaymentNode = getMnRewardMultiplier(mn.level, nBlockHeight) != 0;
-		}
-    	//skip this node if it is no longer a valid mn to be paid
-    	if(nBlockHeight >= 4000 && (getMnRewardMultiplier(mn.level, nBlockHeight) == 0)) continue;
+
+    	FillInLevelForMasternode(&mn, nBlockHeight);
 
         if(!mn.IsValidForPayment()) continue;
 
@@ -681,12 +675,7 @@ int CMasternodeMan::GetMasternodeRank(const CTxIn& vin, int nBlockHeight, int nM
             if(!mn.IsEnabled()) continue;
         }
         else {
-        	if(mn.level == NULL_LEVEL) {
-				mn.level = getMasternodeLevelByNode(&mn);
-			}
-			if(nBlockHeight >= 8000) {
-				mn.validPaymentNode = getMnRewardMultiplier(mn.level, nBlockHeight) != 0;
-			}
+			FillInLevelForMasternode(&mn, nBlockHeight);
             if(!mn.IsValidForPayment()) continue;
         }
         int64_t nScore = mn.CalculateScore(blockHash).GetCompact(false);

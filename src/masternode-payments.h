@@ -42,6 +42,7 @@ void FillBlockPayments(CMutableTransaction& txNew, int nBlockHeight, CAmount blo
 std::string GetRequiredPaymentsString(int nBlockHeight);
 Level getMasternodeLevelByNode(CMasternode* masternode);
 Level getMasternodeLevelByPayee(CScript& payee);
+void FillInLevelForMasternode(CMasternode* masternode, int nBlockHeight);
 
 class CMasternodePayee
 {

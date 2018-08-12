@@ -19,7 +19,7 @@ CAmount FounderPayment::getFounderPaymentAmount(int blockHeight, CAmount blockRe
 	 if (blockHeight <= 500){
 		 return 0;
 	 }
-	 return blockReward * 0.01;
+	 return blockReward * 0.05;
 }
 
 void FounderPayment::FillFounderPayment(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutFounderRet) {
