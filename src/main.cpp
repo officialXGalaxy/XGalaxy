@@ -93,6 +93,7 @@ size_t nCoinCacheUsage = 5000 * 300;
 uint64_t nPruneTarget = 0;
 bool fAlerts = DEFAULT_ALERTS;
 bool fEnableReplacement = DEFAULT_ENABLE_REPLACEMENT;
+FounderPayment founderPayment;
 
 uint256 hashAssumeValid;
 
@@ -1749,39 +1750,39 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
 	        return 1000000 * COIN;
 	    }
 	    float nSubsidy;
-	    if(nPrevHeight < 250) {
+	    if(nPrevHeight < 1000) {
 	    	nSubsidy = 0.1;
-	    } else if(nPrevHeight < 500) {
-	    	nSubsidy = 1;
-	    } else if(nPrevHeight < 1000) {
-	    	nSubsidy = 3;
 	    } else if(nPrevHeight < 2000) {
-	    	nSubsidy = 5;
+	    	nSubsidy = 1;
 	    } else if(nPrevHeight < 3000) {
-	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 4000) {
-	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 5000) {
-	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 6000) {
-	    	nSubsidy = 80;
-	    } else if(nPrevHeight < 7000) {
-	    	nSubsidy = 60;
-	    } else if(nPrevHeight < 8000) {
-	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 9000) {
-	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 10000) {
-	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 20000) {
-	    	nSubsidy = 8;
-	    } else if(nPrevHeight < 3000000) {
-	    	nSubsidy = 5;
-	    } else if(nPrevHeight < 4000000) {
-	    	nSubsidy = 4;
-	    } else if(nPrevHeight < 5000000) {
 	    	nSubsidy = 3;
-	    } else if(nPrevHeight < 5650000) {
+	    } else if(nPrevHeight < 4000) {
+	    	nSubsidy = 5;
+	    } else if(nPrevHeight < 5000) {
+	    	nSubsidy = 10;
+	    } else if(nPrevHeight < 6000) {
+	    	nSubsidy = 20;
+	    } else if(nPrevHeight < 7000) {
+	    	nSubsidy = 40;
+	    } else if(nPrevHeight < 8000) {
+	    	nSubsidy = 80;
+	    } else if(nPrevHeight < 8500) {
+	    	nSubsidy = 60;
+	    } else if(nPrevHeight < 9000) {
+	    	nSubsidy = 40;
+	    } else if(nPrevHeight < 9501) {
+	    	nSubsidy = 20;
+	    } else if(nPrevHeight < 10501) {
+	    	nSubsidy = 10;
+	    } else if(nPrevHeight < 11001) {
+	    	nSubsidy = 8;
+	    } else if(nPrevHeight < 11501) {
+	    	nSubsidy = 5;
+	    } else if(nPrevHeight < 12000) {
+	    	nSubsidy = 4;
+	    } else if(nPrevHeight < 12500) {
+	    	nSubsidy = 3;
+	    } else if(nPrevHeight < 13000) {
 	    	nSubsidy = 2;
 	    } else {
 	    	nSubsidy = 0;
@@ -1799,12 +1800,12 @@ bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nH
 
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
-	if(nHeight <= 500) {
-		return blockValue * 0.01;
+	if(nHeight <= 2000) {
+		return blockValue * 0.001;
 	}
 	int multiplier = getMnRewardMultiplier(mnLevel, nHeight);
 	if(multiplier == 0) {
-		multiplier = 0.01;
+		multiplier = 0.001;
 	}
 	return blockValue * 0.55 * multiplier;
 }
@@ -2546,9 +2547,9 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     AssertLockHeld(cs_main);
 
     int64_t nTimeStart = GetTimeMicros();
-
+    const int nPrevHeight = pindex->pprev == NULL ? 0 : pindex->pprev->nHeight;
     // Check it again in case a previous version let a bad block in
-    if (!CheckBlock(block, state, !fJustCheck, !fJustCheck))
+    if (!CheckBlock(block, state, nPrevHeight, !fJustCheck, !fJustCheck))
         return false;
 
     // verify that the view's current state corresponds to the previous block
@@ -3717,7 +3718,7 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool f
     return true;
 }
 
-bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bool fCheckMerkleRoot)
+bool CheckBlock(const CBlock& block, CValidationState& state, int prevBlockHeight, bool fCheckPOW, bool fCheckMerkleRoot)
 {
     // These are checks that are independent of context.
 
@@ -3798,18 +3799,19 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
 
     // Check transactions
     bool founderTransaction = false;
-    FounderPayment founderPayment;
-    const int height = chainActive.Tip() ? chainActive.Tip()->nHeight : chainActive.Height();
-    CAmount blockReward = GetBlockSubsidy(chainActive.Tip()->nBits, height, Params().GetConsensus());
+    CAmount blockReward = GetBlockSubsidy(0, prevBlockHeight, Params().GetConsensus(), false);
+    //const CAmount founderReward = founderPayment.getFounderPaymentAmount(prevBlockHeight, blockReward);
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
         if (!CheckTransaction(tx, state)) {
             return error("CheckBlock(): CheckTransaction of %s failed with %s",
                 tx.GetHash().ToString(),
                 FormatStateMessage(state));
         }
-        if(   sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT)
-           && (height + 1 > Params().GetConsensus().nFounderPaymentsStartBlock)) {
-        	if(founderPayment.IsBlockPayeeValid(tx,height+1,blockReward)) {
+        if(sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT)
+           && (prevBlockHeight + 1 > Params().GetConsensus().nFounderPaymentsStartBlock)) {
+        	//printf("founder block %d=%lld", prevBlockHeight);
+        	if(founderPayment.IsBlockPayeeValid(tx,prevBlockHeight+1,blockReward)) {
+        		//printf("founder found on block %d", prevBlockHeight);
         		founderTransaction = true;
         		break;
         	}
@@ -4041,8 +4043,8 @@ static bool AcceptBlock(const CBlock& block, CValidationState& state, const CCha
         if (!fHasMoreWork) return true;     // Don't process less-work chains
         if (fTooFarAhead) return true;      // Block height is too high
     }
-
-    if ((!CheckBlock(block, state)) || !ContextualCheckBlock(block, state, pindex->pprev)) {
+    const int nPrevHeight = pindex->pprev == NULL ? 0 : pindex->pprev->nHeight;
+    if ((!CheckBlock(block, state,nPrevHeight)) || !ContextualCheckBlock(block, state, pindex->pprev)) {
         if (state.IsInvalid() && !state.CorruptionPossible()) {
             pindex->nStatus |= BLOCK_FAILED_VALID;
             setDirtyBlockIndex.insert(pindex);
@@ -4091,7 +4093,8 @@ static bool IsSuperMajority(int minVersion, const CBlockIndex* pstart, unsigned 
 bool ProcessNewBlock(CValidationState& state, const CChainParams& chainparams, const CNode* pfrom, const CBlock* pblock, bool fForceProcessing, CDiskBlockPos* dbp)
 {
     // Preliminary checks
-    bool checked = CheckBlock(*pblock, state);
+	const int height = chainActive.Height();
+    bool checked = CheckBlock(*pblock, state, height);
 
     {
         LOCK(cs_main);
@@ -4136,7 +4139,8 @@ bool TestBlockValidity(CValidationState& state, const CChainParams& chainparams,
     // NOTE: CheckBlockHeader is called by CheckBlock
     if (!ContextualCheckBlockHeader(block, state, pindexPrev))
         return false;
-    if (!CheckBlock(block, state, fCheckPOW, fCheckMerkleRoot))
+    const int nPrevHeight = pindexPrev == NULL ? 0 : pindexPrev->nHeight;
+    if (!CheckBlock(block, state, nPrevHeight, fCheckPOW, fCheckMerkleRoot))
         return false;
     if (!ContextualCheckBlock(block, state, pindexPrev))
         return false;
@@ -4480,7 +4484,8 @@ bool CVerifyDB::VerifyDB(const CChainParams& chainparams, CCoinsView *coinsview,
         if (!ReadBlockFromDisk(block, pindex, chainparams.GetConsensus()))
             return error("VerifyDB(): *** ReadBlockFromDisk failed at %d, hash=%s", pindex->nHeight, pindex->GetBlockHash().ToString());
         // check level 1: verify block validity
-        if (nCheckLevel >= 1 && !CheckBlock(block, state))
+        const int nPrevHeight = pindex->pprev == NULL ? 0 :  pindex->pprev->nHeight;
+        if (nCheckLevel >= 1 && !CheckBlock(block, state, nPrevHeight))
             return error("VerifyDB(): *** found bad block at %d, hash=%s\n", pindex->nHeight, pindex->GetBlockHash().ToString());
         // check level 2: verify undo validity
         if (nCheckLevel >= 2 && pindex) {

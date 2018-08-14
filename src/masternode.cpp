@@ -374,9 +374,16 @@ void CMasternode::UpdateLastPaid(const CBlockIndex *pindex, int nMaxBlocksToScan
 
     LOCK(cs_mapMasternodeBlocks);
     CCoins coins;
-	pcoinsTip->GetCoins(vin.prevout.hash, coins);
-	CAmount collateral =  coins.vout[vin.prevout.n].nValue;
-	Level mnLevel = getMasternodeLevel(collateral);
+    Level mnLevel;
+    if(!pcoinsTip->GetCoins(vin.prevout.hash, coins) ||
+    		           (unsigned int)vin.prevout.n>=coins.vout.size() ||
+    		           coins.vout[vin.prevout.n].IsNull()) {
+    	mnLevel = NULL_LEVEL;
+    } else {
+    	CAmount collateral =  coins.vout[vin.prevout.n].nValue;
+    	mnLevel = getMasternodeLevel(collateral);
+    }
+
     for (int i = 0; BlockReading && BlockReading->nHeight > nBlockLastPaid && i < nMaxBlocksToScanBack; i++) {
         if(mnpayments.mapMasternodeBlocks.count(BlockReading->nHeight) &&
             mnpayments.mapMasternodeBlocks[BlockReading->nHeight].HasPayeeWithVotes(mnpayee, 2))

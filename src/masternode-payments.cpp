@@ -239,11 +239,16 @@ std::string GetRequiredPaymentsString(int nBlockHeight)
 
 Level getMasternodeLevelByNode(CMasternode* masternode) {
 	Level mnLevel;
-	CCoins coins;
-	pcoinsTip->GetCoins(masternode->vin.prevout.hash, coins);
-	if(coins.vout.size() > masternode->vin.prevout.n) {
-		CAmount collateral =  coins.vout[masternode->vin.prevout.n].nValue;
-		mnLevel = getMasternodeLevel(collateral);
+	if(masternode && pcoinsTip) {
+		CCoins coins;
+		if(!pcoinsTip->GetCoins(masternode->vin.prevout.hash, coins) ||
+		           (unsigned int)masternode->vin.prevout.n>=coins.vout.size() ||
+		           coins.vout[masternode->vin.prevout.n].IsNull()) {
+			mnLevel = NULL_LEVEL;
+		} else {
+			CAmount collateral =  coins.vout[masternode->vin.prevout.n].nValue;
+			mnLevel = getMasternodeLevel(collateral);
+		}
 	} else {
 		mnLevel = NULL_LEVEL;
 	}
