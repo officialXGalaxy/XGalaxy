@@ -123,8 +123,8 @@ public:
         consensus.BIP34Height = 227931; // FIX
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
-        consensus.nPowTargetTimespan = 60; // XGalaxy: 1 hour
-        consensus.nPowTargetSpacing = 1 * 30; // XGalaxy: 1 minutes // rememeber to change
+        consensus.nPowTargetTimespan = 60; // XGalaxy: 1 block
+        consensus.nPowTargetSpacing = 60; // XGalaxy: 1 minutes // rememeber to change
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016

@@ -23,7 +23,7 @@ bool CMasternodeConfig::read(std::string& strErr) {
         if (configFile != NULL) {
             std::string strHeader = "# XGalaxy Masternode config file\n"
                           "# Format: alias IP:port masternodeprivkey collateral_output_txid collateral_output_index\n"
-                          "# Example: mn1 45.50.22.125:17817 73HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 1\n";
+                          "# Example: mn1 45.50.22.125:23058 73HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 1\n";
             fwrite(strHeader.c_str(), std::strlen(strHeader.c_str()), 1, configFile);
             fclose(configFile);
         }

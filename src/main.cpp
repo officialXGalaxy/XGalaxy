@@ -1747,42 +1747,42 @@ NOTE:   unlike bitcoin we are using PREVIOUS block height here,
 CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly)
 {
 	if (nPrevHeight == 0) {
-	        return 1000000 * COIN;
+	        return 2901 * COIN;
 	    }
 	    float nSubsidy;
-	    if(nPrevHeight < 1000) {
+	    if(nPrevHeight < 1001) {
 	    	nSubsidy = 0.1;
-	    } else if(nPrevHeight < 2000) {
+	    } else if(nPrevHeight < 50000) {
 	    	nSubsidy = 1;
-	    } else if(nPrevHeight < 3000) {
+	    } else if(nPrevHeight < 100000) {
 	    	nSubsidy = 3;
-	    } else if(nPrevHeight < 4000) {
+	    } else if(nPrevHeight < 200000) {
 	    	nSubsidy = 5;
-	    } else if(nPrevHeight < 5000) {
+	    } else if(nPrevHeight < 300000) {
 	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 6000) {
+	    } else if(nPrevHeight < 400000) {
 	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 7000) {
+	    } else if(nPrevHeight < 500000) {
 	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 8000) {
+	    } else if(nPrevHeight < 600000) {
 	    	nSubsidy = 80;
-	    } else if(nPrevHeight < 8500) {
+	    } else if(nPrevHeight < 700000) {
 	    	nSubsidy = 60;
-	    } else if(nPrevHeight < 9000) {
+	    } else if(nPrevHeight < 800000) {
 	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 9501) {
+	    } else if(nPrevHeight < 900000) {
 	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 10501) {
+	    } else if(nPrevHeight < 1000000) {
 	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 11001) {
+	    } else if(nPrevHeight < 2000000) {
 	    	nSubsidy = 8;
-	    } else if(nPrevHeight < 11501) {
+	    } else if(nPrevHeight < 3000000) {
 	    	nSubsidy = 5;
-	    } else if(nPrevHeight < 12000) {
+	    } else if(nPrevHeight < 4000000) {
 	    	nSubsidy = 4;
-	    } else if(nPrevHeight < 12500) {
+	    } else if(nPrevHeight < 5000000) {
 	    	nSubsidy = 3;
-	    } else if(nPrevHeight < 13000) {
+	    } else if(nPrevHeight < 5649000) {
 	    	nSubsidy = 2;
 	    } else {
 	    	nSubsidy = 0;
@@ -1800,7 +1800,7 @@ bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nH
 
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 {
-	if(nHeight <= 2000) {
+	if(nHeight <= 50000) {
 		return blockValue * 0.001;
 	}
 	int multiplier = getMnRewardMultiplier(mnLevel, nHeight);
