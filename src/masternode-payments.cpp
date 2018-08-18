@@ -260,10 +260,12 @@ Level getMasternodeLevelByPayee(CScript& payee) {
 }
 
 void FillInLevelForMasternode(CMasternode* masternode, int nBlockHeight) {
-	if(masternode->level == NULL_LEVEL) {
-		masternode->level = getMasternodeLevelByNode(masternode);
+	if(masternode) {
+		if(masternode->level == NULL_LEVEL) {
+			masternode->level = getMasternodeLevelByNode(masternode);
+		}
+		masternode->validPaymentNode = getMnRewardMultiplier(masternode->level, nBlockHeight) != 0;
 	}
-	masternode->validPaymentNode = getMnRewardMultiplier(masternode->level, nBlockHeight) != 0;
 }
 
 void CMasternodePayments::Clear()
