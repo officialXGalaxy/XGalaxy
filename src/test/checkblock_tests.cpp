@@ -57,7 +57,8 @@ BOOST_AUTO_TEST_CASE(May15)
 
         // After May 15'th, big blocks are OK:
         forkingBlock.nTime = tMay15; // Invalidates PoW
-        BOOST_CHECK(CheckBlock(forkingBlock, state, false, false));
+        int prevHeight = chainActive.Height();
+        BOOST_CHECK(CheckBlock(forkingBlock, state, prevHeight, false, false));
     }
 
     SetMockTime(0);

@@ -17,7 +17,7 @@
 #include "base58.h"
 using namespace std;
 
-static const char* DEFAULT_FOUNDER_ADDRESS = "XSLEDtMyE6Lbk49YtinBpb9kfUdaNxQNj6";
+static const char* DEFAULT_FOUNDER_ADDRESS = "XQfwRdDEsndtoYLPrYahi4sc1KgLztpgnJ";
 
 class FounderPayment {
 public:

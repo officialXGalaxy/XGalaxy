@@ -239,11 +239,16 @@ std::string GetRequiredPaymentsString(int nBlockHeight)
 
 Level getMasternodeLevelByNode(CMasternode* masternode) {
 	Level mnLevel;
-	CCoins coins;
-	pcoinsTip->GetCoins(masternode->vin.prevout.hash, coins);
-	if(coins.vout.size() > masternode->vin.prevout.n) {
-		CAmount collateral =  coins.vout[masternode->vin.prevout.n].nValue;
-		mnLevel = getMasternodeLevel(collateral);
+	if(masternode && pcoinsTip) {
+		CCoins coins;
+		if(!pcoinsTip->GetCoins(masternode->vin.prevout.hash, coins) ||
+		           (unsigned int)masternode->vin.prevout.n>=coins.vout.size() ||
+		           coins.vout[masternode->vin.prevout.n].IsNull()) {
+			mnLevel = NULL_LEVEL;
+		} else {
+			CAmount collateral =  coins.vout[masternode->vin.prevout.n].nValue;
+			mnLevel = getMasternodeLevel(collateral);
+		}
 	} else {
 		mnLevel = NULL_LEVEL;
 	}
@@ -252,6 +257,15 @@ Level getMasternodeLevelByNode(CMasternode* masternode) {
 Level getMasternodeLevelByPayee(CScript& payee) {
 	CMasternode* masternode = mnodeman.Find(payee);
 	return getMasternodeLevelByNode(masternode);
+}
+
+void FillInLevelForMasternode(CMasternode* masternode, int nBlockHeight) {
+	if(masternode) {
+		if(masternode->level == NULL_LEVEL) {
+			masternode->level = getMasternodeLevelByNode(masternode);
+		}
+		masternode->validPaymentNode = getMnRewardMultiplier(masternode->level, nBlockHeight) != 0;
+	}
 }
 
 void CMasternodePayments::Clear()
@@ -298,7 +312,11 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
         }
         // fill payee with locally calculated winner and hope for the best
         payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
-        mnLevel = getMasternodeLevelByNode(winningNode);
+        if(winningNode->level == NULL_LEVEL) {
+        	mnLevel = getMasternodeLevelByNode(winningNode);
+        } else {
+        	mnLevel = winningNode->level;
+        }
     } else {
     	mnLevel = getMasternodeLevelByPayee(payee);
     }
@@ -550,15 +568,23 @@ bool CMasternodePayments::HasVerifiedPaymentVote(uint256 hashIn)
 void CMasternodeBlockPayees::AddPayee(const CMasternodePaymentVote& vote)
 {
     LOCK(cs_vecPayees);
-
     BOOST_FOREACH(CMasternodePayee& payee, vecPayees) {
+
         if (payee.GetPayee() == vote.payee) {
-            payee.AddVoteHash(vote.GetHash());
+			int height = chainActive.Height();
+			CScript payeeScript = payee.GetPayee();
+			CMasternode* masternode = mnodeman.Find(payeeScript);
+			FillInLevelForMasternode(masternode, height);
+			bool addVote = masternode->validPaymentNode;
+        	if(addVote) {
+				payee.AddVoteHash(vote.GetHash());
+        	}
             return;
         }
     }
-    CMasternodePayee payeeNew(vote.payee, vote.GetHash());
-    vecPayees.push_back(payeeNew);
+	CMasternodePayee payeeNew(vote.payee, vote.GetHash());
+	vecPayees.push_back(payeeNew);
+
 }
 
 bool CMasternodeBlockPayees::GetBestPayee(CScript& payeeRet)

@@ -186,23 +186,24 @@ void MasternodeList::updateMyMasternodeInfo(QString strAlias, QString strAddr, m
         nNewRow = ui->tableWidgetMyMasternodes->rowCount();
         ui->tableWidgetMyMasternodes->insertRow(nNewRow);
     }
-
-	//LogPrintf("UpdateMyMasternodeInfo(): getting coins");
-	CCoins coins;
-	pcoinsTip->GetCoins(infoMn.vin.prevout.hash, coins);
-	//LogPrintf("UpdateMyMasternodeInfo(): getting chain height");
-	int height = chainActive.Height();
-	//LogPrintf("UpdateMyMasternodeInfo(): getting collateral");
-	string mnLevelStr;
-	if(infoMn.vin.prevout.n >= coins.vout.size()) {
-		mnLevelStr = "N/A";
-	} else {
-		CAmount collateral = coins.vout[infoMn.vin.prevout.n].nValue;
-		//LogPrintf("UpdateMyMasternodeInfo(): getting masternode level\n");
-		Level mnLevel = getMasternodeLevel(collateral);
-		//LogPrintf("UpdateMyMasternodeInfo(): getting masternode level string %d\n", mnLevel);
-		mnLevelStr = MN_LEVEL_STRS[mnLevel];
-	}
+    string mnLevelStr;
+    if(pcoinsTip) {
+		CCoins coins;
+		int height = chainActive.Height();
+		if(!pcoinsTip->GetCoins(infoMn.vin.prevout.hash, coins) ||
+				infoMn.vin.prevout.n >= coins.vout.size() ||
+				coins.vout[infoMn.vin.prevout.n].IsNull()) {
+			mnLevelStr = "N/A";
+		} else {
+			CAmount collateral = coins.vout[infoMn.vin.prevout.n].nValue;
+			//LogPrintf("UpdateMyMasternodeInfo(): getting masternode level\n");
+			Level mnLevel = getMasternodeLevel(collateral);
+			//LogPrintf("UpdateMyMasternodeInfo(): getting masternode level string %d\n", mnLevel);
+			mnLevelStr = MN_LEVEL_STRS[mnLevel];
+		}
+    } else {
+    	mnLevelStr = "N/A";
+    }
     QTableWidgetItem *aliasItem = new QTableWidgetItem(strAlias);
     QTableWidgetItem *addrItem = new QTableWidgetItem(infoMn.fInfoValid ? QString::fromStdString(infoMn.addr.ToString()) : strAddr);
     QTableWidgetItem *protocolItem = new QTableWidgetItem(QString::number(infoMn.fInfoValid ? infoMn.nProtocolVersion : -1));
@@ -288,21 +289,24 @@ void MasternodeList::updateNodeList()
 
     BOOST_FOREACH(CMasternode& mn, vMasternodes)
     {
-    	CCoins coins;
-		pcoinsTip->GetCoins(mn.vin.prevout.hash, coins);
-		//LogPrintf("UpdateNodeList(): getting chain height\n");
-		int height = chainActive.Height();
-		//LogPrintf("UpdateNodeList(): getting collateral %d, %d\n", mn.vin.prevout.n, coins.vout.size());
-		string mnLevelStr;
-		if(mn.vin.prevout.n >= coins.vout.size()) {
-			mnLevelStr = "N/A";
-		} else {
-			CAmount collateral = coins.vout[mn.vin.prevout.n].nValue;
-			//LogPrintf("UpdateNodeList(): getting masternode level\n");
-			Level mnLevel = getMasternodeLevel(collateral);
-			//LogPrintf("UpdateNodeList(): getting masternode level string %d\n", mnLevel);
-			mnLevelStr = MN_LEVEL_STRS[mnLevel];
-		}
+    	string mnLevelStr;
+    	if(pcoinsTip) {
+			CCoins coins;
+			int height = chainActive.Height();
+			if(!pcoinsTip->GetCoins(mn.vin.prevout.hash, coins) ||
+					mn.vin.prevout.n >= coins.vout.size() ||
+					coins.vout[mn.vin.prevout.n].IsNull()) {
+				mnLevelStr = "N/A";
+			} else {
+				CAmount collateral = coins.vout[mn.vin.prevout.n].nValue;
+				//LogPrintf("UpdateNodeList(): getting masternode level\n");
+				Level mnLevel = getMasternodeLevel(collateral);
+				//LogPrintf("UpdateNodeList(): getting masternode level string %d\n", mnLevel);
+				mnLevelStr = MN_LEVEL_STRS[mnLevel];
+			}
+    	} else {
+    		mnLevelStr = "N/A";
+    	}
         // populate list
         // Address, Protocol, Status, Active Seconds, Last Seen, Pub Key
         QTableWidgetItem *addressItem = new QTableWidgetItem(QString::fromStdString(mn.addr.ToString()));

@@ -162,6 +162,7 @@ extern size_t nCoinCacheUsage;
 extern CFeeRate minRelayTxFee;
 extern bool fAlerts;
 extern bool fEnableReplacement;
+extern FounderPayment founderPayment;
 
 extern std::map<uint256, int64_t> mapRejectedBlocks;
 
@@ -262,7 +263,6 @@ bool ActivateBestChain(CValidationState& state, const CChainParams& chainparams,
 double ConvertBitsToDouble(unsigned int nBits);
 CAmount GetBlockSubsidy(int nBits, int nHeight, const Consensus::Params& consensusParams, bool fSuperblockPartOnly = false);
 CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel);
-vector<CAmount> GetMasternodePayments(int nHeight, CAmount blockValue);
 bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nHeight);
 
 /**
@@ -753,7 +753,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
 
 /** Context-independent validity checks */
 bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool fCheckPOW = true);
-bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW = true, bool fCheckMerkleRoot = true);
+bool CheckBlock(const CBlock& block, CValidationState& state, int prevBlockHeight, bool fCheckPOW = true, bool fCheckMerkleRoot = true);
 
 /** Context-dependent validity checks */
 bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& state, CBlockIndex *pindexPrev);
