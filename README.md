@@ -1,11 +1,11 @@
 
-XGalaxy Core 1.0.0
+xGalaxy Core 1.0.0
 ===============================
 
 http://www.xgalaxycoin.ca
 
 
-What is XGalaxy?
+What is xGalaxy?
 ----------------
 
 XGalaxy-Coin is a fully decentralised cryptocurrency built on the premise of providing anonymity, speed, fair mining by being ASIC-resistant and reliability by the usage of Masternodes.
