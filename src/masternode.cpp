@@ -638,7 +638,7 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
         }
 
         if (!isValidMasternode(coins.vout[vin.prevout.n].nValue)) {
-            LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have at least %"PRId64" XGALAXY, masternode=%s\n", getMinimumCollateral(), vin.prevout.ToStringShort());
+            LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have at least %lld XGALAXY, masternode=%s\n", getMinimumCollateral(), vin.prevout.ToStringShort());
             return false;
         }
 

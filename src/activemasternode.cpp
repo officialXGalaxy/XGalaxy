@@ -210,7 +210,7 @@ void CActiveMasternode::ManageStateInitial()
         return;
     }
     if(pwalletMain->GetBalance() < getMinimumCollateral()) {
-        LogPrintf("CActiveMasternode::ManageStateInitial -- %s: Wallet balance is < %"PRId64" XGALAXY\n", GetStateString(), getMinimumCollateral());
+        LogPrintf("CActiveMasternode::ManageStateInitial -- %s: Wallet balance is < %lld XGALAXY\n", GetStateString(), getMinimumCollateral());
         return;
     }
 
