@@ -575,7 +575,7 @@ void CMasternodeBlockPayees::AddPayee(const CMasternodePaymentVote& vote)
 			CScript payeeScript = payee.GetPayee();
 			CMasternode* masternode = mnodeman.Find(payeeScript);
 			FillInLevelForMasternode(masternode, height);
-			bool addVote = masternode->validPaymentNode;
+			bool addVote = masternode ? masternode->validPaymentNode : true;
         	if(addVote) {
 				payee.AddVoteHash(vote.GetHash());
         	}
