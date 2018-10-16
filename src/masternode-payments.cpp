@@ -326,7 +326,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
 		CBitcoinAddress address2(address1);
 
 		LogPrintf("CMasternodePayments::FillBlockPayee -- unable to get masternode level for %s\n", address2.ToString());
-    	return;
+    	//return;
     }
 
 
