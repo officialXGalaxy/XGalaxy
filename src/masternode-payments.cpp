@@ -237,34 +237,47 @@ std::string GetRequiredPaymentsString(int nBlockHeight)
     return mnpayments.GetRequiredPaymentsString(nBlockHeight);
 }
 
-Level getMasternodeLevelByNode(CMasternode* masternode) {
-	Level mnLevel;
-	if(masternode && pcoinsTip) {
-		CCoins coins;
-		if(!pcoinsTip->GetCoins(masternode->vin.prevout.hash, coins) ||
-		           (unsigned int)masternode->vin.prevout.n>=coins.vout.size() ||
-		           coins.vout[masternode->vin.prevout.n].IsNull()) {
-			mnLevel = NULL_LEVEL;
+Level getMasternodeLevelByNode(CMasternode* masternode, int height) {
+	int newCollateralHeight = Params().GetConsensus().fixedCollateralBlock;
+	if(height <= newCollateralHeight) {
+		Level mnLevel;
+		if(masternode && pcoinsTip) {
+			CCoins coins;
+			if(!pcoinsTip->GetCoins(masternode->vin.prevout.hash, coins) ||
+					   (unsigned int)masternode->vin.prevout.n>=coins.vout.size() ||
+					   coins.vout[masternode->vin.prevout.n].IsNull()) {
+				mnLevel = NULL_LEVEL;
+			} else {
+				CAmount collateral =  coins.vout[masternode->vin.prevout.n].nValue;
+				mnLevel = getMasternodeLevel(collateral, height);
+			}
 		} else {
-			CAmount collateral =  coins.vout[masternode->vin.prevout.n].nValue;
-			mnLevel = getMasternodeLevel(collateral);
+			mnLevel = NULL_LEVEL;
 		}
+		return mnLevel;
 	} else {
-		mnLevel = NULL_LEVEL;
+		return LEVEL3;
 	}
-	return mnLevel;
 }
-Level getMasternodeLevelByPayee(CScript& payee) {
-	CMasternode* masternode = mnodeman.Find(payee);
-	return getMasternodeLevelByNode(masternode);
+Level getMasternodeLevelByPayee(CScript& payee, int height) {
+	int newCollateralHeight = Params().GetConsensus().fixedCollateralBlock;
+	if(height <= newCollateralHeight) {
+		CMasternode* masternode = mnodeman.Find(payee);
+		return getMasternodeLevelByNode(masternode, height);
+	} else {
+		return LEVEL3;
+	}
 }
 
 void FillInLevelForMasternode(CMasternode* masternode, int nBlockHeight) {
-	if(masternode) {
-		if(masternode->level == NULL_LEVEL) {
-			masternode->level = getMasternodeLevelByNode(masternode);
+	int newCollateralHeight = Params().GetConsensus().fixedCollateralBlock;
+	if(nBlockHeight <= newCollateralHeight) {
+		if(masternode) {
+			if(masternode->level == NULL_LEVEL) {
+				masternode->level = getMasternodeLevelByNode(masternode, nBlockHeight);
+			}
+			masternode->validPaymentNode = getMnRewardMultiplier(masternode->level, nBlockHeight) != 0;
 		}
-		masternode->validPaymentNode = getMnRewardMultiplier(masternode->level, nBlockHeight) != 0;
 	}
 }
 
@@ -313,12 +326,12 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
         // fill payee with locally calculated winner and hope for the best
         payee = GetScriptForDestination(winningNode->pubKeyCollateralAddress.GetID());
         if(winningNode->level == NULL_LEVEL) {
-        	mnLevel = getMasternodeLevelByNode(winningNode);
+        	mnLevel = getMasternodeLevelByNode(winningNode, nBlockHeight);
         } else {
         	mnLevel = winningNode->level;
         }
     } else {
-    	mnLevel = getMasternodeLevelByPayee(payee);
+    	mnLevel = getMasternodeLevelByPayee(payee, nBlockHeight);
     }
     if(mnLevel == NULL_LEVEL) {
     	CTxDestination address1;
@@ -371,7 +384,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
 }*/
 
 int CMasternodePayments::GetMinMasternodePaymentsProto() {
-    return sporkManager.IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES)
+    return (sporkManager.IsSporkActive(SPORK_10_MASTERNODE_PAY_UPDATED_NODES))
             ? MIN_MASTERNODE_PAYMENT_PROTO_VERSION_2
             : MIN_MASTERNODE_PAYMENT_PROTO_VERSION_1;
 }
@@ -571,7 +584,7 @@ void CMasternodeBlockPayees::AddPayee(const CMasternodePaymentVote& vote)
     BOOST_FOREACH(CMasternodePayee& payee, vecPayees) {
 
         if (payee.GetPayee() == vote.payee) {
-			int height = chainActive.Height();
+			int height = nBlockHeight;
 			CScript payeeScript = payee.GetPayee();
 			CMasternode* masternode = mnodeman.Find(payeeScript);
 			FillInLevelForMasternode(masternode, height);

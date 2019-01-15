@@ -2267,8 +2267,9 @@ bool CDarkSendSigner::IsVinAssociatedWithPubkey(const CTxIn& txin, const CPubKey
     CTransaction tx;
     uint256 hash;
     if(GetTransaction(txin.prevout.hash, tx, Params().GetConsensus(), hash, true)) {
+    	int height = chainActive.Height();
         BOOST_FOREACH(CTxOut out, tx.vout)
-            if (isValidMasternode(out.nValue) && out.scriptPubKey == payee)
+            if (isValidMasternode(out.nValue, height) && out.scriptPubKey == payee)
                 return true;
     }
 

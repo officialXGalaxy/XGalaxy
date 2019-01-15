@@ -209,8 +209,9 @@ void CActiveMasternode::ManageStateInitial()
         LogPrintf("CActiveMasternode::ManageStateInitial -- %s: Wallet is locked\n", GetStateString());
         return;
     }
-    if(pwalletMain->GetBalance() < getMinimumCollateral()) {
-        LogPrintf("CActiveMasternode::ManageStateInitial -- %s: Wallet balance is < %lld XGALAXY\n", GetStateString(), getMinimumCollateral());
+    int height = chainActive.Height();
+    if(pwalletMain->GetBalance() < getMinimumCollateral(height)) {
+        LogPrintf("CActiveMasternode::ManageStateInitial -- %s: Wallet balance is < %lld XGALAXY\n", GetStateString(), getMinimumCollateral(height));
         return;
     }
 

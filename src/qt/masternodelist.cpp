@@ -197,7 +197,7 @@ void MasternodeList::updateMyMasternodeInfo(QString strAlias, QString strAddr, m
 		} else {
 			CAmount collateral = coins.vout[infoMn.vin.prevout.n].nValue;
 			//LogPrintf("UpdateMyMasternodeInfo(): getting masternode level\n");
-			Level mnLevel = getMasternodeLevel(collateral);
+			Level mnLevel = getMasternodeLevel(collateral, height);
 			//LogPrintf("UpdateMyMasternodeInfo(): getting masternode level string %d\n", mnLevel);
 			mnLevelStr = MN_LEVEL_STRS[mnLevel];
 		}
@@ -300,7 +300,7 @@ void MasternodeList::updateNodeList()
 			} else {
 				CAmount collateral = coins.vout[mn.vin.prevout.n].nValue;
 				//LogPrintf("UpdateNodeList(): getting masternode level\n");
-				Level mnLevel = getMasternodeLevel(collateral);
+				Level mnLevel = getMasternodeLevel(collateral, height);
 				//LogPrintf("UpdateNodeList(): getting masternode level string %d\n", mnLevel);
 				mnLevelStr = MN_LEVEL_STRS[mnLevel];
 			}

@@ -2137,8 +2137,9 @@ void RelayTransaction(const CTransaction& tx, const CDataStream& ss)
 
 void RelayInv(CInv &inv, const int minProtoVersion) {
     LOCK(cs_vNodes);
+    int minVersion = chainActive.Height() > Params().GetConsensus().disconnectBlock ? MIN_PEER_PROTO_AFTER_VERSION : MIN_PEER_PROTO_BEFORE_VERSION;
     BOOST_FOREACH(CNode* pnode, vNodes)
-        if(pnode->nVersion >= minProtoVersion)
+        if(pnode->nVersion >= minVersion)
             pnode->PushInventory(inv);
 }
 

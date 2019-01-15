@@ -120,11 +120,13 @@ public:
         consensus.nMajorityEnforceBlockUpgrade = 750;
         consensus.nMajorityRejectBlockOutdated = 950;
         consensus.nMajorityWindow = 1000;
-        consensus.BIP34Height = 227931; // FIX
+        consensus.BIP34Height = 210000000; // FIX
         consensus.BIP34Hash = uint256S("0x000000000000024b89b42a942fe0d9fea3bb44ab7bd1b19115dd6a759c0808b8"); // FIX
         consensus.powLimit = uint256S("00000fffff000000000000000000000000000000000000000000000000000000");
         consensus.nPowTargetTimespan = 60; // XGalaxy: 1 block
         consensus.nPowTargetSpacing = 60; // XGalaxy: 1 minutes // rememeber to change
+        consensus.fixedCollateralBlock = 204400;
+        consensus.disconnectBlock = 206550;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1916; // 95% of 2016
@@ -190,7 +192,8 @@ public:
 
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
-            ( 0, uint256S("0x00000bf1d9a7f58d07a3cd3b6389a054364f9ee7c3f1c7b0e53f40eef1ea36ed")),
+            ( 0, uint256S("0x00000bf1d9a7f58d07a3cd3b6389a054364f9ee7c3f1c7b0e53f40eef1ea36ed"))
+			( 203030, uint256S("0x00000000001fe19625f2629e165b42e95a7568b4456c0d4171453aac60dad4fa")),
 			1534665502, // * UNIX timestamp of last checkpoint block
             0,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)

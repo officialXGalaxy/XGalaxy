@@ -2086,6 +2086,7 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
 
     {
         LOCK2(cs_main, cs_wallet);
+        int height = chainActive.Height();
         for (map<uint256, CWalletTx>::const_iterator it = mapWallet.begin(); it != mapWallet.end(); ++it)
         {
             const uint256& wtxid = it->first;
@@ -2110,17 +2111,18 @@ void CWallet::AvailableCoins(vector<COutput>& vCoins, bool fOnlyConfirmed, const
             if (nDepth == 0 && !pcoin->InMempool())
                 continue;
             for (unsigned int i = 0; i < pcoin->vout.size(); i++) {
+
                 bool found = false;
                 if(nCoinType == ONLY_DENOMINATED) {
                     found = IsDenominatedAmount(pcoin->vout[i].nValue);
                 } else if(nCoinType == ONLY_NOT5000IFMN) {
-                    found = !(fMasterNode && isValidMasternode(pcoin->vout[i].nValue));
+                    found = !(fMasterNode && isValidMasternode(pcoin->vout[i].nValue, height));
                 } else if(nCoinType == ONLY_NONDENOMINATED_NOT5000IFMN) {
                     if (IsCollateralAmount(pcoin->vout[i].nValue)) continue; // do not use collateral amounts
                     found = !IsDenominatedAmount(pcoin->vout[i].nValue);
-                    if(found && fMasterNode) found = !isValidMasternode(pcoin->vout[i].nValue); // do not use Hot MN funds
+                    if(found && fMasterNode) found = !isValidMasternode(pcoin->vout[i].nValue, height); // do not use Hot MN funds
                 } else if(nCoinType == ONLY_MN_COLLATERAL) {
-                    found = isValidMasternode(pcoin->vout[i].nValue);
+                    found = isValidMasternode(pcoin->vout[i].nValue, height);
                 } else if(nCoinType == ONLY_PRIVATESEND_COLLATERAL) {
                     found = IsCollateralAmount(pcoin->vout[i].nValue);
                 } else {

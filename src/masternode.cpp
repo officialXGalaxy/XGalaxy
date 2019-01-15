@@ -368,7 +368,7 @@ void CMasternode::UpdateLastPaid(const CBlockIndex *pindex, int nMaxBlocksToScan
     if(!pindex) return;
 
     const CBlockIndex *BlockReading = pindex;
-
+    int height = pindex ? pindex->nHeight : 0;
     CScript mnpayee = GetScriptForDestination(pubKeyCollateralAddress.GetID());
     // LogPrint("masternode", "CMasternode::UpdateLastPaidBlock -- searching for block with payment to %s\n", vin.prevout.ToStringShort());
 
@@ -381,7 +381,7 @@ void CMasternode::UpdateLastPaid(const CBlockIndex *pindex, int nMaxBlocksToScan
     	mnLevel = NULL_LEVEL;
     } else {
     	CAmount collateral =  coins.vout[vin.prevout.n].nValue;
-    	mnLevel = getMasternodeLevel(collateral);
+    	mnLevel = getMasternodeLevel(collateral, height);
     }
 
     for (int i = 0; BlockReading && BlockReading->nHeight > nBlockLastPaid && i < nMaxBlocksToScanBack; i++) {
@@ -637,8 +637,8 @@ bool CMasternodeBroadcast::CheckOutpoint(int& nDos)
             return false;
         }
 
-        if (!isValidMasternode(coins.vout[vin.prevout.n].nValue)) {
-            LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have at least %lld XGALAXY, masternode=%s\n", getMinimumCollateral(), vin.prevout.ToStringShort());
+        if (!isValidMasternode(coins.vout[vin.prevout.n].nValue, chainActive.Height())) {
+            LogPrint("masternode", "CMasternodeBroadcast::CheckOutpoint -- Masternode UTXO should have at least %lld XGALAXY, masternode=%s\n", getMinimumCollateral(chainActive.Height()), vin.prevout.ToStringShort());
             return false;
         }
 

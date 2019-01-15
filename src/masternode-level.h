@@ -20,8 +20,6 @@ enum Level {
 	LEVEL1,
 	LEVEL2,
 	LEVEL3,
-	LEVEL4,
-	LEVEL5,
 	NULL_LEVEL
 };
 
@@ -29,8 +27,6 @@ static const vector<string> MN_LEVEL_STRS = {
 		"1",
 		"2",
 		"3",
-		"4",
-		"5",
 		"N/A"
 };
 
@@ -57,15 +53,15 @@ private:
 };
 static const vector<MasternodeLevel> COLLATERALS = {
 		MasternodeLevel(LEVEL1, 1000*COIN, 200000),
-		MasternodeLevel(LEVEL2, 3000*COIN, 300000),
-		MasternodeLevel(LEVEL3, 5000*COIN, 400000),
-		MasternodeLevel(LEVEL4, 10000*COIN, 500000),
-		MasternodeLevel(LEVEL5, 20000*COIN)
+		MasternodeLevel(LEVEL2, 3000*COIN, 204400),
+//		MasternodeLevel(LEVEL3, 5000*COIN, 400000),
+//		MasternodeLevel(LEVEL4, 10000*COIN, 500000),
+		MasternodeLevel(LEVEL3, 20000*COIN)
 };
 
-extern bool isValidMasternode(CAmount value);
-extern Level getMasternodeLevel(CAmount value);
-extern CAmount getMinimumCollateral();
+extern bool isValidMasternode(CAmount value, int height);
+extern Level getMasternodeLevel(CAmount value, int height);
+extern CAmount getMinimumCollateral(int height);
 extern int getMnRewardMultiplier(Level level, const int nHeight);
 
 

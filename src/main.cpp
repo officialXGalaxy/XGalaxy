@@ -1750,6 +1750,8 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
 	        return 2901 * COIN;
 	    }
 	    float nSubsidy;
+	    int reward9Block = consensusParams.disconnectBlock + 50;
+	    int reward11Block = reward9Block + 50;
 	    if(nPrevHeight < 1001) {
 	    	nSubsidy = 0.1;
 	    } else if(nPrevHeight < 50000) {
@@ -1758,41 +1760,23 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
 	    	nSubsidy = 3;
 	    } else if(nPrevHeight < 200000) {
 	    	nSubsidy = 5;
-	    } else if(nPrevHeight < 300000) {
+	    } else if(nPrevHeight < consensusParams.disconnectBlock) {
 	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 400000) {
-	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 500000) {
-	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 600000) {
-	    	nSubsidy = 80;
-	    } else if(nPrevHeight < 700000) {
-	    	nSubsidy = 60;
-	    } else if(nPrevHeight < 800000) {
-	    	nSubsidy = 40;
-	    } else if(nPrevHeight < 900000) {
-	    	nSubsidy = 20;
-	    } else if(nPrevHeight < 1000000) {
+	    } else if(nPrevHeight < reward9Block) {
+	    	nSubsidy = 9;
+	    } else if(nPrevHeight < reward11Block) {
+	    	nSubsidy = 11;
+	    } else if(nPrevHeight < 5129800) {
 	    	nSubsidy = 10;
-	    } else if(nPrevHeight < 2000000) {
-	    	nSubsidy = 8;
-	    } else if(nPrevHeight < 3000000) {
-	    	nSubsidy = 5;
-	    } else if(nPrevHeight < 4000000) {
-	    	nSubsidy = 4;
-	    } else if(nPrevHeight < 5000000) {
-	    	nSubsidy = 3;
-	    } else if(nPrevHeight < 5649000) {
-	    	nSubsidy = 2;
 	    } else {
-	    	nSubsidy = 0;
+	    	nSubsidy = 0.0001;
 	    }
 
 	return nSubsidy * COIN;
 }
 
 bool hasMasternodePayment(CScript payee, CAmount payout, CAmount payment, int nHeight) {
-	Level mnLevel = getMasternodeLevelByPayee(payee);
+	Level mnLevel = getMasternodeLevelByPayee(payee, nHeight);
 	CAmount masternodePayment = GetMasternodePayment(nHeight, payout, mnLevel);
 	LogPrintf("hasMasternodePayment(): masternode payment %lld, payment %lld found\n", masternodePayment, payment);
 	return masternodePayment == payment;
@@ -1803,9 +1787,13 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 	if(nHeight <= 50000) {
 		return blockValue * 0.001;
 	}
-	int multiplier = getMnRewardMultiplier(mnLevel, nHeight);
-	if(multiplier == 0) {
-		multiplier = 0.001;
+	int newCollateralHeight = Params().GetConsensus().fixedCollateralBlock;
+	int multiplier = 1;
+	if(nHeight <= newCollateralHeight) {
+		multiplier = getMnRewardMultiplier(mnLevel, nHeight);
+		if(multiplier == 0) {
+			multiplier = 0.001;
+		}
 	}
 	return blockValue * 0.55 * multiplier;
 }
@@ -3711,7 +3699,8 @@ bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, bool f
                          REJECT_INVALID, "high-hash");
 
     // Check timestamp
-    if (block.GetBlockTime() > GetAdjustedTime() + 2 * 60 * 60)
+    int futureTime = GetAdjustedTime() > 1547676919 ? 7 * 60 : 2 *60 * 60;
+    if (block.GetBlockTime() > GetAdjustedTime() + futureTime)
         return state.Invalid(error("CheckBlockHeader(): block timestamp too far in the future"),
                              REJECT_INVALID, "time-too-new");
 
@@ -5397,12 +5386,13 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        if (pfrom->nVersion < MIN_PEER_PROTO_VERSION)
+        int minVersion = chainActive.Height() > Params().GetConsensus().disconnectBlock ? MIN_PEER_PROTO_AFTER_VERSION : MIN_PEER_PROTO_BEFORE_VERSION;
+        if (pfrom->nVersion < minVersion)
         {
             // disconnect from peers older than this proto version
             LogPrintf("peer=%d using obsolete version %i; disconnecting\n", pfrom->id, pfrom->nVersion);
             pfrom->PushMessage(NetMsgType::REJECT, strCommand, REJECT_OBSOLETE,
-                               strprintf("Version must be %d or greater", MIN_PEER_PROTO_VERSION));
+                               strprintf("Version must be %d or greater", minVersion));
             pfrom->fDisconnect = true;
             return false;
         }
