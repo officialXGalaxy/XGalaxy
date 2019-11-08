@@ -14,6 +14,64 @@
 
 #include <math.h>
 
+/** LWMA... **/
+unsigned int LwmaGetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
+{
+    // Special difficulty rule for testnet:
+    // If the new block's timestamp is more than 2 * 10 minutes
+    // then allow mining of a min-difficulty block.
+    if (params.fPowAllowMinDifficultyBlocks &&
+        pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing * 2) {
+        return UintToArith256(params.powLimit).GetCompact();
+    }
+    return LwmaCalculateNextWorkRequired(pindexLast, params);
+}
+
+unsigned int LwmaCalculateNextWorkRequired(const CBlockIndex* pindexLast, const Consensus::Params& params)
+{
+    if (params.fPowNoRetargeting) {
+        return pindexLast->nBits;
+    }
+
+    const int N = 45; // NOTICE: lwma must start after 46 blocks
+    const int k = 1377; //k=(N+1)/2*TargetSolvetime*0.998
+    const int height = pindexLast->nHeight + 1;
+    assert(height > N);
+
+    arith_uint256 sum_target;
+    int t = 0, j = 0;
+
+    // Loop through N most recent blocks.
+    for (int i = height - N; i < height; i++) {
+        const CBlockIndex* block = pindexLast->GetAncestor(i);
+        const CBlockIndex* block_Prev = block->GetAncestor(i - 1);
+        int64_t solvetime = block->GetBlockTime() - block_Prev->GetBlockTime();
+
+        j++;
+        t += solvetime * j;  // Weighted solvetime sum.
+
+        // Target sum divided by a factor, (k N^2).
+        // The factor is a part of the final equation. However we divide sum_target here to avoid
+        // potential overflow.
+        arith_uint256 target;
+        target.SetCompact(block->nBits);
+        sum_target += target / (k * N * N);
+    }
+    // Keep t reasonable in case strange solvetimes occurred.
+    if (t < N * k / 3) {
+        t = N * k / 3;
+    }
+
+    const arith_uint256 pow_limit = UintToArith256(params.powLimit);
+    arith_uint256 next_target = t * sum_target;
+    if (next_target > pow_limit) {
+        next_target = pow_limit;
+    }
+    //LogPrintf("-----------------------------------LwmaCalculateNextWorkRequired RETARGET %d\n", next_target.GetCompact());
+    return next_target.GetCompact();
+}
+/** ... LWMA **/
+
 unsigned int static KimotoGravityWell(const CBlockIndex* pindexLast, const Consensus::Params& params) {
     const CBlockIndex *BlockLastSolved = pindexLast;
     const CBlockIndex *BlockReading = pindexLast;
@@ -142,12 +200,12 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
     // mainnet/regtest share a configuration
     if (Params().NetworkIDString() == CBaseChainParams::MAIN || Params().NetworkIDString() == CBaseChainParams::REGTEST) {
-        if (pindexLast->nHeight + 1 >= 101) retarget = DIFF_DGW;
-        else retarget = DIFF_DGW;
-    // testnet -- we want a lot of coins in existance early on 
+        if (pindexLast->nHeight + 1 < Params().getLWMAForkHeight()) retarget = DIFF_DGW;
+        else retarget = DIFF_LWMA;
+    // testnet -- we want a lot of coins in existance early on
     } else {
-        if (pindexLast->nHeight + 1 >= 3000) retarget = DIFF_DGW;
-        else retarget = DIFF_DGW;
+        if (pindexLast->nHeight + 1 < Params().getLWMAForkHeight()) retarget = DIFF_DGW;
+        else retarget = DIFF_LWMA;
     }
 
     // Default Bitcoin style retargeting
@@ -202,7 +260,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         return DarkGravityWave(pindexLast, params);
     }
 
-    return DarkGravityWave(pindexLast, params);
+    return LwmaCalculateNextWorkRequired(pindexLast, params);
 }
 
 // for DIFF_BTC only!

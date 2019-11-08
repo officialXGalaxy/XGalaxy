@@ -21,8 +21,11 @@ enum DiffMode {
     DIFF_BTC     = 1, // Retarget every x blocks (Bitcoin style)
     DIFF_KGW     = 2, // Retarget using Kimoto Gravity Well
     DIFF_DGW     = 3, // Retarget using Dark Gravity Wave v3
+    DIFF_LWMA     = 4, // Retarget using Dark Gravity Wave v3
+
 };
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params&);
+unsigned int LwmaCalculateNextWorkRequired(const CBlockIndex* pindexLast, const Consensus::Params& params);
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params&);
 
 

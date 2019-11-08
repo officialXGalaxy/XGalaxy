@@ -166,6 +166,7 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0x00000bf1d9a7f58d07a3cd3b6389a054364f9ee7c3f1c7b0e53f40eef1ea36ed"));
         assert(genesis.hashMerkleRoot == uint256S("0x160f0570b949bb1f634da7b94b766bad6f87c8a3d62dcd8caa3aec3f97bb5c39"));
         vSeeds.push_back(CDNSSeedData("explorer", "194.135.92.248"));
+        vSeeds.push_back(CDNSSeedData("explorer2", "176.223.136.84"));
         // XGalaxy addresses start with 'R'
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,75);
         // XGalaxy script addresses start with '7'
@@ -184,6 +185,7 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
         fTestnetToBeDeprecatedFieldRPC = false;
+        LWMAForkHeight = 629801;
 
         nPoolMaxTransactions = 3;
         nFulfilledRequestExpireTime = 60*60; // fulfilled requests expire in 1 hour
@@ -193,11 +195,12 @@ public:
         checkpointData = (CCheckpointData) {
             boost::assign::map_list_of
             ( 0, uint256S("0x00000bf1d9a7f58d07a3cd3b6389a054364f9ee7c3f1c7b0e53f40eef1ea36ed"))
-			( 203030, uint256S("0x00000000001fe19625f2629e165b42e95a7568b4456c0d4171453aac60dad4fa")),
-			1534665502, // * UNIX timestamp of last checkpoint block
-            0,          // * total number of transactions between genesis and last checkpoint
+			      ( 203030, uint256S("0x00000000001fe19625f2629e165b42e95a7568b4456c0d4171453aac60dad4fa"))
+            ( 606327, uint256S("0x00000000076474d6bea98a7fed22517d3272a2468b36c5934b0db4626ef09b6a")),
+			      1573187369, // * UNIX timestamp of last checkpoint block
+            61864,          // * total number of transactions between genesis and last checkpoint
                         //   (the tx=... number in the SetBestChain debug.log lines)
-            500	        // * estimated number of transactions per day after checkpoint
+            2000	        // * estimated number of transactions per day after checkpoint
         };
     }
 };
@@ -254,7 +257,7 @@ public:
         nDefaultPort = 23048;
         nMaxTipAge = 0x7fffffff; // allow mining on top of old blocks for testnet
         nPruneAfterHeight = 1000;
-
+        LWMAForkHeight = 629801;
         genesis = CreateGenesisBlock(1534666502, 232405, 0x1e0ffff0, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
@@ -353,7 +356,7 @@ public:
         nMaxTipAge = 6 * 60 * 60; // ~144 blocks behind -> 2 x fork detection time, was 24 * 60 * 60 in bitcoin
         nDefaultPort = 23038;
         nPruneAfterHeight = 1000;
-
+        LWMAForkHeight = 629801;
         genesis = CreateGenesisBlock(15346654502, 0, 0x207fffff, 1, 1000 * COIN);
 
         consensus.hashGenesisBlock = genesis.GetHash();
