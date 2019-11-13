@@ -2,7 +2,7 @@
  * Copyright (c) 2018 The XGalaxy Core developers
  * Distributed under the MIT software license, see the accompanying
  * file COPYING or http://www.opensource.org/licenses/mit-license.php.
- * 
+ *
  * FounderPayment.cpp
  *
  *  Created on: Jun 24, 2018
@@ -16,7 +16,7 @@
 #include <boost/foreach.hpp>
 
 CAmount FounderPayment::getFounderPaymentAmount(int blockHeight, CAmount blockReward) {
-	 if (blockHeight <= 1){
+	 if (blockHeight <= 1 || blockHeight >= Params().getLWMAForkHeight()){
 		 return 0;
 	 }
 	 return blockReward * 0.05;
@@ -52,6 +52,3 @@ bool FounderPayment::IsBlockPayeeValid(const CTransaction& txNew, const int heig
 
 	return false;
 }
-
-
-

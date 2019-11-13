@@ -1766,8 +1766,16 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
 	    	nSubsidy = 9;
 	    } else if(nPrevHeight < reward11Block) {
 	    	nSubsidy = 11;
-	    } else if(nPrevHeight < 5129800) {
+	    } else if(nPrevHeight < 629800) {
 	    	nSubsidy = 10;
+	    } else if(nPrevHeight < 4629800) {
+	    	nSubsidy = 2;
+	    } else if(nPrevHeight < 12629800) {
+	    	nSubsidy = 1.5;
+	    } else if(nPrevHeight < 24629800) {
+	    	nSubsidy = 1;
+	    } else if(nPrevHeight < 50629800) {
+	    	nSubsidy = 0.5;
 	    } else {
 	    	nSubsidy = 0.0001;
 	    }
@@ -1795,7 +1803,11 @@ CAmount GetMasternodePayment(int nHeight, CAmount blockValue, Level mnLevel)
 			multiplier = 0.001;
 		}
 	}
-	return blockValue * 0.55 * multiplier;
+  if(nHeight <= 629800) {
+	   return blockValue * 0.55 * multiplier;
+  } else {
+    return blockValue * 0.8 * multiplier;
+  }
 }
 
 bool IsInitialBlockDownload()
@@ -5386,7 +5398,7 @@ bool static ProcessMessage(CNode* pfrom, string strCommand, CDataStream& vRecv, 
         CAddress addrFrom;
         uint64_t nNonce = 1;
         vRecv >> pfrom->nVersion >> pfrom->nServices >> nTime >> addrMe;
-        int minVersion = chainActive.Height() > Params().GetConsensus().disconnectBlock ? MIN_PEER_PROTO_AFTER_VERSION : MIN_PEER_PROTO_BEFORE_VERSION;
+        int minVersion = chainActive.Height() > Params().getLWMAForkHeight() ? MIN_PEER_PROTO_AFTER_VERSION : MIN_PEER_PROTO_BEFORE_VERSION;
         if (pfrom->nVersion < minVersion)
         {
             // disconnect from peers older than this proto version
