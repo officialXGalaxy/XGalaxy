@@ -3801,14 +3801,15 @@ bool CheckBlock(const CBlock& block, CValidationState& state, int prevBlockHeigh
     // Check transactions
     bool founderTransaction = false;
     CAmount blockReward = GetBlockSubsidy(0, prevBlockHeight, Params().GetConsensus(), false);
-    //const CAmount founderReward = founderPayment.getFounderPaymentAmount(prevBlockHeight, blockReward);
+    bool founderEnforce = sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT);
+    const CAmount founderReward = founderPayment.getFounderPaymentAmount(prevBlockHeight, blockReward);
     BOOST_FOREACH(const CTransaction& tx, block.vtx) {
         if (!CheckTransaction(tx, state)) {
             return error("CheckBlock(): CheckTransaction of %s failed with %s",
                 tx.GetHash().ToString(),
                 FormatStateMessage(state));
         }
-        if(sporkManager.IsSporkActive(SPORK_15_FOUNDER_PAYMENT_ENFORCEMENT)
+        if(founderReward > 0 && founderEnforce
            && (prevBlockHeight + 1 > Params().GetConsensus().nFounderPaymentsStartBlock)) {
         	//printf("founder block %d=%lld", prevBlockHeight);
         	if(founderPayment.IsBlockPayeeValid(tx,prevBlockHeight+1,blockReward)) {
